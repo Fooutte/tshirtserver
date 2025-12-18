@@ -14,24 +14,21 @@ app.get('/', (req, res) => {
 
 // Cette partie gère la réception des commandes
 app.post('/api/checkout', (req, res) => {
-    // 1. On déballe TOUT ce qui arrive du site (on extrait les données du "paquet" req.body)
+    // 1. On extrait toutes les données envoyées par le site
     const { text, color, size, customerName, customerEmail } = req.body;
 
-    // 2. On prépare une variable de secours au cas où la taille est manquante
-    const displaySize = size || "Non précisée";
-
-    // 3. On affiche proprement dans les logs de Render
+    // 2. On affiche les infos dans les logs de Render
     console.log("🚀 NOUVELLE COMMANDE REÇUE !");
     console.log(`👤 Client : ${customerName}`);
     console.log(`📧 Email  : ${customerEmail}`);
-    console.log(`👕 Taille : ${displaySize}`); 
+    console.log(`👕 Taille : ${size || "Non spécifiée"}`); 
     console.log(`🎨 Design : "${text}" en couleur ${color}`);
     console.log("-----------------------------------------");
 
-    // 4. On répond au navigateur du client
+    // 3. On répond au client pour confirmer
     res.json({ 
         success: true, 
-        message: `Merci ${customerName}, ta commande (${displaySize}) est enregistrée !` 
+        message: `Merci ${customerName}, ta commande en taille ${size || 'M'} est bien reçue !` 
     });
 });
 
