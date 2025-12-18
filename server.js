@@ -22,6 +22,7 @@ app.post('/api/checkout', (req, res) => {
     console.log(`👤 Client : ${customerName}`);
     console.log(`📧 Email  : ${customerEmail}`);
     console.log(`👕 Design : "${text}" en couleur ${color}`);
+    console.log(`👕 Taille : ${size}`); // <-- AJOUTE CETTE LIGNE
     console.log("-----------------------------------------");
 
     // 3. On répond au site que tout est OK
