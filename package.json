@@ -1,7 +1,7 @@
 {
   "name": "tshirtserver",
   "version": "1.0.0",
-  "description": "",
+  "description": "Serveur pour Hack Dalphond",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
