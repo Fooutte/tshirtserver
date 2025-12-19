@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hack Dalphond - Designer Studio</title>
+    <style>
+    :root {
+        --primary: #ff4757;
+        --dark: #2f3542;
+        --light: #ffffff;
+    }
+
+    body { 
+        font-family: 'Inter', sans-serif; 
+        background-color: #1e2124; 
+        color: var(--light);
+        display: flex; justify-content: center; align-items: center; 
+        min-height: 100vh; margin: 0; 
+    }
+
+    .container { 
+        background: #2f3542; 
+        padding: 40px; 
+        border-radius: 20px; 
+        box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
+        width: 100%; max-width: 450px; 
+    }
+
+    h1 { font-weight: 800; letter-spacing: -1px; margin-bottom: 30px; color: var(--primary); text-align: center; }
+
+    .form-group { margin-bottom: 20px; text-align: left; }
+    label { display: block; margin-bottom: 8px; font-size: 14px; text-transform: uppercase; opacity: 0.8; }
+
+    input, select { 
+        width: 100%; padding: 14px; 
+        background: #3e4451; border: 1px solid #4b5563; 
+        border-radius: 10px; color: white; font-size: 16px; 
+        transition: border 0.3s;
+        box-sizing: border-box;
+    }
+
+    input:focus { border-color: var(--primary); outline: none; }
+
+    button { 
+        width: 100%; padding: 16px; 
+        background-color: var(--primary); color: white; 
+        border: none; border-radius: 10px; 
+        font-size: 18px; font-weight: bold; cursor: pointer; 
+        transition: transform 0.2s, background 0.3s; 
+        margin-top: 20px;
+    }
+
+    button:hover { background-color: #ff6b81; transform: translateY(-3px); }
+    button:active { transform: translateY(0); }
+    button:disabled { background-color: #747d8c; cursor: not-allowed; transform: none; }
+
+    .preview-area {
+        margin-top: 10px;
+        margin-bottom: 20px;
+        padding: 30px;
+        background: #fff;
+        border-radius: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    .tshirt-svg { width: 150px; fill: white; transition: fill 0.3s; }
+    #previewText { 
+        position: absolute; 
+        top: 55%; left: 50%; 
+        transform: translate(-50%, -50%);
+        color: black; font-weight: bold; font-size: 14px;
+        text-align: center; width: 80px; word-wrap: break-word;
+        text-transform: uppercase; font-family: 'Arial Black', sans-serif;
+    }
+
+    .success-message {
+        background-color: #2ed573;
+        color: white;
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 20px;
+        text-align: center;
+        font-weight: bold;
+        animation: fadeIn 0.5s;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>MINDHACKSTUDIO 👕</h1>
+
+    <div class="preview-area">
+        <svg class="tshirt-svg" id="tshirtVisual" viewBox="0 0 24 24"><path d="M20.91 4.58l-3.83-2.3a1.002 1.002 0 0 0-1.16.09l-3.92 3.14-3.92-3.14a1.002 1.002 0 0 0-1.16-.09l-3.83 2.3c-.56.33-.84.97-.68 1.6l1.41 5.34c.05.2.2.36.4.41l1.59.41V21c0 .55.45 1 1 1h10c.55 0 1-.45 1-1v-6.66l1.59-.41c.2-.05.35-.21.4-.41l1.41-5.34c.16-.63-.12-1.27-.68-1.6z"/></svg>
+        <div id="previewText">HACK</div>
+    </div>
+
+    <div class="form-group">
+        <label>Texte du Design</label>
+        <input type="text" id="tshirtText" placeholder="Ex: Hack Dalphond" oninput="updatePreview()">
+    </div>
+
+    <div class="form-group">
+        <label>Couleur</label>
+        <select id="tshirtColor" onchange="updatePreview()">
+            <option value="white">Blanc</option>
+            <option value="black">Noir</option>
+            <option value="#3498db">Bleu Royal</option>
+            <option value="#e74c3c">Rouge Vif</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Grandeur</label>
+        <select id="tshirtSize">
+            <option value="S">Small</option>
+            <option value="M">Medium</option>
+            <option value="L">Large</option>
+            <option value="XL">X-Large</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Ton Nom</label>
+        <input type="text" id="customerName" placeholder="Prénom Nom">
+    </div>
+
+    <div class="form-group">
+        <label>Courriel</label>
+        <input type="email" id="customerEmail" placeholder="nom@exemple.com">
+    </div>
+
+    <button id="payButton" onclick="sendOrder()">COMMANDER</button>
+    <div id="statusMessage"></div>
+</div>
+
+<script>
+function updatePreview() {
+    const text = document.getElementById('tshirtText').value;
+    const color = document.getElementById('tshirtColor').value;
+    
+    document.getElementById('previewText').innerText = text || "HACK";
+    document.getElementById('tshirtVisual').style.fill = color;
+    
+    // Change la couleur du texte selon le fond pour la visibilité
+    if(color === 'white') {
+        document.getElementById('previewText').style.color = 'black';
+    } else {
+        document.getElementById('previewText').style.color = 'white';
+    }
+}
+
+async function sendOrder() {
+    const button = document.getElementById('payButton');
+    const status = document.getElementById('statusMessage');
+    
+    const data = {
+        text: document.getElementById('tshirtText').value,
+        color: document.getElementById('tshirtColor').value,
+        size: document.getElementById('tshirtSize').value,
+        customerName: document.getElementById('customerName').value,
+        customerEmail: document.getElementById('customerEmail').value
+    };
+
+    if(!data.customerName || !data.customerEmail) {
+        alert("Veuillez remplir votre nom et email !");
+        return;
+    }
+
+    button.disabled = true;
+    button.innerText = "ENVOI EN COURS...";
+
+    try {
+        // CONNEXION À TON NOUVEAU SERVEUR VERCEL
+        const response = await fetch('/api/checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            status.innerHTML = '<div class="success-message">✅ Commande reçue ! Vérifie tes emails.</div>';
+            button.innerText = "TERMINE !";
+        } else {
+            throw new Error('Erreur serveur');
+        }
+    } catch (error) {
+        alert("Erreur lors de l'envoi. Réessaie !");
+        button.disabled = false;
+        button.innerText = "COMMANDER";
+    }
+}
+</script>
+
+</body>
+</html>
