@@ -3,203 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>T-Shirt Server</title>
+    <title>HACK DALPHOND | NEXT-GEN STUDIO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-    :root {
-        --primary: #ff4757;
-        --dark: #2f3542;
-        --light: #ffffff;
-    }
+        :root {
+            --primary: #00f2ff;
+            --secondary: #7000ff;
+            --bg: #0a0b10;
+            --card: rgba(20, 22, 30, 0.8);
+        }
 
-    body { 
-        font-family: 'Inter', sans-serif; 
-        background-color: #1e2124; 
-        color: var(--light);
-        display: flex; justify-content: center; align-items: center; 
-        min-height: 100vh; margin: 0; 
-    }
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg);
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(112, 0, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(0, 242, 255, 0.1) 0%, transparent 40%);
+            color: #fff;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; margin: 0; overflow-x: hidden;
+        }
 
-    .container { 
-        background: #2f3542; 
-        padding: 40px; 
-        border-radius: 20px; 
-        box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
-        width: 100%; max-width: 450px; 
-    }
+        .container {
+            background: var(--card);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px; border-radius: 20px;
+            width: 100%; max-width: 500px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+            position: relative;
+        }
 
-    h1 { font-weight: 800; letter-spacing: -1px; margin-bottom: 30px; color: var(--primary); text-align: center; }
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            text-align: center; font-size: 1.8rem;
+            letter-spacing: 4px; color: var(--primary);
+            text-shadow: 0 0 10px var(--primary);
+            margin-bottom: 30px; text-transform: uppercase;
+        }
 
-    .form-group { margin-bottom: 20px; text-align: left; }
-    label { display: block; margin-bottom: 8px; font-size: 14px; text-transform: uppercase; opacity: 0.8; }
+        .preview-box {
+            background: #fff; border-radius: 15px;
+            height: 220px; display: flex; justify-content: center; align-items: center;
+            position: relative; margin-bottom: 25px; overflow: hidden;
+        }
 
-    input, select { 
-        width: 100%; padding: 14px; 
-        background: #3e4451; border: 1px solid #4b5563; 
-        border-radius: 10px; color: white; font-size: 16px; 
-        transition: border 0.3s;
-        box-sizing: border-box;
-    }
+        .tshirt-visual { width: 160px; transition: 0.3s; }
+        
+        #custom-image-preview {
+            position: absolute; top: 52%; left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 40px; max-height: 40px; pointer-events: none;
+        }
 
-    input:focus { border-color: var(--primary); outline: none; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-size: 12px; color: var(--primary); margin-bottom: 5px; letter-spacing: 1px; }
 
-    button { 
-        width: 100%; padding: 16px; 
-        background-color: var(--primary); color: white; 
-        border: none; border-radius: 10px; 
-        font-size: 18px; font-weight: bold; cursor: pointer; 
-        transition: transform 0.2s, background 0.3s; 
-        margin-top: 20px;
-    }
+        input, select {
+            width: 100%; padding: 12px; background: rgba(0,0,0,0.3);
+            border: 1px solid #333; border-radius: 5px; color: white;
+            font-family: 'Rajdhani'; font-size: 16px; box-sizing: border-box;
+        }
 
-    button:hover { background-color: #ff6b81; transform: translateY(-3px); }
-    button:active { transform: translateY(0); }
-    button:disabled { background-color: #747d8c; cursor: not-allowed; transform: none; }
+        input:focus { border-color: var(--primary); outline: none; }
 
-    .preview-area {
-        margin-top: 10px;
-        margin-bottom: 20px;
-        padding: 30px;
-        background: #fff;
-        border-radius: 15px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-    }
+        .color-grid { display: flex; gap: 10px; margin-top: 5px; }
+        .color-opt {
+            width: 25px; height: 25px; border-radius: 50%; cursor: pointer;
+            border: 2px solid transparent; transition: 0.2s;
+        }
+        .color-opt.active { border-color: var(--primary); transform: scale(1.2); }
 
-    .tshirt-svg { width: 150px; fill: white; transition: fill 0.3s; }
-    #previewText { 
-        position: absolute; 
-        top: 55%; left: 50%; 
-        transform: translate(-50%, -50%);
-        color: black; font-weight: bold; font-size: 14px;
-        text-align: center; width: 80px; word-wrap: break-word;
-        text-transform: uppercase; font-family: 'Arial Black', sans-serif;
-    }
+        button {
+            width: 100%; padding: 15px; margin-top: 20px;
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            border: none; border-radius: 5px; color: white;
+            font-family: 'Orbitron'; font-weight: bold; cursor: pointer;
+            transition: 0.3s; text-transform: uppercase;
+        }
 
-    .success-message {
-        background-color: #2ed573;
-        color: white;
-        padding: 15px;
-        border-radius: 10px;
-        margin-top: 20px;
-        text-align: center;
-        font-weight: bold;
-        animation: fadeIn 0.5s;
-    }
+        button:hover { filter: brightness(1.2); transform: translateY(-2px); box-shadow: 0 0 20px var(--primary); }
 
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+        .file-input { font-size: 12px; margin-top: 5px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>T-SHIRT SERVER 👕</h1>
+    <h1>HACK STUDIO</h1>
 
-    <div class="preview-area">
-        <svg class="tshirt-svg" id="tshirtVisual" viewBox="0 0 24 24"><path d="M20.91 4.58l-3.83-2.3a1.002 1.002 0 0 0-1.16.09l-3.92 3.14-3.92-3.14a1.002 1.002 0 0 0-1.16-.09l-3.83 2.3c-.56.33-.84.97-.68 1.6l1.41 5.34c.05.2.2.36.4.41l1.59.41V21c0 .55.45 1 1 1h10c.55 0 1-.45 1-1v-6.66l1.59-.41c.2-.05.35-.21.4-.41l1.41-5.34c.16-.63-.12-1.27-.68-1.6z"/></svg>
-        <div id="previewText">HACK</div>
+    <div class="preview-box">
+        <svg id="tshirt-svg" class="tshirt-visual" viewBox="0 0 24 24" fill="white"><path d="M20.91 4.58l-3.83-2.3a1.002 1.002 0 0 0-1.16.09l-3.92 3.14-3.92-3.14a1.002 1.002 0 0 0-1.16-.09l-3.83 2.3c-.56.33-.84.97-.68 1.6l1.41 5.34c.05.2.2.36.4.41l1.59.41V21c0 .55.45 1 1 1h10c.55 0 1-.45 1-1v-6.66l1.59-.41c.2-.05.35-.21.4-.41l1.41-5.34c.16-.63-.12-1.27-.68-1.6z"/></svg>
+        <img id="custom-image-preview" src="" style="display:none;">
     </div>
 
     <div class="form-group">
-        <label>Texte du Design</label>
-        <input type="text" id="tshirtText" placeholder="Ex: Mindhackstudios" oninput="updatePreview()">
+        <label>LOGOTYPE (IMAGE)</label>
+        <input type="file" id="imageInput" accept="image/*" class="file-input" onchange="previewImage(event)">
     </div>
 
     <div class="form-group">
-        <label>Couleur</label>
-        <select id="tshirtColor" onchange="updatePreview()">
-            <option value="white">Blanc</option>
-            <option value="black">Noir</option>
-            <option value="#3498db">Bleu Royal</option>
-            <option value="#e74c3c">Rouge Vif</option>
-        </select>
+        <label>COULEUR DU T-SHIRT</label>
+        <div class="color-grid">
+            <div class="color-opt active" style="background: white;" onclick="setColor('white', this)"></div>
+            <div class="color-opt" style="background: #111;" onclick="setColor('#111', this)"></div>
+            <div class="color-opt" style="background: #e74c3c;" onclick="setColor('#e74c3c', this)"></div>
+            <div class="color-opt" style="background: #3498db;" onclick="setColor('#3498db', this)"></div>
+            <div class="color-opt" style="background: #2ecc71;" onclick="setColor('#2ecc71', this)"></div>
+        </div>
+    </div>
+
+    <div style="display: flex; gap: 15px;">
+        <div class="form-group" style="flex: 2;">
+            <label>TAILLE</label>
+            <select id="size">
+                <option>S</option><option>M</option><option>L</option><option>XL</option>
+            </select>
+        </div>
+        <div class="form-group" style="flex: 1;">
+            <label>QUANTITÉ</label>
+            <input type="number" id="qty" value="1" min="1">
+        </div>
     </div>
 
     <div class="form-group">
-        <label>Grandeur</label>
-        <select id="tshirtSize">
-            <option value="S">Small</option>
-            <option value="M">Medium</option>
-            <option value="L">Large</option>
-            <option value="XL">X-Large</option>
-        </select>
+        <label>COORDONNÉES</label>
+        <input type="text" id="name" placeholder="Nom complet" style="margin-bottom: 10px;">
+        <input type="email" id="email" placeholder="Email">
     </div>
 
-    <div class="form-group">
-        <label>Ton Nom</label>
-        <input type="text" id="customerName" placeholder="Prénom Nom">
-    </div>
-
-    <div class="form-group">
-        <label>Courriel</label>
-        <input type="email" id="customerEmail" placeholder="nom@exemple.com">
-    </div>
-
-    <button id="payButton" onclick="sendOrder()">COMMANDER</button>
-    <div id="statusMessage"></div>
+    <button onclick="sendOrder()" id="btnText">LANCER LA COMMANDE</button>
 </div>
 
 <script>
-function updatePreview() {
-    const text = document.getElementById('tshirtText').value;
-    const color = document.getElementById('tshirtColor').value;
-    
-    document.getElementById('previewText').innerText = text || "HACK";
-    document.getElementById('tshirtVisual').style.fill = color;
-    
-    // Change la couleur du texte selon le fond pour la visibilité
-    if(color === 'white') {
-        document.getElementById('previewText').style.color = 'black';
-    } else {
-        document.getElementById('previewText').style.color = 'white';
-    }
-}
+    let selectedColor = 'white';
+    let base64Image = "";
 
-async function sendOrder() {
-    const button = document.getElementById('payButton');
-    const status = document.getElementById('statusMessage');
-    
-    const data = {
-        text: document.getElementById('tshirtText').value,
-        color: document.getElementById('tshirtColor').value,
-        size: document.getElementById('tshirtSize').value,
-        customerName: document.getElementById('customerName').value,
-        customerEmail: document.getElementById('customerEmail').value
-    };
-
-    if(!data.customerName || !data.customerEmail) {
-        alert("Veuillez remplir votre nom et email !");
-        return;
+    function setColor(color, el) {
+        selectedColor = color;
+        document.getElementById('tshirt-svg').style.fill = color;
+        document.querySelectorAll('.color-opt').forEach(opt => opt.classList.remove('active'));
+        el.classList.add('active');
     }
 
-    button.disabled = true;
-    button.innerText = "ENVOI EN COURS...";
-
-    try {
-        // CONNEXION À TON NOUVEAU SERVEUR VERCEL
-        const response = await fetch('https://tshirtserver.vercel.app/api/checkout', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
-
-        if (response.ok) {
-            status.innerHTML = '<div class="success-message">✅ Commande reçue ! Vérifie tes emails.</div>';
-            button.innerText = "TERMINE !";
-        } else {
-            throw new Error('Erreur serveur');
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const img = document.getElementById('custom-image-preview');
+            img.src = reader.result;
+            img.style.display = 'block';
+            base64Image = reader.result; // On garde l'image pour l'envoyer
         }
-    } catch (error) {
-        alert("Erreur lors de l'envoi. Réessaie !");
-        button.disabled = false;
-        button.innerText = "COMMANDER";
+        reader.readAsDataURL(event.target.files[0]);
     }
-}
-</script>
 
+    async function sendOrder() {
+        const btn = document.getElementById('btnText');
+        const data = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            size: document.getElementById('size').value,
+            qty: document.getElementById('qty').value,
+            color: selectedColor,
+            image: base64Image // L'image est envoyée ici
+        };
+
+        if(!data.name || !data.email) return alert("Infos manquantes !");
+
+        btn.innerText = "TRANSMISSION...";
+        btn.disabled = true;
+
+        try {
+            const res = await fetch('https://tshirtserver.vercel.app/api/checkout', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+            if(res.ok) {
+                btn.innerText = "SUCCÈS RÉCEPTIONNÉ";
+                btn.style.background = "#2ecc71";
+            }
+        } catch(e) {
+            alert("Erreur de liaison.");
+            btn.disabled = false;
+        }
+    }
+</script>
 </body>
 </html>
