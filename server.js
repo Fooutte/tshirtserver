@@ -1,65 +1,59 @@
 const express = require('express');
-const cors = require('cors');
 const nodemailer = require('nodemailer');
+const cors = require('cors');
 const app = express();
-
-const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
 
-// 1. Configuration de Gmail (Une seule fois au début)
+// CONFIGURATION DE L'ENVOI D'EMAIL
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, 
     auth: {
         user: 'jerome.vaillancourt200@gmail.com',
-        pass: 'tropkiuxnmnqccpy' // Ton mot de passe d'application
+        pass: 'tropkiuxnmnqccpy' 
+    },
+    tls: {
+        rejectUnauthorized: false
     }
 });
 
-app.get('/', (req, res) => {
-    res.send("Le serveur de Hack Dalphond est en ligne !");
-});
-
-// 2. La route qui reçoit la commande
+// ROUTE POUR RECEVOIR LA COMMANDE DU SITE
 app.post('/api/checkout', (req, res) => {
     const { text, color, size, customerName, customerEmail } = req.body;
-    const displaySize = size || "Non spécifiée";
 
-    // Affiche dans les logs de Render
     console.log("🚀 NOUVELLE COMMANDE REÇUE !");
-    console.log(`👤 Client : ${customerName} (${displaySize})`);
+    console.log(`👤 Client : ${customerName} (${size})`);
 
-    // 3. Préparation de l'email
     const mailOptions = {
-        from: 'Hack Dalphond <jerome.vaillancourt200@gmail.com>',
-        to: 'jerome.vaillancourt200@gmail.com',
-        subject: `👕 Nouvelle commande de ${customerName} !`,
-        text: `Tu as reçu une nouvelle commande !\n\n` +
-              `Client : ${customerName}\n` +
-              `Email : ${customerEmail}\n` +
-              `Taille : ${displaySize}\n` +
-              `Design : "${text}"\n` +
-              `Couleur : ${color}\n\n` +
-              `Check tes logs Render pour plus de détails.`
+        from: 'jerome.vaillancourt200@gmail.com',
+        to: 'jerome.vaillancourt200@gmail.com', 
+        subject: `Nouvelle commande T-Shirt de ${customerName}`,
+        text: `
+            Détails de la commande :
+            ------------------------
+            Nom du client : ${customerName}
+            Email du client : ${customerEmail}
+            Texte du T-shirt : ${text}
+            Couleur : ${color}
+            Taille : ${size}
+        `
     };
 
-    // 4. Envoi de l'email
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-            console.log("❌ Erreur d'envoi d'email :", error);
-        } else {
-            console.log("📧 Email envoyé avec succès !");
+            console.log("❌ ERREUR GMAIL :");
+            console.log(error.message);
+            return res.status(500).json({ message: "Erreur d'envoi", details: error.message });
         }
-    });
-
-    // 5. Réponse au site web
-    res.json({ 
-        success: true, 
-        message: `Merci ${customerName}, ta commande est enregistrée !` 
+        console.log("📧 EMAIL ENVOYÉ AVEC SUCCÈS !");
+        res.status(200).json({ message: "Commande réussie, email envoyé !" });
     });
 });
 
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Serveur lancé sur le port ${PORT}`);
+    console.log(`✅ Serveur démarré sur le port ${PORT}`);
 });
