@@ -31,7 +31,6 @@
             padding: 40px; border-radius: 20px;
             width: 100%; max-width: 500px;
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
-            position: relative;
         }
 
         h1 {
@@ -48,7 +47,7 @@
             position: relative; margin-bottom: 25px; overflow: hidden;
         }
 
-        .tshirt-visual { width: 160px; transition: 0.3s; }
+        .tshirt-visual { width: 160px; transition: 0.3s; fill: white; }
         
         #custom-image-preview {
             position: absolute; top: 52%; left: 50%;
@@ -65,8 +64,6 @@
             font-family: 'Rajdhani'; font-size: 16px; box-sizing: border-box;
         }
 
-        input:focus { border-color: var(--primary); outline: none; }
-
         .color-grid { display: flex; gap: 10px; margin-top: 5px; }
         .color-opt {
             width: 25px; height: 25px; border-radius: 50%; cursor: pointer;
@@ -74,17 +71,25 @@
         }
         .color-opt.active { border-color: var(--primary); transform: scale(1.2); }
 
+        .price-display {
+            background: rgba(0, 242, 255, 0.1);
+            border: 1px dashed var(--primary);
+            padding: 15px; border-radius: 10px;
+            text-align: center; margin: 20px 0;
+        }
+
+        .total-amount { font-family: 'Orbitron'; font-size: 24px; color: var(--primary); text-shadow: 0 0 10px var(--primary); }
+        .discount-badge { font-size: 12px; color: #2ecc71; display: none; margin-top: 5px; }
+
         button {
-            width: 100%; padding: 15px; margin-top: 20px;
+            width: 100%; padding: 15px;
             background: linear-gradient(45deg, var(--secondary), var(--primary));
             border: none; border-radius: 5px; color: white;
             font-family: 'Orbitron'; font-weight: bold; cursor: pointer;
             transition: 0.3s; text-transform: uppercase;
         }
 
-        button:hover { filter: brightness(1.2); transform: translateY(-2px); box-shadow: 0 0 20px var(--primary); }
-
-        .file-input { font-size: 12px; margin-top: 5px; }
+        button:hover { filter: brightness(1.2); box-shadow: 0 0 20px var(--primary); }
     </style>
 </head>
 <body>
@@ -93,13 +98,13 @@
     <h1>HACK STUDIO</h1>
 
     <div class="preview-box">
-        <svg id="tshirt-svg" class="tshirt-visual" viewBox="0 0 24 24" fill="white"><path d="M20.91 4.58l-3.83-2.3a1.002 1.002 0 0 0-1.16.09l-3.92 3.14-3.92-3.14a1.002 1.002 0 0 0-1.16-.09l-3.83 2.3c-.56.33-.84.97-.68 1.6l1.41 5.34c.05.2.2.36.4.41l1.59.41V21c0 .55.45 1 1 1h10c.55 0 1-.45 1-1v-6.66l1.59-.41c.2-.05.35-.21.4-.41l1.41-5.34c.16-.63-.12-1.27-.68-1.6z"/></svg>
+        <svg id="tshirt-svg" class="tshirt-visual" viewBox="0 0 24 24"><path d="M20.91 4.58l-3.83-2.3a1.002 1.002 0 0 0-1.16.09l-3.92 3.14-3.92-3.14a1.002 1.002 0 0 0-1.16-.09l-3.83 2.3c-.56.33-.84.97-.68 1.6l1.41 5.34c.05.2.2.36.4.41l1.59.41V21c0 .55.45 1 1 1h10c.55 0 1-.45 1-1v-6.66l1.59-.41c.2-.05.35-.21.4-.41l1.41-5.34c.16-.63-.12-1.27-.68-1.6z"/></svg>
         <img id="custom-image-preview" src="" style="display:none;">
     </div>
 
     <div class="form-group">
         <label>LOGOTYPE (IMAGE)</label>
-        <input type="file" id="imageInput" accept="image/*" class="file-input" onchange="previewImage(event)">
+        <input type="file" id="imageInput" accept="image/*" onchange="previewImage(event)">
     </div>
 
     <div class="form-group">
@@ -122,8 +127,14 @@
         </div>
         <div class="form-group" style="flex: 1;">
             <label>QUANTITÉ</label>
-            <input type="number" id="qty" value="1" min="1">
+            <input type="number" id="qty" value="1" min="1" oninput="calculatePrice()">
         </div>
+    </div>
+
+    <div class="price-display">
+        <label>TOTAL ESTIMÉ</label>
+        <div class="total-amount"><span id="totalPrice">25.00</span> $</div>
+        <div id="discount" class="discount-badge">RABAIS DE GROUPE APPLIQUÉ (-10%)</div>
     </div>
 
     <div class="form-group">
@@ -138,7 +149,24 @@
 <script>
     let selectedColor = 'white';
     let base64Image = "";
+    const UNIT_PRICE = 25;
 
+    // Calcul du prix
+    function calculatePrice() {
+        const qty = document.getElementById('qty').value;
+        let total = qty * UNIT_PRICE;
+        const discountDiv = document.getElementById('discount');
+
+        if (qty >= 5) {
+            total = total * 0.9;
+            discountDiv.style.display = 'block';
+        } else {
+            discountDiv.style.display = 'none';
+        }
+        document.getElementById('totalPrice').innerText = total.toFixed(2);
+    }
+
+    // Changer la couleur
     function setColor(color, el) {
         selectedColor = color;
         document.getElementById('tshirt-svg').style.fill = color;
@@ -146,17 +174,19 @@
         el.classList.add('active');
     }
 
+    // Aperçu de l'image
     function previewImage(event) {
         const reader = new FileReader();
         reader.onload = function() {
             const img = document.getElementById('custom-image-preview');
             img.src = reader.result;
             img.style.display = 'block';
-            base64Image = reader.result; // On garde l'image pour l'envoyer
+            base64Image = reader.result;
         }
-        reader.readAsDataURL(event.target.files[0]);
+        if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
     }
 
+    // Envoi de la commande
     async function sendOrder() {
         const btn = document.getElementById('btnText');
         const data = {
@@ -164,11 +194,12 @@
             email: document.getElementById('email').value,
             size: document.getElementById('size').value,
             qty: document.getElementById('qty').value,
+            total: document.getElementById('totalPrice').innerText + " $",
             color: selectedColor,
-            image: base64Image // L'image est envoyée ici
+            image: base64Image
         };
 
-        if(!data.name || !data.email) return alert("Infos manquantes !");
+        if(!data.name || !data.email) return alert("Veuillez remplir vos coordonnées !");
 
         btn.innerText = "TRANSMISSION...";
         btn.disabled = true;
@@ -182,12 +213,16 @@
             if(res.ok) {
                 btn.innerText = "SUCCÈS RÉCEPTIONNÉ";
                 btn.style.background = "#2ecc71";
+            } else {
+                throw new Error();
             }
         } catch(e) {
-            alert("Erreur de liaison.");
+            alert("Erreur réseau. Réessayez.");
             btn.disabled = false;
+            btn.innerText = "LANCER LA COMMANDE";
         }
     }
 </script>
+
 </body>
 </html>
