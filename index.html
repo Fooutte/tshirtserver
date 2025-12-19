@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hack Dalphond - Designer Studio</title>
+    <title>T-Shirt Server</title>
     <style>
     :root {
         --primary: #ff4757;
@@ -97,7 +97,7 @@
 <body>
 
 <div class="container">
-    <h1>MINDHACKSTUDIO 👕</h1>
+    <h1>T-SHIRT SERVER 👕</h1>
 
     <div class="preview-area">
         <svg class="tshirt-svg" id="tshirtVisual" viewBox="0 0 24 24"><path d="M20.91 4.58l-3.83-2.3a1.002 1.002 0 0 0-1.16.09l-3.92 3.14-3.92-3.14a1.002 1.002 0 0 0-1.16-.09l-3.83 2.3c-.56.33-.84.97-.68 1.6l1.41 5.34c.05.2.2.36.4.41l1.59.41V21c0 .55.45 1 1 1h10c.55 0 1-.45 1-1v-6.66l1.59-.41c.2-.05.35-.21.4-.41l1.41-5.34c.16-.63-.12-1.27-.68-1.6z"/></svg>
@@ -106,7 +106,7 @@
 
     <div class="form-group">
         <label>Texte du Design</label>
-        <input type="text" id="tshirtText" placeholder="Ex: Hack Dalphond" oninput="updatePreview()">
+        <input type="text" id="tshirtText" placeholder="Ex: Mindhackstudios" oninput="updatePreview()">
     </div>
 
     <div class="form-group">
@@ -181,7 +181,7 @@ async function sendOrder() {
 
     try {
         // CONNEXION À TON NOUVEAU SERVEUR VERCEL
-        const response = await fetch('/api/checkout', {
+        const response = await fetch('https://tshirtserver.vercel.app/api/checkout', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
