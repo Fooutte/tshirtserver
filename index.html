@@ -403,107 +403,56 @@
 
 
     async function sendOrder() {
+    const btn = document.getElementById('btnText');
+    const product = document.getElementById('productType').value;
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
 
-        const btn = document.getElementById('btnText');
+    if(!name || !email) return alert("Veuillez remplir vos coordonnées !");
 
-        const product = document.getElementById('productType').value;
+    const data = {
+        product: product,
+        name: name,
+        email: email,
+        size: document.getElementById('size').value,
+        qty: document.getElementById('qty').value,
+        total: document.getElementById('totalPrice').innerText + " $",
+        color: selectedColor,
+        image: base64Image
+    };
 
-        const name = document.getElementById('name').value;
+    btn.innerText = "TRANSMISSION DU DESIGN...";
+    btn.disabled = true;
 
-        const email = document.getElementById('email').value;
+    try {
+        const res = await fetch('https://tshirtserver.vercel.app/api/checkout', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        });
 
+        if(res.ok) {
+            btn.innerText = "DESIGN REÇU ! REDIRECTION...";
+            btn.style.background = "#2ecc71";
+            
+            // Redirection vers tes liens Square trouvés dans tes courriels
+            setTimeout(() => {
+                if (product === 'hoodie') {
+                    window.location.href = "https://square.link/u/nKY2rWkI"; // Lien Hoodie 
+                } else {
+                    window.location.href = "https://square.link/u/lPcdGKWL"; // Remplace par ton lien T-shirt si différent
+                }
+            }, 1500);
 
-
-        if(!name || !email) return alert("Veuillez remplir vos coordonnées !");
-
-
-
-        const data = {
-
-            product: product,
-
-            name: name,
-
-            email: email,
-
-            size: document.getElementById('size').value,
-
-            qty: document.getElementById('qty').value,
-
-            total: document.getElementById('totalPrice').innerText + " $",
-
-            color: selectedColor,
-
-            image: base64Image
-
-        };
-
-
-
-        btn.innerText = "TRANSMISSION DU DESIGN...";
-
-        btn.disabled = true;
-
-
-
-        try {
-
-            const res = await fetch('https://tshirtserver.vercel.app/api/checkout', {
-
-                method: 'POST',
-
-                headers: {'Content-Type': 'application/json'},
-
-                body: JSON.stringify(data)
-
-            });
-
-
-
-            if(res.ok) {
-
-                btn.innerText = "DESIGN REÇU ! REDIRECTION...";
-
-                btn.style.background = "#2ecc71";
-
-                
-
-                // --- REDIRECTION SQUARE ICI ---
-
-                setTimeout(() => {
-
-                    if (product === 'hoodie') {
-
-                        window.location.href = "MET_TON_LIEN_SQUARE_HOODIE_ICI";
-
-                    } else {
-
-                        window.location.href = "MET_TON_LIEN_SQUARE_TSHIRT_ICI";
-
-                    }
-
-                }, 1500); // On attend 1.5 seconde pour que le client voie le message de succès
-
-
-
-            } else {
-
-                throw new Error();
-
-            }
-
-        } catch(e) {
-
-            alert("Erreur réseau. Réessayez.");
-
-            btn.disabled = false;
-
-            btn.innerText = "LANCER LA COMMANDE";
-
+        } else {
+            throw new Error();
         }
-
+    } catch(e) {
+        alert("Erreur réseau. Réessayez.");
+        btn.disabled = false;
+        btn.innerText = "LANCER LA COMMANDE";
     }
-
+}
 
 
     calculatePrice();
