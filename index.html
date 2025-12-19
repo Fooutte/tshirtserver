@@ -118,6 +118,14 @@
         </div>
     </div>
 
+    <div class="form-group">
+        <label>MODÈLE DE VÊTEMENT</label>
+        <select id="productType" onchange="calculatePrice()">
+        <option value="tshirt">T-Shirt (25.00 $)</option>
+        <option value="hoodie">Hoodie (45.00 $)</option>
+        </select>
+    </div>
+
     <div style="display: flex; gap: 15px;">
         <div class="form-group" style="flex: 2;">
             <label>TAILLE</label>
@@ -149,12 +157,20 @@
 <script>
     let selectedColor = 'white';
     let base64Image = "";
-    const UNIT_PRICE = 25;
 
-    // Calcul du prix
     function calculatePrice() {
         const qty = document.getElementById('qty').value;
-        let total = qty * UNIT_PRICE;
+        const type = document.getElementById('productType').value;
+        const tshirtSvg = document.getElementById('tshirt-svg');
+        
+        if (type === 'hoodie') {
+            tshirtSvg.innerHTML = '<path d="M12 3c-1.1 0-2.12.33-3 .9V6c0 1.1.9 2 2 2h2c1.1 0 2-.9 2-2V3.9c-.88-.57-1.9-.9-3-.9zM5 8c-1.1 0-2 .9-2 2v3c0 .55.45 1 1 1h1v7c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-7h1c.55 0 1-.45 1-1v-3c0-1.1-.9-2-2-2h-3.1c-.45 1.72-2 3-3.9 3s-3.45-1.28-3.9-3H5z"/>';
+        } else {
+            tshirtSvg.innerHTML = '<path d="M20.91 4.58l-3.83-2.3a1.002 1.002 0 0 0-1.16.09l-3.92 3.14-3.92-3.14a1.002 1.002 0 0 0-1.16-.09l-3.83 2.3c-.56.33-.84.97-.68 1.6l1.41 5.34c.05.2.2.36.4.41l1.59.41V21c0 .55.45 1 1 1h10c.55 0 1-.45 1-1v-6.66l1.59-.41c.2-.05.35-.21.4-.41l1.41-5.34c.16-.63-.12-1.27-.68-1.6z"/>';
+        }
+
+        const unitPrice = (type === 'hoodie') ? 45 : 25;
+        let total = qty * unitPrice;
         const discountDiv = document.getElementById('discount');
 
         if (qty >= 5) {
@@ -166,7 +182,6 @@
         document.getElementById('totalPrice').innerText = total.toFixed(2);
     }
 
-    // Changer la couleur
     function setColor(color, el) {
         selectedColor = color;
         document.getElementById('tshirt-svg').style.fill = color;
@@ -174,7 +189,6 @@
         el.classList.add('active');
     }
 
-    // Aperçu de l'image
     function previewImage(event) {
         const reader = new FileReader();
         reader.onload = function() {
@@ -186,10 +200,10 @@
         if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
     }
 
-    // Envoi de la commande
     async function sendOrder() {
         const btn = document.getElementById('btnText');
         const data = {
+            product: document.getElementById('productType').value,
             name: document.getElementById('name').value,
             email: document.getElementById('email').value,
             size: document.getElementById('size').value,
@@ -222,6 +236,9 @@
             btn.innerText = "LANCER LA COMMANDE";
         }
     }
+
+    // INITIALISATION : On appelle la fonction ici pour que tout soit prêt au chargement
+    calculatePrice();
 </script>
 
 </body>
