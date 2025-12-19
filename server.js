@@ -6,16 +6,19 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// CONFIGURATION ULTRA-STABLE
+// CONFIGURATION PORT 587 (POUR ÉVITER LE TIMEOUT)
 const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
+    port: 587,
+    secure: false, // False pour le port 587
     auth: {
         user: 'jerome.vaillancourt200@gmail.com',
         pass: 'tropkiuxnmnqccpy'
     },
-    connectionTimeout: 10000, // 10 secondes max pour se connecter
+    tls: {
+        rejectUnauthorized: false // Aide à passer à travers le pare-feu de Render
+    },
+    connectionTimeout: 10000, 
     greetingTimeout: 10000
 });
 
@@ -30,7 +33,7 @@ app.post('/api/checkout', async (req, res) => {
         text: `Nouveau T-shirt commandé !\n\nClient: ${customerName}\nEmail: ${customerEmail}\nTexte: ${text}\nCouleur: ${color}\nTaille: ${size}`
     };
 
-    // On envoie l'email sans faire attendre le site web
+    // Envoi de l'email en arrière-plan
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             console.log("❌ ERREUR GMAIL DETAILLÉE :");
@@ -40,7 +43,7 @@ app.post('/api/checkout', async (req, res) => {
         }
     });
 
-    // On répond TOUT DE SUITE au site pour débloquer l'affichage "Envoi en cours"
+    // On répond immédiatement au site pour débloquer le bouton
     return res.status(200).json({ message: "Reçu" });
 });
 
