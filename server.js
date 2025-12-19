@@ -6,20 +6,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// CONFIGURATION PORT 587 (POUR ÉVITER LE TIMEOUT)
+// CONFIGURATION SERVICE DIRECT (DERNIER RECOURS)
 const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false, // False pour le port 587
+    service: 'gmail',
     auth: {
         user: 'jerome.vaillancourt200@gmail.com',
         pass: 'tropkiuxnmnqccpy'
-    },
-    tls: {
-        rejectUnauthorized: false // Aide à passer à travers le pare-feu de Render
-    },
-    connectionTimeout: 10000, 
-    greetingTimeout: 10000
+    }
 });
 
 app.post('/api/checkout', async (req, res) => {
