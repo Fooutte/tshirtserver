@@ -1,39 +1,42 @@
 const nodemailer = require('nodemailer');
 
 export default async function handler(req, res) {
-    // Sécurité et autorisations
+    // Configuration des headers pour la sécurité (CORS)
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
     if (req.method === 'OPTIONS') return res.status(200).end();
 
-    // ON RÉCUPÈRE TOUTES LES INFOS EN UNE SEULE FOIS ICI
-    const { name, email, size, qty, color, image, total } = req.body;
+    // On récupère toutes les données envoyées par ton site
+    const { name, email, size, qty, color, image, total, product } = req.body;
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
             user: 'jerome.vaillancourt200@gmail.com',
-            pass: 'tropkiuxnmnqccpy'
+            pass: 'tropkiuxnmnqccpy' // Ton mot de passe d'application Gmail
         }
     });
 
-    // Configuration de l'email
+    // Préparation du contenu de l'email
     const mailOptions = {
         from: 'jerome.vaillancourt200@gmail.com',
         to: 'jerome.vaillancourt200@gmail.com',
-        subject: `COMMANDE HACK : ${total} - ${name}`,
-        text: `NOUVELLE COMMANDE\n\n` +
-              `Client: ${name}\n` +
-              `Email: ${email}\n` +
-              `Quantité: ${qty}\n` +
-              `Taille: ${size}\n` +
-              `Couleur: ${color}\n` +
-              `------------------------\n` +
-              `PRIX TOTAL: ${total}`,
+        // Le sujet contient maintenant le type de produit et le prix
+        subject: `COMMANDE ${product.toUpperCase()} : ${total} - ${name}`,
+        text: `NOUVELLE COMMANDE REÇUE\n\n` +
+              `PRODUIT : ${product.toUpperCase()}\n` +
+              `CLIENT : ${name}\n` +
+              `EMAIL : ${email}\n` +
+              `QUANTITÉ : ${qty}\n` +
+              `TAILLE : ${size}\n` +
+              `COULEUR : ${color}\n` +
+              `---------------------------\n` +
+              `PRIX TOTAL : ${total}\n\n` +
+              `L'image du design est jointe à ce courriel.`,
         attachments: image ? [{ 
-            filename: 'design-client.png', 
+            filename: `design-${product}.png`, 
             content: image.split("base64,")[1], 
             encoding: 'base64' 
         }] : []
