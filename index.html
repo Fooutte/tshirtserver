@@ -197,7 +197,7 @@
 
         try {
             // On appelle ton backend pour créer le PaymentIntent
-            const response = await fetch('https://tshirtserver.vercel.app/api/create-payment-intent', {
+            const response = await fetch('https://tshirtserver.vercel.app/api/checkout', { ... })
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
