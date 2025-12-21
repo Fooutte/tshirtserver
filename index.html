@@ -188,50 +188,62 @@
     let base64Image = ""; // Important pour l'envoi de l'image par mail
 
     async function startCheckout() {
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const prepareBtn = document.getElementById('prepareBtn');
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const prepareBtn = document.getElementById('prepareBtn');
+    
+    // Récupération du prix et conversion en nombre
+    const priceText = document.getElementById('totalPrice').innerText;
+    const priceAmount = parseFloat(priceText);
 
-        if(!name || !email) return alert("Veuillez remplir vos coordonnées !");
-        prepareBtn.innerText = "INITIALISATION...";
-        prepareBtn.disabled = true;
+    if(!name || !email) return alert("Veuillez remplir vos coordonnées !");
+    if(isNaN(priceAmount) || priceAmount <= 0) return alert("Le prix total est invalide.");
 
-        try {
-            const response = await fetch('/api/create-payment-intent', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    amount: document.getElementById('totalPrice').innerText,
-                    email: email,
-                    metadata: {
-                        name: name,
-                        product: document.getElementById('productType').value,
-                        size: document.getElementById('size').value,
-                        color: selectedColor
-                    }
-                })
-            });
+    prepareBtn.innerText = "INITIALISATION...";
+    prepareBtn.disabled = true;
 
-            const data = await response.json();
-            const clientSecret = data.clientSecret;
+    try {
+        const response = await fetch('/api/create-payment-intent', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                amount: priceAmount, // Envoi en format nombre
+                email: email,
+                name: name, // Ajout du nom pour le serveur
+                metadata: {
+                    product: document.getElementById('productType').value,
+                    size: document.getElementById('size').value,
+                    color: selectedColor
+                }
+            })
+        });
 
-            elements = stripe.elements({ 
-                clientSecret, 
-                appearance: { theme: 'night', variables: { colorPrimary: '#00f2ff' } } 
-            });
-            
-            const paymentElement = elements.create('payment');
-            document.getElementById('stripe-section').style.display = 'block';
-            paymentElement.mount('#payment-element');
-            prepareBtn.style.display = 'none';
+        const data = await response.json();
 
-        } catch(e) {
-            console.error(e);
-            alert("Erreur serveur. Vérifie ton backend Vercel.");
-            prepareBtn.disabled = false;
-            prepareBtn.innerText = "RÉESSAYER";
+        // Si le serveur a renvoyé une erreur
+        if (!response.ok) {
+            throw new Error(data.error || "Erreur serveur inconnue");
         }
+
+        const clientSecret = data.clientSecret;
+
+        elements = stripe.elements({ 
+            clientSecret, 
+            appearance: { theme: 'night', variables: { colorPrimary: '#00f2ff' } } 
+        });
+        
+        const paymentElement = elements.create('payment');
+        document.getElementById('stripe-section').style.display = 'block';
+        paymentElement.mount('#payment-element');
+        prepareBtn.style.display = 'none';
+
+    } catch(e) {
+        console.error("Erreur détaillée:", e);
+        alert("Erreur : " + e.message);
+        prepareBtn.disabled = false;
+        prepareBtn.innerText = "RÉESSAYER";
     }
+}
 
     async function confirmPayment() {
         const submitBtn = document.getElementById('submit-payment');
