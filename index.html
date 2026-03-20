@@ -30,14 +30,18 @@
     min-height: 100vh; margin: 0; overflow-x: hidden;
 }
 
-        .container {
-            background: var(--card);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 40px; border-radius: 20px;
-            width: 100%; max-width: 500px;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
-        }
+      .container {
+    background: var(--card);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 40px; 
+    border-radius: 20px;
+    width: 95%; 
+    /* On passe de 500px à 1000px pour accueillir deux colonnes */
+    max-width: 1000px; 
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+    margin: 20px;
+}
 
         .header-logo { text-align: center; margin-bottom: 35px; }
         .main-logo {
@@ -169,6 +173,38 @@
     pointer-events: none;
     filter: drop-shadow(0 0 5px rgba(0,0,0,0.3));
     z-index: 10;
+}
+        /* Nouveau système de grille pour ordinateur */
+.main-layout {
+    display: flex;
+    flex-direction: column; /* Par défaut pour mobile (une colonne) */
+    gap: 30px;
+}
+
+@media (min-width: 850px) {
+    .main-layout {
+        flex-direction: row; /* Deux colonnes pour ordinateur */
+        align-items: flex-start;
+    }
+    
+    .preview-column {
+        flex: 1.2; /* La colonne du T-shirt est un peu plus large */
+        position: sticky;
+        top: 20px;
+    }
+    
+    .options-column {
+        flex: 1; /* La colonne des réglages */
+        height: auto;
+    }
+    
+    .preview-box {
+        height: 500px; /* On agrandit encore la boîte sur ordinateur ! */
+    }
+    
+    .tshirt-visual {
+        width: 400px; /* Le T-shirt devient géant sur desktop */
+    }
 }
     </style>
 </head>
