@@ -115,6 +115,37 @@
         button:hover { box-shadow: 0 0 25px var(--primary); transform: translateY(-2px); }
         
         #stripe-section { margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+        /* Style pour le logo Artist Mind en haut à gauche */
+.corner-logo {
+    position: absolute;
+    top: 25px; /* Aligné avec le padding du container */
+    left: 25px;
+    width: 60px; /* Petit et discret */
+    height: auto;
+    border-radius: 8px; /* Bords légèrement arrondis pour le style */
+    
+    /* Petite lueur bleue pour le faire ressortir subtilement */
+    box-shadow: 0 0 15px rgba(163, 216, 244, 0.3);
+    
+    /* Transition douce au survol */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 100; /* Assure qu'il reste au-dessus */
+}
+
+.corner-logo:hover {
+    transform: scale(1.05); /* Petit effet de zoom au survol */
+    box-shadow: 0 0 20px rgba(163, 216, 244, 0.5);
+}
+
+/* Ajustement pour le titre mobile pour ne pas qu'il chevauche */
+@media (max-width: 900px) {
+    .corner-logo {
+        position: relative; /* Repasse en flux normal sur mobile */
+        top: 0; left: 0;
+        margin-bottom: 15px;
+        display: inline-block;
+    }
+}
     </style>
 </head>
 <body>
