@@ -324,13 +324,33 @@
         const qty = document.getElementById('qty').value;
         const type = document.getElementById('productType').value;
         const tshirtSvg = document.getElementById('tshirt-svg');
+        const customImage = document.getElementById('custom-image-preview');
         
+        // Mise à jour de la forme du vêtement (SVG)
         if (type === 'hoodie') {
-            tshirtSvg.innerHTML = '<path d="M12 3c-1.1 0-2.12.33-3 .9V6c0 1.1.9 2 2 2h2c1.1 0 2-.9 2-2V3.9c-.88-.57-1.9-.9-3-.9zM5 8c-1.1 0-2 .9-2 2v3c0 .55.45 1 1 1h1v7c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-7h1c.55 0 1-.45 1-1v-3c0-1.1-.9-2-2-2h-3.1c-.45 1.72-2 3-3.9 3s-3.45-1.28-3.9-3H5z"/>';
+            // Forme de Hoodie (Sweat-shirt à capuche) symétrique et réaliste
+            tshirtSvg.innerHTML = `
+                <path d="M28,15 c0,0,10-3,22-3 s22,3,22,3 l16,14 l-6,14 l-10-5 v45 c0,0-1,8-10,8 h-24 c0,0-9,0-10-8 v-45 l-10,5 l-6-14 z" />
+                <path d="M38,12 c0,0,2-8,12-8 s12,8,12,8" fill="rgba(0,0,0,0.15)"/>
+                <path d="M38,55 h24 c0,0,6,1,6,6 v12 c0,0,0,6-6,6 h-24 c0,0-6,0-6-6 v-12 c0,0,0-6,6-6 z" fill="rgba(0,0,0,0.1)" />
+                <rect x="44" y="16" width="2" height="15" fill="#ccc" rx="1"/>
+                <rect x="54" y="16" width="2" height="15" fill="#ccc" rx="1"/>
+            `;
+            // Repositionnement de l'image personnalisée pour le hoodie (sur la poitrine)
+            customImage.style.top = "46%";
         } else {
-            tshirtSvg.innerHTML = '<path d="M20.91 4.58l-3.83-2.3a1.002 1.002 0 0 0-1.16.09l-3.92 3.14-3.92-3.14a1.002 1.002 0 0 0-1.16-.09l-3.83 2.3c-.56.33-.84.97-.68 1.6l1.41 5.34c.05.2.2.36.4.41l1.59.41V21c0 .55.45 1 1 1h10c.55 0 1-.45 1-1v-6.66l1.59-.41c.2-.05.35-.21.4-.41l1.41-5.34c.16-.63-.12-1.27-.68-1.6z"/>';
+            // Forme de T-shirt symétrique et réaliste (même que l'étape 1)
+            tshirtSvg.innerHTML = `
+                <path d="M26,16 c0,0,8-2,24-2 s24,2,24,2 l14,12 l-6,14 l-8-4 v48 h-48 v-48 l-8,4 l-6-14 z" />
+                <path d="M40,14 c0,0,4,6,10,6 s10-6,10-6 c0,0-4,3-10,3 s-10-3-10-3 z" fill="rgba(0,0,0,0.15)" />
+                <path d="M26,16 l-6,14 l6-3 v4 l3,2 l-1-2 v-5 l3,1 l1,1 z" fill="rgba(0,0,0,0.1)"/>
+                <path d="M74,16 l6,14 l-6-3 v4 l-3,2 l1-2 v-5 l-3,1 l-1,1 z" fill="rgba(0,0,0,0.1)"/>
+            `;
+            // Repositionnement de l'image personnalisée pour le t-shirt
+            customImage.style.top = "52%";
         }
 
+        // Calcul du prix (inchangé)
         const unitPrice = (type === 'hoodie') ? 45 : 25;
         let total = qty * unitPrice;
         if (qty >= 5) {
@@ -341,7 +361,6 @@
         }
         document.getElementById('totalPrice').innerText = total.toFixed(2);
     }
-
     function setColor(color, el) {
         selectedColor = color;
         document.getElementById('tshirt-svg').style.fill = color;
