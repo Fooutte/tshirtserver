@@ -150,7 +150,7 @@
 </head>
 <body>
 
-<div class="container" style="position: relative;"> <img src="logo.jpg" alt="Artist Mind Logo" class="corner-logo">
+<div class="container" style="position: relative;"> <img src="logo.jpg" alt="Artist Mind Logo" class="corner-logo" onclick="resetStudio()" style="cursor: pointer;" title="Réinitialiser le Studio">
 
     <div class="header-logo">
         <h2 class="header-subtitle">INTELLIGENCE CRÉATIVE</h2>
@@ -378,6 +378,40 @@
     }
 
     calculatePrice();
+    function resetStudio() {
+    // 1. Animation de sortie (facultatif mais pro)
+    const container = document.querySelector('.container');
+    container.style.opacity = "0.5";
+    container.style.transition = "0.3s";
+
+    // 2. Remise à zéro des valeurs
+    setTimeout(() => {
+        // Reset couleur et modèle
+        setColor('#ffffff', document.querySelector('.color-opt')); 
+        document.getElementById('productType').value = 'tshirt';
+        document.getElementById('qty').value = 1;
+        document.getElementById('size').value = 'S';
+        
+        // Reset image et texte
+        document.getElementById('custom-image-preview').style.display = 'none';
+        document.getElementById('custom-image-preview').src = '';
+        document.getElementById('file-name-display').innerText = '';
+        document.getElementById('name').value = '';
+        document.getElementById('email').value = '';
+        
+        // Reset Stripe et Prix
+        document.getElementById('stripe-section').style.display = 'none';
+        document.getElementById('prepareBtn').style.display = 'block';
+        document.getElementById('prepareBtn').disabled = false;
+        document.getElementById('prepareBtn').innerText = "PRÉPARER MA COMMANDE";
+        
+        calculatePrice();
+        
+        // 3. Retour à la normale
+        container.style.opacity = "1";
+        alert("Studio Artist Mind réinitialisé !");
+    }, 300);
+}
 </script>
 </body>
 </html>
