@@ -158,17 +158,15 @@
         }
         #custom-image-preview {
     position: absolute;
-    /* Centre le logo sur le T-shirt */
-    top: 50%; 
+    /* On le monte à 42% pour qu'il soit sur la poitrine */
+    top: 42%; 
     left: 50%;
     transform: translate(-50%, -50%);
     
-    /* TAILLE DU LOGO : On l'agrandit pour qu'il soit bien visible */
     max-width: 80px; 
     max-height: 80px; 
     
     pointer-events: none;
-    /* Effet pour que le logo s'intègre bien au tissu */
     filter: drop-shadow(0 0 5px rgba(0,0,0,0.3));
     z-index: 10;
 }
