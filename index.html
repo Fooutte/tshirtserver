@@ -89,7 +89,12 @@
             font-family: 'Rajdhani'; font-size: 16px; box-sizing: border-box;
         }
 
-        .color-grid { display: flex; gap: 10px; margin-top: 5px; }
+        .color-grid { 
+    display: grid; 
+    grid-template-columns: repeat(5, 1fr); 
+    gap: 12px; 
+    margin-top: 10px; 
+}
         .color-opt {
             width: 25px; height: 25px; border-radius: 50%; cursor: pointer;
             border: 2px solid transparent; transition: 0.2s;
@@ -154,13 +159,19 @@
 
     <div class="form-group">
         <label>COULEUR DU VÊTEMENT</label>
-        <div class="color-grid">
-            <div class="color-opt active" style="background: white;" onclick="setColor('white', this)"></div>
-            <div class="color-opt" style="background: #111;" onclick="setColor('#111', this)"></div>
-            <div class="color-opt" style="background: #e74c3c;" onclick="setColor('#e74c3c', this)"></div>
-            <div class="color-opt" style="background: #3498db;" onclick="setColor('#3498db', this)"></div>
-            <div class="color-opt" style="background: #2ecc71;" onclick="setColor('#2ecc71', this)"></div>
-        </div>
+        <div class="color-grid" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;">
+    <div class="color-opt active" style="background: #ffffff;" onclick="setColor('#ffffff', this)" title="Blanc"></div>
+    <div class="color-opt" style="background: #111111;" onclick="setColor('#111111', this)" title="Noir"></div>
+    <div class="color-opt" style="background: #e74c3c;" onclick="setColor('#e74c3c', this)" title="Rouge"></div>
+    <div class="color-opt" style="background: #3498db;" onclick="setColor('#3498db', this)" title="Bleu"></div>
+    <div class="color-opt" style="background: #2ecc71;" onclick="setColor('#2ecc71', this)" title="Vert"></div>
+
+    <div class="color-opt" style="background: #1e2a44;" onclick="setColor('#1e2a44', this)" title="Bleu Nuit"></div>
+    <div class="color-opt" style="background: #4a4a4a;" onclick="setColor('#4a4a4a', this)" title="Gris Anthracite"></div>
+    <div class="color-opt" style="background: #d4b895;" onclick="setColor('#d4b895', this)" title="Sable / Beige"></div>
+    <div class="color-opt" style="background: #6c5ce7;" onclick="setColor('#6c5ce7', this)" title="Violet Galaxie"></div>
+    <div class="color-opt" style="background: #006266;" onclick="setColor('#006266', this)" title="Vert Émeraude"></div>
+</div>
     </div>
 
     <div class="form-group">
