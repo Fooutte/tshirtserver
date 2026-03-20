@@ -6,118 +6,121 @@
     <title>ARTIST MIND LIMITED</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <script src="https://js.stripe.com/v3/"></script>
-<style>
-   :root {
-    --primary: #a3d8f4; 
-    --secondary: #1e70a0; 
-    --bg: #000000; 
-    --card: rgba(15, 25, 35, 0.95); 
-}
+    <style>
+        :root {
+            --primary: #a3d8f4; 
+            --secondary: #1e70a0; 
+            --bg: #000000; 
+            --card: rgba(15, 25, 35, 0.95); 
+        }
 
-body {
-    font-family: 'Rajdhani', sans-serif;
-    background: var(--bg);
-    background-image: 
-        radial-gradient(circle at 20% 30%, rgba(30, 112, 160, 0.2) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(163, 216, 244, 0.1) 0%, transparent 50%);
-    color: #fff;
-    display: flex; justify-content: center; align-items: center;
-    min-height: 100vh; margin: 0; padding: 20px;
-}
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg);
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(30, 112, 160, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(163, 216, 244, 0.1) 0%, transparent 50%);
+            color: #fff;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; margin: 0; padding: 20px;
+        }
 
-.container {
-    background: var(--card);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 40px; border-radius: 20px;
-    width: 100%; max-width: 1100px; /* Largeur augmentée pour Desktop */
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
-}
+        .container {
+            background: var(--card);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px; border-radius: 20px;
+            width: 100%; max-width: 1100px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+        }
 
-/* SYSTÈME DE COLONNES */
-.main-layout {
-    display: flex;
-    flex-direction: column; /* Mobile */
-    gap: 40px;
-    margin-top: 20px;
-}
+        .header-logo { text-align: center; margin-bottom: 30px; }
+        .main-logo { width: 150px; transition: 0.3s; margin-bottom: 10px; }
+        .header-subtitle {
+            font-family: 'Orbitron'; font-size: 1.2rem;
+            letter-spacing: 6px; color: var(--primary);
+            text-shadow: 0 0 15px var(--secondary);
+            margin: 0;
+        }
 
-@media (min-width: 900px) {
-    .main-layout { flex-direction: row; align-items: flex-start; }
-    .preview-column { flex: 1.2; position: sticky; top: 20px; }
-    .options-column { flex: 1; }
-}
+        /* SYSTÈME DE COLONNES */
+        .main-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
 
-.header-logo { text-align: center; margin-bottom: 20px; }
-.main-logo { width: 150px; transition: 0.3s; }
-.header-subtitle {
-    font-family: 'Orbitron'; font-size: 1.2rem;
-    letter-spacing: 6px; color: var(--primary);
-    text-shadow: 0 0 15px var(--secondary);
-}
+        @media (min-width: 900px) {
+            .main-layout { flex-direction: row; align-items: flex-start; }
+            .preview-column { flex: 1.2; position: sticky; top: 20px; }
+            .options-column { flex: 1; }
+        }
 
-/* LA BOÎTE DE PRÉVISUALISATION AMÉLIORÉE */
-.preview-box {
-    height: 500px;
-    background: #050505;
-    border-radius: 15px;
-    display: flex; justify-content: center; align-items: center;
-    position: relative; overflow: hidden;
-    border: 1px solid rgba(30, 112, 160, 0.3);
-    /* HALO DE LUMIÈRE pour voir le noir */
-    background-image: 
-        radial-gradient(circle at center, rgba(163, 216, 244, 0.12) 0%, transparent 70%),
-        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 100% 100%, 25px 25px, 25px 25px;
-}
+        .preview-box {
+            height: 500px;
+            background: #050505;
+            border-radius: 15px;
+            display: flex; justify-content: center; align-items: center;
+            position: relative; overflow: hidden;
+            border: 1px solid rgba(30, 112, 160, 0.3);
+            background-image: 
+                radial-gradient(circle at center, rgba(163, 216, 244, 0.12) 0%, transparent 70%),
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 25px 25px, 25px 25px;
+        }
 
-.tshirt-visual { 
-    width: 380px; transition: 0.5s ease; fill: white;
-    stroke: rgba(255,255,255,0.1); stroke-width: 0.5px;
-}
+        .tshirt-visual { 
+            width: 350px; transition: 0.5s ease; fill: #ffffff;
+            stroke: rgba(255,255,255,0.1); stroke-width: 0.5px;
+        }
 
-#custom-image-preview {
-    position: absolute; top: 42%; left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 90px; max-height: 90px;
-    filter: drop-shadow(0 0 8px rgba(0,0,0,0.5));
-}
+        #custom-image-preview {
+            position: absolute; top: 42%; left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90px; max-height: 90px;
+            filter: drop-shadow(0 0 8px rgba(0,0,0,0.5));
+            z-index: 10;
+        }
 
-/* STYLES FORMULAIRE */
-.form-group { margin-bottom: 20px; }
-label { font-size: 11px; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; }
-input, select {
-    width: 100%; padding: 12px; background: rgba(0,0,0,0.4);
-    border: 1px solid #333; border-radius: 5px; color: white;
-    font-family: 'Rajdhani'; font-size: 15px;
-}
+        .form-group { margin-bottom: 20px; }
+        label { font-size: 11px; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 8px; }
+        
+        input, select {
+            width: 100%; padding: 12px; background: rgba(0,0,0,0.4);
+            border: 1px solid #333; border-radius: 5px; color: white;
+            font-family: 'Rajdhani'; font-size: 15px; box-sizing: border-box;
+        }
 
-.color-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 10px; }
-.color-opt { 
-    height: 35px; border-radius: 4px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1);
-    transition: 0.3s;
-}
-.color-opt.active { border: 2px solid var(--primary); transform: scale(1.1); box-shadow: 0 0 15px var(--primary); }
+        .color-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+        .color-opt { 
+            height: 35px; border-radius: 4px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s;
+        }
+        .color-opt.active { border: 2px solid var(--primary); transform: scale(1.1); box-shadow: 0 0 15px var(--primary); }
 
-.price-display {
-    background: rgba(30, 112, 160, 0.1); border: 1px dashed var(--primary);
-    padding: 15px; border-radius: 10px; text-align: center;
-}
-.total-amount { font-family: 'Orbitron'; font-size: 28px; color: var(--primary); }
+        .price-display {
+            background: rgba(30, 112, 160, 0.1); border: 1px dashed var(--primary);
+            padding: 20px; border-radius: 10px; text-align: center; margin-top: 20px;
+        }
+        .total-amount { font-family: 'Orbitron'; font-size: 28px; color: var(--primary); margin: 5px 0; }
+        .discount-badge { font-size: 12px; color: #2ecc71; display: none; }
 
-button {
-    width: 100%; padding: 18px; background: linear-gradient(45deg, var(--secondary), var(--primary));
-    border: none; border-radius: 5px; color: white; font-family: 'Orbitron';
-    font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px;
-}
-button:hover { box-shadow: 0 0 25px var(--primary); transform: translateY(-2px); }
-</style>
+        button {
+            width: 100%; padding: 18px; background: linear-gradient(45deg, var(--secondary), var(--primary));
+            border: none; border-radius: 5px; color: white; font-family: 'Orbitron';
+            font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px;
+            text-transform: uppercase;
+        }
+        button:hover { box-shadow: 0 0 25px var(--primary); transform: translateY(-2px); }
+        
+        #stripe-section { margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+    </style>
 </head>
 <body>
 
 <div class="container">
-<div class="header-logo">
+    <div class="header-logo">
         <img src="logo.jpg" alt="Artist Mind Logo" class="main-logo">
         <h2 class="header-subtitle">INTELLIGENCE CRÉATIVE</h2>
     </div>
@@ -131,22 +134,23 @@ button:hover { box-shadow: 0 0 25px var(--primary); transform: translateY(-2px);
                 </svg>
                 <img id="custom-image-preview" src="" style="display:none;">
             </div>
+            
             <div class="price-display">
-                <label>PRIX TOTAL</label>
+                <label>PRIX TOTAL ESTIMÉ</label>
                 <div class="total-amount"><span id="totalPrice">25.00</span> $</div>
-                <div id="discount" style="color: #2ecc71; font-size: 12px; display: none;">RABAIS DE GROUPE APPLIQUÉ !</div>
+                <div id="discount" class="discount-badge">RABAIS DE GROUPE APPLIQUÉ (-10%)</div>
             </div>
         </div>
 
         <div class="options-column">
             <div class="form-group">
-                <label>VOTRE DESIGN (PNG/JPG)</label>
+                <label>LOGOTYPE (IMAGE PNG/JPG)</label>
                 <input type="file" id="imageInput" accept="image/*" onchange="previewImage(event)" style="display: none;">
                 <button type="button" onclick="document.getElementById('imageInput').click()" 
-                        style="background: rgba(163, 216, 244, 0.1); border: 1px solid var(--primary); font-family: 'Rajdhani'; font-size: 14px; padding: 10px;">
+                        style="background: rgba(30, 112, 160, 0.2); border: 1px solid var(--primary); font-family: 'Rajdhani'; font-size: 14px;">
                     SÉLECTIONNER UN FICHIER
                 </button>
-                <p id="file-name-display" style="font-size: 10px; margin-top: 5px; opacity: 0.6;"></p>
+                <p id="file-name-display" style="font-size: 10px; margin-top: 5px; opacity: 0.6; text-align: center;"></p>
             </div>
 
             <div class="form-group">
@@ -166,11 +170,11 @@ button:hover { box-shadow: 0 0 25px var(--primary); transform: translateY(-2px);
             </div>
 
             <div class="form-group">
-                <label>TYPE & TAILLE</label>
-                <div style="display: flex; gap: 10px; margin-top: 5px;">
+                <label>MODÈLE ET TAILLE</label>
+                <div style="display: flex; gap: 10px;">
                     <select id="productType" onchange="calculatePrice()" style="flex: 2;">
-                        <option value="tshirt">T-Shirt Artist</option>
-                        <option value="hoodie">Hoodie Mind</option>
+                        <option value="tshirt">T-Shirt Artist (25.00$)</option>
+                        <option value="hoodie">Hoodie Mind (45.00$)</option>
                     </select>
                     <select id="size" style="flex: 1;">
                         <option>S</option><option>M</option><option>L</option><option>XL</option>
@@ -179,203 +183,54 @@ button:hover { box-shadow: 0 0 25px var(--primary); transform: translateY(-2px);
             </div>
 
             <div class="form-group">
+                <label>QUANTITÉ</label>
+                <input type="number" id="qty" value="1" min="1" oninput="calculatePrice()">
+            </div>
+
+            <div class="form-group">
                 <label>COORDONNÉES</label>
                 <input type="text" id="name" placeholder="Nom complet" style="margin-bottom: 10px;">
                 <input type="email" id="email" placeholder="Email de contact">
             </div>
 
-            <button onclick="startCheckout()" id="prepareBtn">VALIDER LE DESIGN</button>
-            
-            <div id="stripe-section" style="display:none; margin-top: 20px;">
-                <div id="payment-element"></div>
-                <button id="submit-payment" onclick="confirmPayment()">PAYER MAINTENANT</button>
+            <button onclick="startCheckout()" id="prepareBtn">PRÉPARER MA COMMANDE</button>
+
+            <div id="stripe-section" style="display: none;">
+                <label>PAIEMENT SÉCURISÉ</label>
+                <div id="payment-element" style="margin: 15px 0;"></div>
+                <button id="submit-payment" onclick="confirmPayment()">CONFIRMER LE PAIEMENT</button>
+                <div id="error-message" style="color: #ff4d4d; margin-top: 10px; font-size: 14px;"></div>
             </div>
         </div>
     </div>
+
+    <div style="text-align:center; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
+        <p style="font-size:11px; color: var(--primary); letter-spacing: 3px; text-transform: uppercase;">Support & Contact</p>
+        <a href="mailto:info@artistmind.ca" style="color: #fff; text-decoration: none; font-size: 14px; opacity: 0.8; display: block; margin: 5px 0;">INFO@ARTISTMIND.CA</a>
+        <a href="tel:+15815255377" style="color: #fff; text-decoration: none; font-size: 14px; opacity: 0.8; display: block;">+1 (581) 525-5377</a>
+        <p style="font-size:10px; opacity:0.3; margin-top: 20px;">© 2026 ARTIST MIND LIMITED. TOUS DROITS RÉSERVÉS.</p>
+    </div>
 </div>
 
-    <div class="form-group">
-        <label>COULEUR DU VÊTEMENT</label>
-        <div class="color-grid" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;">
-    <div class="color-opt active" style="background: #ffffff;" onclick="setColor('#ffffff', this)" title="Blanc"></div>
-    <div class="color-opt" style="background: #111111;" onclick="setColor('#111111', this)" title="Noir"></div>
-    <div class="color-opt" style="background: #e74c3c;" onclick="setColor('#e74c3c', this)" title="Rouge"></div>
-    <div class="color-opt" style="background: #3498db;" onclick="setColor('#3498db', this)" title="Bleu"></div>
-    <div class="color-opt" style="background: #2ecc71;" onclick="setColor('#2ecc71', this)" title="Vert"></div>
-
-    <div class="color-opt" style="background: #1e2a44;" onclick="setColor('#1e2a44', this)" title="Bleu Nuit"></div>
-    <div class="color-opt" style="background: #4a4a4a;" onclick="setColor('#4a4a4a', this)" title="Gris Anthracite"></div>
-    <div class="color-opt" style="background: #d4b895;" onclick="setColor('#d4b895', this)" title="Sable / Beige"></div>
-    <div class="color-opt" style="background: #6c5ce7;" onclick="setColor('#6c5ce7', this)" title="Violet Galaxie"></div>
-    <div class="color-opt" style="background: #006266;" onclick="setColor('#006266', this)" title="Vert Émeraude"></div>
-</div>
-    </div>
-
-    <div class="form-group">
-        <label>MODÈLE</label>
-        <select id="productType" onchange="calculatePrice()">
-            <option value="tshirt">T-Shirt (25.00 $)</option>
-            <option value="hoodie">Hoodie (45.00 $)</option>
-        </select>
-    </div>
-
-    <div style="display: flex; gap: 15px;">
-        <div class="form-group" style="flex: 2;">
-            <label>TAILLE</label>
-            <select id="size">
-                <option>S</option><option>M</option><option>L</option><option>XL</option>
-            </select>
-        </div>
-        <div class="form-group" style="flex: 1;">
-            <label>QUANTITÉ</label>
-            <input type="number" id="qty" value="1" min="1" oninput="calculatePrice()">
-        </div>
-    </div>
-
-    <div class="price-display">
-        <label>TOTAL ESTIMÉ</label>
-        <div class="total-amount"><span id="totalPrice">25.00</span> $</div>
-        <div id="discount" class="discount-badge">RABAIS DE GROUPE APPLIQUÉ (-10%)</div>
-    </div>
-
-    <div class="form-group">
-        <label>COORDONNÉES</label>
-        <input type="text" id="name" placeholder="Nom complet" style="margin-bottom: 10px;">
-        <input type="email" id="email" placeholder="Email">
-    </div>
-
-    <button onclick="startCheckout()" id="prepareBtn">PRÉPARER MA COMMANDE</button>
-
-   <div id="stripe-section">
-        <label>PAIEMENT SÉCURISÉ (STRIPE)</label>
-        <div id="payment-element" style="margin: 20px 0;"></div>
-        <button id="submit-payment" onclick="confirmPayment()">CONFIRMER LE PAIEMENT</button>
-        <div id="error-message" style="color: #ff4d4d; margin-top: 10px; font-size: 14px;"></div>
-    </div>
-
-    <div style="text-align:center; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; font-family: 'Rajdhani', sans-serif;">
-        <div style="margin-bottom: 20px;">
-            <p style="font-size:11px; color: var(--primary); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px;">Support & Contact</p>
-            <a href="mailto:info@artistmind.ca" style="color: #fff; text-decoration: none; font-size: 14px; opacity: 0.8; display: block; margin-bottom: 5px;">
-                INFO@ARTISTMIND.CA
-            </a>
-            <a href="tel:+15815255377" style="color: #fff; text-decoration: none; font-size: 14px; opacity: 0.8; display: block;">
-                +1 (581) 525-5377
-            </a>
-        </div>
-        <p style="font-size:10px; opacity:0.3; letter-spacing: 1px;">© 2026 ARTIST MIND LIMITED. TOUS DROITS RÉSERVÉS.</p>
-    </div>
-</div> <script>
-    /* ... rest of your script remains the same ... */
-
-<script src="https://js.stripe.com/v3/"></script>
-    
 <script>
     const stripe = Stripe('pk_live_51SgTOyL5BdTtXwXw1hz0G5sJ1b3UGWVrQevIDeXgoCn2unDGpohb6OZ3k8ZMiTXuYEP1rODt1U8zoMxEwLkkqswp006yafLwDQ');
     let elements;
-    let selectedColor = 'white';
-    let base64Image = ""; // Important pour l'envoi de l'image par mail
+    let selectedColor = '#ffffff';
+    let base64Image = "";
 
-    async function startCheckout() {
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const prepareBtn = document.getElementById('prepareBtn');
-    
-    // Récupération du prix et conversion en nombre
-    const priceText = document.getElementById('totalPrice').innerText;
-    const priceAmount = parseFloat(priceText);
-
-    if(!name || !email) return alert("Veuillez remplir vos coordonnées !");
-    if(isNaN(priceAmount) || priceAmount <= 0) return alert("Le prix total est invalide.");
-
-    prepareBtn.innerText = "INITIALISATION...";
-    prepareBtn.disabled = true;
-
-    try {
-        const response = await fetch('/api/create-payment-intent', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                amount: priceAmount, // Envoi en format nombre
-                email: email,
-                name: name, // Ajout du nom pour le serveur
-                metadata: {
-                    product: document.getElementById('productType').value,
-                    size: document.getElementById('size').value,
-                    color: selectedColor
-                }
-            })
-        });
-
-        const data = await response.json();
-
-        // Si le serveur a renvoyé une erreur
-        if (!response.ok) {
-            throw new Error(data.error || "Erreur serveur inconnue");
-        }
-
-        const clientSecret = data.clientSecret;
-
-        elements = stripe.elements({ 
-            clientSecret, 
-            appearance: { theme: 'night', variables: { colorPrimary: '#00f2ff' } } 
-        });
+    function setColor(color, el) {
+        selectedColor = color;
+        const svg = document.getElementById('tshirt-svg');
+        svg.style.fill = color;
         
-        const paymentElement = elements.create('payment');
-        document.getElementById('stripe-section').style.display = 'block';
-        paymentElement.mount('#payment-element');
-        prepareBtn.style.display = 'none';
-
-    } catch(e) {
-        console.error("Erreur détaillée:", e);
-        alert("Erreur : " + e.message);
-        prepareBtn.disabled = false;
-        prepareBtn.innerText = "RÉESSAYER";
-    }
-}
-
-    async function confirmPayment() {
-        const submitBtn = document.getElementById('submit-payment');
-        submitBtn.disabled = true;
-        submitBtn.innerText = "TRAITEMENT EN COURS...";
-
-        // 1. On confirme le paiement avec Stripe
-        const result = await stripe.confirmPayment({
-            elements,
-            redirect: 'if_required' 
-        });
-
-        if (result.error) {
-            document.getElementById('error-message').innerText = result.error.message;
-            submitBtn.disabled = false;
-            submitBtn.innerText = "CONFIRMER LE PAIEMENT";
+        if (color === '#111111' || color === '#1e2a44') {
+            svg.style.stroke = "rgba(163, 216, 244, 0.4)";
         } else {
-            // 2. Succès ! On envoie les détails au fichier checkout.js (Nodemailer)
-            submitBtn.innerText = "ENVOI DES DÉTAILS...";
-            
-            try {
-                await fetch('/api/checkout', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        name: document.getElementById('name').value,
-                        email: document.getElementById('email').value,
-                        product: document.getElementById('productType').value,
-                        size: document.getElementById('size').value,
-                        qty: document.getElementById('qty').value,
-                        color: selectedColor,
-                        total: document.getElementById('totalPrice').innerText + " $",
-                        image: base64Image 
-                    })
-                });
-                
-                alert("PAIEMENT RÉUSSI ! Votre commande a été envoyée.");
-                window.location.reload();
-            } catch (e) {
-                console.error("Erreur envoi email:", e);
-                alert("Paiement OK, mais erreur d'envoi du mail de détails.");
-            }
+            svg.style.stroke = "rgba(0, 0, 0, 0.1)";
         }
+        
+        document.querySelectorAll('.color-opt').forEach(opt => opt.classList.remove('active'));
+        el.classList.add('active');
     }
 
     function calculatePrice() {
@@ -384,75 +239,111 @@ button:hover { box-shadow: 0 0 25px var(--primary); transform: translateY(-2px);
         const tshirtSvg = document.getElementById('tshirt-svg');
         const customImage = document.getElementById('custom-image-preview');
         
-        // Mise à jour de la forme du vêtement (SVG)
         if (type === 'hoodie') {
-            // Forme de Hoodie (Sweat-shirt à capuche) symétrique et réaliste
             tshirtSvg.innerHTML = `
                 <path d="M28,15 c0,0,10-3,22-3 s22,3,22,3 l16,14 l-6,14 l-10-5 v45 c0,0-1,8-10,8 h-24 c0,0-9,0-10-8 v-45 l-10,5 l-6-14 z" />
                 <path d="M38,12 c0,0,2-8,12-8 s12,8,12,8" fill="rgba(0,0,0,0.15)"/>
                 <path d="M38,55 h24 c0,0,6,1,6,6 v12 c0,0,0,6-6,6 h-24 c0,0-6,0-6-6 v-12 c0,0,0-6,6-6 z" fill="rgba(0,0,0,0.1)" />
-                <rect x="44" y="16" width="2" height="15" fill="#ccc" rx="1"/>
-                <rect x="54" y="16" width="2" height="15" fill="#ccc" rx="1"/>
             `;
-            // Repositionnement de l'image personnalisée pour le hoodie (sur la poitrine)
-            customImage.style.top = "46%";
+            customImage.style.top = "40%";
         } else {
-            // Forme de T-shirt symétrique et réaliste (même que l'étape 1)
             tshirtSvg.innerHTML = `
                 <path d="M26,16 c0,0,8-2,24-2 s24,2,24,2 l14,12 l-6,14 l-8-4 v48 h-48 v-48 l-8,4 l-6-14 z" />
                 <path d="M40,14 c0,0,4,6,10,6 s10-6,10-6 c0,0-4,3-10,3 s-10-3-10-3 z" fill="rgba(0,0,0,0.15)" />
-                <path d="M26,16 l-6,14 l6-3 v4 l3,2 l-1-2 v-5 l3,1 l1,1 z" fill="rgba(0,0,0,0.1)"/>
-                <path d="M74,16 l6,14 l-6-3 v4 l-3,2 l1-2 v-5 l-3,1 l-1,1 z" fill="rgba(0,0,0,0.1)"/>
             `;
-            // Repositionnement de l'image personnalisée pour le t-shirt
-            customImage.style.top = "52%";
+            customImage.style.top = "42%";
         }
 
-        // Calcul du prix (inchangé)
         const unitPrice = (type === 'hoodie') ? 45 : 25;
         let total = qty * unitPrice;
         if (qty >= 5) {
-            total = total * 0.9;
+            total *= 0.9;
             document.getElementById('discount').style.display = 'block';
         } else {
             document.getElementById('discount').style.display = 'none';
         }
         document.getElementById('totalPrice').innerText = total.toFixed(2);
     }
-   function setColor(color, el) {
-    selectedColor = color;
-    const svg = document.getElementById('tshirt-svg');
-    
-    // On change la couleur
-    svg.style.fill = color;
-    
-    // Si la couleur est noire ou très sombre, on booste le contour pour la visibilité
-    if (color === '#111111' || color === '#1e2a44') {
-        svg.style.stroke = "rgba(163, 216, 244, 0.4)"; // Bleu clair subtil
-    } else {
-        svg.style.stroke = "rgba(0, 0, 0, 0.1)"; // Contour sombre discret pour les couleurs claires
-    }
-    
-    document.querySelectorAll('.color-opt').forEach(opt => opt.classList.remove('active'));
-    el.classList.add('active');
-}
 
-   function previewImage(event) {
-    const file = event.target.files[0];
-    if (file) {
-        // Affiche le nom du fichier sélectionné sous le bouton
-        document.getElementById('file-name-display').innerText = "Fichier : " + file.name;
-    }
-    
-    const reader = new FileReader();
-    // ... le reste de ta fonction ne change pas ...
-        reader.onload = function() {
-            const img = document.getElementById('custom-image-preview');
-            img.src = reader.result;
-            img.style.display = 'block';
-            base64Image = reader.result; // Stocke l'image pour l'email
+    function previewImage(event) {
+        const file = event.target.files[0];
+        if (file) {
+            document.getElementById('file-name-display').innerText = "Fichier : " + file.name;
+            const reader = new FileReader();
+            reader.onload = function() {
+                const img = document.getElementById('custom-image-preview');
+                img.src = reader.result;
+                img.style.display = 'block';
+                base64Image = reader.result;
+            }
+            reader.readAsDataURL(file);
         }
-        if(event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
+    }
+
+    async function startCheckout() {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        if(!name || !email) return alert("Veuillez remplir vos coordonnées !");
+
+        const prepareBtn = document.getElementById('prepareBtn');
+        prepareBtn.innerText = "INITIALISATION...";
+        prepareBtn.disabled = true;
+
+        try {
+            const response = await fetch('/api/create-payment-intent', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    amount: parseFloat(document.getElementById('totalPrice').innerText),
+                    email: email,
+                    name: name,
+                    metadata: {
+                        product: document.getElementById('productType').value,
+                        size: document.getElementById('size').value,
+                        color: selectedColor
+                    }
+                })
+            });
+            const data = await response.json();
+            elements = stripe.elements({ clientSecret: data.clientSecret, appearance: { theme: 'night' } });
+            const paymentElement = elements.create('payment');
+            paymentElement.mount('#payment-element');
+            document.getElementById('stripe-section').style.display = 'block';
+            prepareBtn.style.display = 'none';
+        } catch(e) {
+            alert("Erreur : " + e.message);
+            prepareBtn.disabled = false;
+        }
+    }
+
+    async function confirmPayment() {
+        const submitBtn = document.getElementById('submit-payment');
+        submitBtn.disabled = true;
+        submitBtn.innerText = "TRAITEMENT...";
+
+        const result = await stripe.confirmPayment({ elements, redirect: 'if_required' });
+
+        if (result.error) {
+            document.getElementById('error-message').innerText = result.error.message;
+            submitBtn.disabled = false;
+        } else {
+            await fetch('/api/checkout', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    product: document.getElementById('productType').value,
+                    size: document.getElementById('size').value,
+                    qty: document.getElementById('qty').value,
+                    color: selectedColor,
+                    total: document.getElementById('totalPrice').innerText + " $",
+                    image: base64Image 
+                })
+            });
+            alert("PAIEMENT RÉUSSI !");
+            window.location.reload();
+        }
     }
 
     calculatePrice();
