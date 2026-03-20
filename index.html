@@ -58,24 +58,20 @@
         }
 
         .preview-box {
-    /* BOÎTE PLUS GRANDE : Hauteur augmentée de 220px à 350px */
-    height: 350px; 
-    
-    background: rgba(10, 15, 25, 0.8); 
+    height: 450px; /* On l'agrandit un peu pour le desktop */
+    background: #050505; 
     border-radius: 15px;
     display: flex; justify-content: center; align-items: center;
     position: relative; margin-bottom: 25px; overflow: hidden;
-    
-    /* Bordure brillante Artist Mind */
     border: 1px solid rgba(30, 112, 160, 0.5); 
     box-shadow: 0 0 30px rgba(30, 112, 160, 0.2);
     
-    /* MOTIF DE FOND : Grille technologique subtile pour le contraste */
+    /* SOLUTION : On ajoute une lueur bleue glacée au centre pour détacher le noir */
     background-image: 
-        linear-gradient(rgba(163, 216, 244, 0.03) 1px, transparent 1px),
-        linear-gradient(90%, rgba(163, 216, 244, 0.03) 1px, transparent 1px);
-    background-size: 20px 20px;
-    background-position: center;
+        radial-gradient(circle at center, rgba(163, 216, 244, 0.15) 0%, transparent 70%),
+        linear-gradient(rgba(163, 216, 244, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(163, 216, 244, 0.05) 1px, transparent 1px);
+    background-size: 100% 100%, 30px 30px, 30px 30px;
 }
 
        .tshirt-visual { 
@@ -202,9 +198,16 @@
         height: 500px; /* On agrandit encore la boîte sur ordinateur ! */
     }
     
-    .tshirt-visual {
-        width: 400px; /* Le T-shirt devient géant sur desktop */
-    }
+    .tshirt-visual { 
+    width: 320px; 
+    transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
+    fill: white; 
+    filter: drop-shadow(0 0 20px rgba(0,0,0,0.8));
+    
+    /* AJOUT ICI : Un contour très fin pour définir la silhouette */
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 0.5px;
+}
 }
     </style>
 </head>
@@ -461,12 +464,23 @@
         }
         document.getElementById('totalPrice').innerText = total.toFixed(2);
     }
-    function setColor(color, el) {
-        selectedColor = color;
-        document.getElementById('tshirt-svg').style.fill = color;
-        document.querySelectorAll('.color-opt').forEach(opt => opt.classList.remove('active'));
-        el.classList.add('active');
+   function setColor(color, el) {
+    selectedColor = color;
+    const svg = document.getElementById('tshirt-svg');
+    
+    // On change la couleur
+    svg.style.fill = color;
+    
+    // Si la couleur est noire ou très sombre, on booste le contour pour la visibilité
+    if (color === '#111111' || color === '#1e2a44') {
+        svg.style.stroke = "rgba(163, 216, 244, 0.4)"; // Bleu clair subtil
+    } else {
+        svg.style.stroke = "rgba(0, 0, 0, 0.1)"; // Contour sombre discret pour les couleurs claires
     }
+    
+    document.querySelectorAll('.color-opt').forEach(opt => opt.classList.remove('active'));
+    el.classList.add('active');
+}
 
    function previewImage(event) {
     const file = event.target.files[0];
