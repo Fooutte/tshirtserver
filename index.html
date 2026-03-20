@@ -41,10 +41,9 @@
 
         .header-logo { text-align: center; margin-bottom: 35px; }
         .main-logo {
-            width: 160px; height: auto; border-radius: 15px;
-            box-shadow: 0 0 30px rgba(0, 242, 255, 0.4);
-            margin-bottom: 15px; transition: transform 0.3s ease;
-        }
+    width: 180px; height: auto;
+    margin-bottom: 10px; transition: transform 0.3s ease;
+}
         .main-logo:hover { transform: scale(1.05); }
 
         .header-subtitle {
@@ -124,8 +123,8 @@
 
 <div class="container">
     <div class="header-logo">
-        <img src="logo.png" alt="Logo Hack Studio" class="main-logo">
-        <h2 class="header-subtitle">NEXT-GEN BOUTIQUE</h2>
+        <img src="logo.jpg" alt="Artist Mind Logo" class="main-logo">
+        <h2 class="header-subtitle">CREATIVE INTELLIGENCE</h2>
     </div>
 
     <div class="preview-box">
@@ -184,14 +183,27 @@
 
     <button onclick="startCheckout()" id="prepareBtn">PRÉPARER MA COMMANDE</button>
 
-    <div id="stripe-section">
+   <div id="stripe-section">
         <label>PAIEMENT SÉCURISÉ (STRIPE)</label>
         <div id="payment-element" style="margin: 20px 0;"></div>
         <button id="submit-payment" onclick="confirmPayment()">CONFIRMER LE PAIEMENT</button>
         <div id="error-message" style="color: #ff4d4d; margin-top: 10px; font-size: 14px;"></div>
     </div>
-    <p style="text-align:center; font-size:10px; opacity:0.5;">© 2026 ARTIST MIND LIMITED. Tous droits réservés.</p>
-</div>
+
+    <div style="text-align:center; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; font-family: 'Rajdhani', sans-serif;">
+        <div style="margin-bottom: 20px;">
+            <p style="font-size:11px; color: var(--primary); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px;">Support & Contact</p>
+            <a href="mailto:info@artistmind.ca" style="color: #fff; text-decoration: none; font-size: 14px; opacity: 0.8; display: block; margin-bottom: 5px;">
+                INFO@ARTISTMIND.CA
+            </a>
+            <a href="tel:+15815255377" style="color: #fff; text-decoration: none; font-size: 14px; opacity: 0.8; display: block;">
+                +1 (581) 525-5377
+            </a>
+        </div>
+        <p style="font-size:10px; opacity:0.3; letter-spacing: 1px;">© 2026 ARTIST MIND LIMITED. TOUS DROITS RÉSERVÉS.</p>
+    </div>
+</div> <script>
+    /* ... rest of your script remains the same ... */
 
 <script src="https://js.stripe.com/v3/"></script>
     
