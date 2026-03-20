@@ -70,9 +70,14 @@
 
         .tshirt-visual { width: 160px; transition: 0.3s; fill: white; }
         #custom-image-preview {
-            position: absolute; top: 52%; left: 50%;
+            position: absolute;
+            top: 52%; /* Ajusté dynamiquement par JS si hoodie */
+            left: 50%;
             transform: translate(-50%, -50%);
-            max-width: 40px; max-height: 40px; pointer-events: none;
+            max-width: 50px; /* Légèrement plus grand pour plus de réalisme */
+            max-height: 50px;
+            pointer-events: none;
+            box-shadow: 0 0 10px rgba(255,255,255,0.1);
         }
 
         .form-group { margin-bottom: 15px; }
