@@ -378,8 +378,15 @@
         el.classList.add('active');
     }
 
-    function previewImage(event) {
-        const reader = new FileReader();
+   function previewImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+        // Affiche le nom du fichier sélectionné sous le bouton
+        document.getElementById('file-name-display').innerText = "Fichier : " + file.name;
+    }
+    
+    const reader = new FileReader();
+    // ... le reste de ta fonction ne change pas ...
         reader.onload = function() {
             const img = document.getElementById('custom-image-preview');
             img.src = reader.result;
