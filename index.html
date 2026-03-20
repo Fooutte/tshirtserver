@@ -117,29 +117,81 @@ button:hover { box-shadow: 0 0 25px var(--primary); transform: translateY(-2px);
 <body>
 
 <div class="container">
-    <div class="header-logo">
+<div class="header-logo">
         <img src="logo.jpg" alt="Artist Mind Logo" class="main-logo">
-        <h2 class="header-subtitle">CREATIVE INTELLIGENCE</h2>
+        <h2 class="header-subtitle">INTELLIGENCE CRÉATIVE</h2>
     </div>
 
-    <div class="preview-box">
-        <svg id="tshirt-svg" class="tshirt-visual" viewBox="0 0 100 100" style="transition: fill 0.4s ease; fill: #1e70a0;">
-    <path d="M26,16 c0,0,8-2,24-2 s24,2,24,2 l14,12 l-6,14 l-8-4 v48 h-48 v-48 l-8,4 l-6-14 z" />
-    <path d="M40,14 c0,0,4,6,10,6 s10-6,10-6 c0,0-4,3-10,3 s-10-3-10-3 z" fill="rgba(0,0,0,0.15)" />
-    <path d="M26,16 l-6,14 l6-3 v4 l3,2 l-1-2 v-5 l3,1 l1,1 z" fill="rgba(0,0,0,0.1)"/>
-    <path d="M74,16 l6,14 l-6-3 v4 l-3,2 l1-2 v-5 l-3,1 l-1,1 z" fill="rgba(0,0,0,0.1)"/>
-</svg>
-        <img id="custom-image-preview" src="" style="display:none;">
-    </div>
+    <div class="main-layout">
+        <div class="preview-column">
+            <div class="preview-box">
+                <svg id="tshirt-svg" class="tshirt-visual" viewBox="0 0 100 100">
+                    <path d="M26,16 c0,0,8-2,24-2 s24,2,24,2 l14,12 l-6,14 l-8-4 v48 h-48 v-48 l-8,4 l-6-14 z" />
+                    <path d="M40,14 c0,0,4,6,10,6 s10-6,10-6 c0,0-4,3-10,3 s-10-3-10-3 z" fill="rgba(0,0,0,0.15)" />
+                </svg>
+                <img id="custom-image-preview" src="" style="display:none;">
+            </div>
+            <div class="price-display">
+                <label>PRIX TOTAL</label>
+                <div class="total-amount"><span id="totalPrice">25.00</span> $</div>
+                <div id="discount" style="color: #2ecc71; font-size: 12px; display: none;">RABAIS DE GROUPE APPLIQUÉ !</div>
+            </div>
+        </div>
 
-   <div class="form-group">
-    <label>LOGOTYPE (IMAGE)</label>
-    <input type="file" id="imageInput" accept="image/*" onchange="previewImage(event)" style="display: none;">
-    
-    <button type="button" onclick="document.getElementById('imageInput').click()" id="customFileBtn" style="background: rgba(30, 112, 160, 0.2); border: 1px solid var(--primary); color: var(--primary); font-family: 'Rajdhani'; font-size: 14px; letter-spacing: 2px;">
-        SÉLECTIONNER UN FICHIER
-    </button>
-    <p id="file-name-display" style="font-size: 10px; margin-top: 5px; opacity: 0.6; text-align: center;"></p>
+        <div class="options-column">
+            <div class="form-group">
+                <label>VOTRE DESIGN (PNG/JPG)</label>
+                <input type="file" id="imageInput" accept="image/*" onchange="previewImage(event)" style="display: none;">
+                <button type="button" onclick="document.getElementById('imageInput').click()" 
+                        style="background: rgba(163, 216, 244, 0.1); border: 1px solid var(--primary); font-family: 'Rajdhani'; font-size: 14px; padding: 10px;">
+                    SÉLECTIONNER UN FICHIER
+                </button>
+                <p id="file-name-display" style="font-size: 10px; margin-top: 5px; opacity: 0.6;"></p>
+            </div>
+
+            <div class="form-group">
+                <label>COULEUR DU VÊTEMENT</label>
+                <div class="color-grid">
+                    <div class="color-opt active" style="background: #ffffff;" onclick="setColor('#ffffff', this)"></div>
+                    <div class="color-opt" style="background: #111111;" onclick="setColor('#111111', this)"></div>
+                    <div class="color-opt" style="background: #1e2a44;" onclick="setColor('#1e2a44', this)"></div>
+                    <div class="color-opt" style="background: #4a4a4a;" onclick="setColor('#4a4a4a', this)"></div>
+                    <div class="color-opt" style="background: #d4b895;" onclick="setColor('#d4b895', this)"></div>
+                    <div class="color-opt" style="background: #e74c3c;" onclick="setColor('#e74c3c', this)"></div>
+                    <div class="color-opt" style="background: #3498db;" onclick="setColor('#3498db', this)"></div>
+                    <div class="color-opt" style="background: #6c5ce7;" onclick="setColor('#6c5ce7', this)"></div>
+                    <div class="color-opt" style="background: #2ecc71;" onclick="setColor('#2ecc71', this)"></div>
+                    <div class="color-opt" style="background: #006266;" onclick="setColor('#006266', this)"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>TYPE & TAILLE</label>
+                <div style="display: flex; gap: 10px; margin-top: 5px;">
+                    <select id="productType" onchange="calculatePrice()" style="flex: 2;">
+                        <option value="tshirt">T-Shirt Artist</option>
+                        <option value="hoodie">Hoodie Mind</option>
+                    </select>
+                    <select id="size" style="flex: 1;">
+                        <option>S</option><option>M</option><option>L</option><option>XL</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>COORDONNÉES</label>
+                <input type="text" id="name" placeholder="Nom complet" style="margin-bottom: 10px;">
+                <input type="email" id="email" placeholder="Email de contact">
+            </div>
+
+            <button onclick="startCheckout()" id="prepareBtn">VALIDER LE DESIGN</button>
+            
+            <div id="stripe-section" style="display:none; margin-top: 20px;">
+                <div id="payment-element"></div>
+                <button id="submit-payment" onclick="confirmPayment()">PAYER MAINTENANT</button>
+            </div>
+        </div>
+    </div>
 </div>
 
     <div class="form-group">
