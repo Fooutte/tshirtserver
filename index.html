@@ -96,10 +96,37 @@
     margin-top: 10px; 
 }
         .color-opt {
-            width: 25px; height: 25px; border-radius: 50%; cursor: pointer;
-            border: 2px solid transparent; transition: 0.2s;
-        }
-        .color-opt.active { border-color: var(--primary); transform: scale(1.2); }
+    width: 100%; height: 40px; 
+    border-radius: 4px; cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    background-clip: padding-box;
+}
+
+/* Effet au survol (Glow) */
+.color-opt:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(163, 216, 244, 0.4);
+}
+
+/* Style quand la couleur est sélectionnée */
+.color-opt.active {
+    border: 2px solid var(--primary);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--primary);
+}
+
+/* Petit indicateur interne pour la sélection */
+.color-opt.active::after {
+    content: "✓";
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 0 0 5px #000;
+}
 
         .price-display {
             background: rgba(0, 242, 255, 0.1);
