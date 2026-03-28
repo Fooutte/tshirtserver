@@ -3,131 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARTIST MIND LIMITED | STUDIO 2.0</title>
+    <title>ARTIST MIND LIMITED | PRODUCTION STUDIO</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <script src="https://js.stripe.com/v3/"></script>
     <style>
         :root { 
-            --primary: #a3d8f4; /* Bleu Glacé Artist Mind */
-            --secondary: #1e70a0; /* Bleu Profond */
+            --primary: #a3d8f4; 
+            --secondary: #1e70a0; 
             --bg: #000; 
-            --card: rgba(10, 20, 30, 0.98); /* Fond plus sombre pour le glow */
+            --card: rgba(10, 20, 30, 0.98); 
         }
         
         body {
             font-family: 'Rajdhani', sans-serif; background: var(--bg); color: #fff;
             margin: 0; padding: 10px; min-height: 100vh;
             display: flex; justify-content: center; align-items: center;
-            /* Fond spatial subtil */
             background-image: radial-gradient(circle at 20% 30%, rgba(30, 112, 160, 0.2) 0%, transparent 50%);
         }
 
         .container {
             background: var(--card); backdrop-filter: blur(15px);
-            border: 1px solid rgba(163, 216, 244, 0.1); /* Bordure discrète */
+            border: 1px solid rgba(163, 216, 244, 0.2);
             padding: 30px; border-radius: 20px; width: 100%; max-width: 1150px; position: relative; box-sizing: border-box;
-            /* LUEUR GLOBAL (GLOW) */
-            box-shadow: 0 0 50px rgba(30, 112, 160, 0.3);
+            box-shadow: 0 0 40px rgba(30, 112, 160, 0.4);
         }
 
-        /* NAVIGATION & LOGO */
+        /* HEADER & LOGO */
         .nav-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .corner-logo { width: 55px; height: auto; cursor: pointer; transition: 0.3s; filter: drop-shadow(0 0 10px var(--primary)); }
-        .corner-logo:hover { transform: rotate(-5deg) scale(1.1); filter: drop-shadow(0 0 15px var(--primary)); }
-        
+        .corner-logo { width: 55px; height: auto; cursor: pointer; transition: 0.3s; filter: drop-shadow(0 0 8px var(--primary)); }
         .cart-trigger { 
-            background: rgba(163, 216, 244, 0.05); border: 1px solid rgba(163, 216, 244, 0.3); 
+            background: rgba(163, 216, 244, 0.05); border: 1px solid var(--primary); 
             padding: 10px 20px; border-radius: 8px; cursor: pointer; font-family: 'Orbitron'; font-size: 13px; color: var(--primary);
-            transition: 0.3s;
+            box-shadow: 0 0 10px rgba(163, 216, 244, 0.2);
         }
-        .cart-trigger:hover { background: rgba(163, 216, 244, 0.2); box-shadow: 0 0 15px var(--primary); }
 
         .header-subtitle { 
             font-family: 'Orbitron'; font-size: clamp(1.1rem, 5vw, 1.3rem); text-align: center; color: var(--primary); 
-            letter-spacing: 5px; margin: 15px 0 40px 0; text-transform: uppercase;
-            text-shadow: 0 0 15px var(--primary);
+            letter-spacing: 5px; margin-bottom: 40px; text-shadow: 0 0 15px var(--primary);
         }
 
-        /* LAYOUT */
+        /* PREVIEW SYSTEM */
         .main-layout { display: grid; grid-template-columns: 1fr; gap: 40px; }
         @media (min-width: 950px) { .main-layout { grid-template-columns: 1.3fr 1fr; } }
 
         .preview-box {
-            height: 450px; background: #050505; border-radius: 15px; border: 1px solid rgba(163, 216, 244, 0.2);
+            height: 450px; background: #050505; border-radius: 15px; border: 1px solid rgba(163, 216, 244, 0.3);
             position: relative; display: flex; justify-content: center; align-items: center; overflow: hidden;
-            /* LUEUR INTERNE */
-            background-image: radial-gradient(circle at center, rgba(163, 216, 244, 0.15) 0%, transparent 75%);
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+            box-shadow: inset 0 0 30px rgba(163, 216, 244, 0.1);
         }
-        .tshirt-visual { width: 320px; fill: #fff; transition: 0.5s; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5)); }
-        #custom-image-preview { position: absolute; top: 42%; left: 50%; transform: translate(-50%, -50%); max-width: 80px; display: none; z-index: 10; filter: drop-shadow(0 0 5px rgba(0,0,0,0.3)); }
+        .tshirt-visual { width: 320px; fill: #fff; transition: 0.5s; filter: drop-shadow(0 0 15px rgba(0,0,0,0.8)); }
+        #custom-image-preview { position: absolute; top: 42%; left: 50%; transform: translate(-50%, -50%); max-width: 80px; display: none; z-index: 10; }
 
-        /* FORMULAIRE & LABELS */
-        .form-group { margin-bottom: 25px; }
-        label { font-size: 11px; color: var(--primary); letter-spacing: 3px; text-transform: uppercase; display: block; margin-bottom: 10px; font-weight: bold; text-shadow: 0 0 5px var(--primary); }
-        
+        /* FORMULAIRE & LED BUTTONS */
+        label { font-size: 11px; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 10px; font-weight: bold; }
         input, select { 
-            width: 100%; padding: 15px; background: rgba(0,0,0,0.5); border: 1px solid #333; border-radius: 8px; 
-            color: #fff; font-family: 'Rajdhani'; font-size: 16px; box-sizing: border-box;
-            transition: 0.3s;
+            width: 100%; padding: 15px; background: rgba(0,0,0,0.6); border: 1px solid #333; border-radius: 8px; 
+            color: #fff; font-family: 'Rajdhani'; font-size: 16px; margin-bottom: 20px; box-sizing: border-box;
         }
-        input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(163, 216, 244, 0.3); outline: none; }
 
-        /* COULEURS */
-        .color-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 15px; }
+        .color-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin-bottom: 20px; }
         .color-opt { height: 35px; border-radius: 6px; cursor: pointer; border: 1px solid #222; transition: 0.3s; }
-        .color-opt:hover { transform: scale(1.1); border-color: #555; }
         .color-opt.active { border: 2px solid var(--primary); box-shadow: 0 0 15px var(--primary); transform: scale(1.1); }
 
-        /* BOUTONS AVEC EFFET LED */
-        .btn-base { 
-            width: 100%; padding: 18px; border-radius: 8px; font-family: 'Orbitron'; font-weight: bold; cursor: pointer; 
-            transition: 0.4s; text-transform: uppercase; border: none; box-sizing: border-box;
-        }
-        
-        /* BOUTON SÉLECTIONNER (L'ACCENT EST ICI) */
+        /* LE BOUTON CHOISIR (EMPHASE LED) */
         .btn-select {
             background: rgba(163, 216, 244, 0.1); color: var(--primary); border: 2px solid var(--primary);
-            font-size: 14px; margin-bottom: 5px;
-            box-shadow: 0 0 15px rgba(163, 216, 244, 0.2);
-            /* ANIMATION RESPIRATION LUMINEUSE */
-            animation: breatheLED 2.5s infinite ease-in-out;
-        }
-        .btn-select:hover { background: rgba(163, 216, 244, 0.2); box-shadow: 0 0 25px var(--primary); }
-
-        .btn-add { background: linear-gradient(45deg, var(--secondary), var(--primary)); color: #fff; margin-top: 15px; }
-        .btn-add:hover { box-shadow: 0 0 30px var(--primary); transform: translateY(-3px); }
-
-        /* ANIMATIONS LED */
-        @keyframes breatheLED {
-            0%, 100% { box-shadow: 0 0 10px rgba(163, 216, 244, 0.3); border-color: rgba(163, 216, 244, 0.5); }
-            50% { box-shadow: 0 0 25px rgba(163, 216, 244, 0.6); border-color: var(--primary); }
+            width: 100%; padding: 18px; border-radius: 8px; font-family: 'Orbitron'; cursor: pointer;
+            margin-bottom: 25px; animation: ledPulse 2s infinite; font-weight: bold;
         }
 
-        /* PANIER LATÉRAL */
+        .btn-pay {
+            background: linear-gradient(45deg, var(--secondary), var(--primary)); 
+            color: #fff; border: none; padding: 20px; border-radius: 8px; width: 100%;
+            font-family: 'Orbitron'; font-weight: bold; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 0 20px rgba(163, 216, 244, 0.4);
+        }
+        .btn-pay:hover { box-shadow: 0 0 35px var(--primary); transform: translateY(-2px); }
+
+        @keyframes ledPulse {
+            0% { box-shadow: 0 0 5px var(--primary); border-color: rgba(163, 216, 244, 0.4); }
+            50% { box-shadow: 0 0 20px var(--primary); border-color: var(--primary); }
+            100% { box-shadow: 0 0 5px var(--primary); border-color: rgba(163, 216, 244, 0.4); }
+        }
+
+        /* SIDE CART */
         .side-cart {
-            position: fixed; top: 0; right: -100%; width: 100%; max-width: 380px; height: 100%;
-            background: #080c10; z-index: 2000; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
-            padding: 30px; box-sizing: border-box; border-left: 1px solid rgba(163, 216, 244, 0.3); 
-            display: flex; flex-direction: column; box-shadow: -10px 0 40px rgba(0,0,0,0.8);
+            position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100%;
+            background: #080c10; z-index: 2000; transition: 0.5s; padding: 30px; box-sizing: border-box;
+            border-left: 2px solid var(--primary); display: flex; flex-direction: column;
+            box-shadow: -15px 0 50px rgba(0,0,0,0.9);
         }
         .side-cart.open { right: 0; }
-        .cart-header { font-family: 'Orbitron'; border-bottom: 1px solid #333; padding-bottom: 15px; margin-bottom: 25px; display: flex; justify-content: space-between; color: var(--primary); text-shadow: 0 0 10px var(--primary); }
-        .cart-items { flex: 1; overflow-y: auto; padding-right: 5px; }
-        
-        /* FOOTER */
-        .footer { text-align: center; margin-top: 50px; border-top: 1px solid #222; padding-top: 25px; font-size: 13px; opacity: 0.6; color: #fff; }
+
+        .footer { text-align: center; margin-top: 50px; border-top: 1px solid #222; padding-top: 20px; font-size: 12px; opacity: 0.5; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="nav-header">
-        <img src="logo.jpg" alt="Artist Mind Logo" class="corner-logo" onclick="resetStudio()" title="Réinitialiser le Studio">
+        <img src="logo.jpg" alt="Logo" class="corner-logo" onclick="resetStudio()">
         <div class="cart-trigger" onclick="toggleCart()">PANIER (<span id="cartCount">0</span>)</div>
     </div>
 
-    <h2 class="header-subtitle">INTELLIGENCE CRÉATIVE</h2>
+    <h2 class="header-subtitle">PRODUCTION STUDIO</h2>
 
     <div class="main-layout">
         <div class="preview-column">
@@ -138,33 +117,25 @@
                 </svg>
                 <img id="custom-image-preview" src="">
             </div>
-            <div style="text-align: center; margin-top: 20px; font-family: 'Orbitron'; color: var(--primary); font-size: 20px; text-shadow: 0 0 10px var(--primary);">
+            <div style="text-align: center; margin-top: 20px; font-family: 'Orbitron'; color: var(--primary); font-size: 22px;">
                 TOTAL: <span id="totalPrice">25.00</span>$
             </div>
         </div>
 
         <div class="options-column">
-            <div class="form-group">
-                <label>1. VOTRE LOGO (PNG/JPG)</label>
-                <input type="file" id="imageInput" accept="image/*" onchange="previewImage(event)" style="display: none;">
-                <button type="button" class="btn-base btn-select" onclick="document.getElementById('imageInput').click()" id="customFileBtn">
-                    SÉLECTIONNER UN FICHIER
-                </button>
-                <p id="file-name-display" style="font-size: 11px; margin-top: 8px; opacity: 0.6; text-align: center; color: var(--primary);"></p>
-            </div>
+            <label>1. TÉLÉVERSER VOTRE LOGO</label>
+            <input type="file" id="imageInput" accept="image/*" onchange="previewImage(event)" style="display:none;">
+            <button class="btn-select" onclick="document.getElementById('imageInput').click()">SÉLECTIONNER UN FICHIER</button>
 
-            <div class="form-group">
-                <label>2. COULEUR DU VÊTEMENT</label>
-                <div class="color-grid" id="colorGrid">
-                    </div>
-            </div>
+            <label>2. COULEUR DU VÊTEMENT</label>
+            <div class="color-grid" id="colorGrid"></div>
 
-            <div class="form-group" style="display:grid; grid-template-columns: 2fr 1fr; gap: 15px; margin-top:25px;">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
                 <div>
                     <label>3. MODÈLE</label>
                     <select id="productType" onchange="calculatePrice()">
-                        <option value="tshirt">T-Shirt Artist (25$)</option>
-                        <option value="hoodie">Hoodie Mind (45$)</option>
+                        <option value="tshirt">T-Shirt (25$)</option>
+                        <option value="hoodie">Hoodie (45$)</option>
                     </select>
                 </div>
                 <div>
@@ -173,50 +144,37 @@
                 </div>
             </div>
 
-            <div class="form-group" style="display:grid; grid-template-columns: 1fr 2fr; gap: 15px;">
-                <div>
-                    <label>4. QUANTITÉ</label>
-                    <input type="number" id="qty" value="1" min="1" oninput="calculatePrice()">
-                </div>
-                <div>
-                    <label>COORDONNÉES</label>
-                    <input type="text" id="userName" placeholder="Votre nom" style="margin-bottom:10px;">
-                    <input type="email" id="userEmail" placeholder="Votre email">
-                </div>
-            </div>
+            <label>4. QUANTITÉ</label>
+            <input type="number" id="qty" value="1" min="1" oninput="calculatePrice()">
 
-            <button class="btn-base btn-add" onclick="addToCart()">AJOUTER AU PANIER</button>
-            <p style="font-size:12px; text-align:center; opacity:0.7; color: var(--primary); margin-top: 15px;">💡 Demandes spéciales? WhatsApp: 581-525-5377</p>
+            <button class="btn-pay" onclick="addToCart()">AJOUTER AU PANIER</button>
         </div>
     </div>
-
-    <div class="footer">
-        © 2026 ARTIST MIND LIMITED | SUPPORT: INFO@ARTISTMIND.CA
-    </div>
+    <div class="footer">© 2026 ARTIST MIND LIMITED | SECURE STRIPE CHECKOUT</div>
 </div>
 
 <div id="sideCart" class="side-cart">
-    <div class="cart-header">
-        VOTRE PANIER <span onclick="toggleCart()" style="cursor:pointer; font-size: 20px;">✕</span>
+    <div style="display:flex; justify-content:space-between; font-family:'Orbitron'; color:var(--primary); margin-bottom:30px;">
+        VOTRE PANIER <span onclick="toggleCart()" style="cursor:pointer;">✕</span>
     </div>
-    <div id="cartItems" class="cart-items">
-        <p style="opacity:0.5; text-align:center; margin-top:30px;">Votre panier est vide.</p>
-    </div>
-    <div style="border-top: 1px solid #333; padding-top:20px;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:15px; font-family:'Orbitron'; color: var(--primary); font-size: 18px;">
-            <span>TOTAL:</span>
-            <span id="cartTotal">0.00$</span>
+    <div id="cartItems" style="flex:1; overflow-y:auto;"></div>
+    <div style="border-top:1px solid #333; padding-top:20px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-family:'Orbitron'; font-size:20px;">
+            <span>TOTAL:</span><span id="cartTotal">0.00$</span>
         </div>
-        <button class="btn-base btn-add" onclick="alert('Paiement sécurisé à venir!')">PASSER À LA CAISSE</button>
+        <button class="btn-pay" onclick="handleCheckout()">PASSER À LA CAISSE</button>
     </div>
 </div>
 
 <script>
+    // --- CONFIGURATION STRIPE (REMETS TA CLÉ ICI) ---
+    const stripe = Stripe('pk_live_51QUyWvF2zO3WvO373fMvA7lO... (TA_CLÉ_ICI)'); 
+    
     let cart = [];
     let selectedColor = '#ffffff';
     const colors = ['#ffffff', '#111111', '#1e2a44', '#4a4a4a', '#d4b895', '#e74c3c', '#3498db', '#2ecc71', '#f1c40f', '#8e44ad', '#27ae60', '#2c3e50'];
 
-    // Générer la grille de couleurs (PROPRE)
+    // Initialisation Couleurs
     const grid = document.getElementById('colorGrid');
     colors.forEach(c => {
         const div = document.createElement('div');
@@ -237,7 +195,6 @@
         reader.onload = () => {
             const img = document.getElementById('custom-image-preview');
             img.src = reader.result; img.style.display = 'block';
-            document.getElementById('file-name-display').innerText = "Fichier: " + e.target.files[0].name;
         };
         reader.readAsDataURL(e.target.files[0]);
     }
@@ -246,14 +203,10 @@
         const type = document.getElementById('productType').value;
         const qty = document.getElementById('qty').value;
         const svg = document.getElementById('tshirt-svg');
-        const img = document.getElementById('custom-image-preview');
-        
         if(type === 'hoodie') {
             svg.innerHTML = '<path d="M28,15 c0,0,10-3,22-3 s22,3,22,3 l16,14 l-6,14 l-10-5 v45 c0,0-1,8-10,8 h-24 c0,0-9,0-10-8 v-45 l-10,5 l-6-14 z" /><path d="M38,12 c0,0,2-8,12-8 s12,8,12,8" fill="rgba(0,0,0,0.15)"/>';
-            img.style.top = "40%";
         } else {
             svg.innerHTML = '<path d="M26,16 c0,0,8-2,24-2 s24,2,24,2 l14,12 l-6,14 l-8-4 v48 h-48 v-48 l-8,4 l-6-14 z" /><path d="M40,14 c0,0,4,6,10,6 s10-6,10-6 c0,0-4,3-10,3 s-10-3-10-3 z" fill="rgba(0,0,0,0.15)" />';
-            img.style.top = "42%";
         }
         document.getElementById('totalPrice').innerText = (qty * (type === 'hoodie' ? 45 : 25)).toFixed(2);
     }
@@ -261,15 +214,12 @@
     function toggleCart() { document.getElementById('sideCart').classList.toggle('open'); }
 
     function addToCart() {
-        if(document.getElementById('custom-image-preview').src === '') return alert("Veuillez sélectionner un logo avant d'ajouter au panier !");
-
         const item = {
-            id: Date.now(),
             name: document.getElementById('productType').value.toUpperCase(),
             price: parseFloat(document.getElementById('totalPrice').innerText),
             qty: document.getElementById('qty').value,
-            color: selectedColor,
-            size: document.getElementById('size').value
+            size: document.getElementById('size').value,
+            color: selectedColor
         };
         cart.push(item);
         updateUI();
@@ -282,33 +232,37 @@
         let total = 0;
         cart.forEach((item, i) => {
             total += item.price;
-            list.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:14px; background: rgba(255,255,255,0.03); padding: 10px; border-radius: 5px; border-left: 2px solid var(--primary);">
-                <span>${item.qty}x ${item.name} (${item.size})</span>
-                <span style="font-family:'Orbitron'; color:var(--primary);">${item.price.toFixed(2)}$ <button onclick="cart.splice(${i},1);updateUI()" style="width:auto; padding:0; margin-left:10px; background:none; color:#e74c3c; border:none; cursor:pointer;">✕</button></span>
+            list.innerHTML += `<div style="padding:15px; background:rgba(255,255,255,0.05); margin-bottom:10px; border-radius:5px; border-left:3px solid var(--primary);">
+                <div style="display:flex; justify-content:space-between;">
+                    <span>${item.qty}x ${item.name} (${item.size})</span>
+                    <span>${item.price.toFixed(2)}$</span>
+                </div>
             </div>`;
         });
         document.getElementById('cartCount').innerText = cart.length;
         document.getElementById('cartTotal').innerText = total.toFixed(2) + "$";
-        if(cart.length === 0) list.innerHTML = '<p style="opacity:0.5; text-align:center; margin-top:30px;">Votre panier est vide.</p>';
+    }
+
+    // --- LOGIQUE DE PAIEMENT RESTAURÉE ---
+    async function handleCheckout() {
+        if (cart.length === 0) return alert("Le panier est vide !");
+        
+        // Redirection vers ta session de paiement Stripe
+        // Note: Assure-toi que ton backend est branché ici
+        alert("Initialisation du paiement sécurisé Stripe...");
+        
+        const response = await fetch('/api/checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ items: cart })
+        });
+        
+        const session = await response.json();
+        await stripe.redirectToCheckout({ sessionId: session.id });
     }
 
     function resetStudio() {
-        if(confirm("Réinitialiser tout le studio Artist Mind ?")) {
-            cart = [];
-            updateUI();
-            document.getElementById('imageInput').value = '';
-            document.getElementById('custom-image-preview').style.display = 'none';
-            document.getElementById('custom-image-preview').src = '';
-            document.getElementById('file-name-display').innerText = '';
-            document.getElementById('userName').value = '';
-            document.getElementById('userEmail').value = '';
-            document.getElementById('qty').value = 1;
-            calculatePrice();
-            // Petite animation de refresh
-            const container = document.querySelector('.container');
-            container.style.opacity = "0.2";
-            setTimeout(() => { container.style.opacity = "1"; container.style.transition = "1s"; }, 200);
-        }
+        if(confirm("Réinitialiser le studio ?")) location.reload();
     }
 </script>
 </body>
