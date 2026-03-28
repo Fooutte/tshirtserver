@@ -32,10 +32,10 @@
             padding: 40px; border-radius: 20px;
             width: 100%; max-width: 1100px;
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+            position: relative;
         }
 
         .header-logo { text-align: center; margin-bottom: 30px; }
-        .main-logo { width: 150px; transition: 0.3s; margin-bottom: 10px; }
         .header-subtitle {
             font-family: 'Orbitron'; font-size: 1.2rem;
             letter-spacing: 6px; color: var(--primary);
@@ -43,13 +43,29 @@
             margin: 0;
         }
 
-        /* SYSTÈME DE COLONNES */
-        .main-layout {
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
+        /* LOGO COIN GAUCHE */
+        .corner-logo {
+            position: absolute; top: 25px; left: 25px;
+            width: 60px; height: auto; border-radius: 8px;
+            box-shadow: 0 0 15px rgba(163, 216, 244, 0.3);
+            transition: 0.3s; z-index: 100; cursor: pointer;
         }
+        .corner-logo:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--primary); }
 
+        /* PANIER HAUT DROITE */
+        .cart-trigger {
+            position: absolute; top: 25px; right: 25px;
+            background: rgba(30, 112, 160, 0.2);
+            border: 1px solid var(--primary);
+            padding: 10px 20px; border-radius: 8px;
+            cursor: pointer; font-family: 'Orbitron';
+            color: var(--primary); transition: 0.3s; z-index: 100;
+        }
+        .cart-trigger:hover { background: var(--primary); color: #000; box-shadow: 0 0 15px var(--primary); }
+        .cart-count { background: #e74c3c; color: white; padding: 2px 6px; border-radius: 50%; font-size: 10px; margin-left: 8px; }
+
+        /* LAYOUT COLONNES */
+        .main-layout { display: flex; flex-direction: column; gap: 40px; }
         @media (min-width: 900px) {
             .main-layout { flex-direction: row; align-items: flex-start; }
             .preview-column { flex: 1.2; position: sticky; top: 20px; }
@@ -57,100 +73,53 @@
         }
 
         .preview-box {
-            height: 500px;
-            background: #050505;
-            border-radius: 15px;
+            height: 500px; background: #050505; border-radius: 15px;
             display: flex; justify-content: center; align-items: center;
-            position: relative; overflow: hidden;
-            border: 1px solid rgba(30, 112, 160, 0.3);
-            background-image: 
-                radial-gradient(circle at center, rgba(163, 216, 244, 0.12) 0%, transparent 70%),
-                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 100% 100%, 25px 25px, 25px 25px;
+            position: relative; overflow: hidden; border: 1px solid rgba(30, 112, 160, 0.3);
+            background-image: radial-gradient(circle at center, rgba(163, 216, 244, 0.12) 0%, transparent 70%);
         }
 
-        .tshirt-visual { 
-            width: 350px; transition: 0.5s ease; fill: #ffffff;
-            stroke: rgba(255,255,255,0.1); stroke-width: 0.5px;
-        }
-
-        #custom-image-preview {
-            position: absolute; top: 42%; left: 50%;
-            transform: translate(-50%, -50%);
-            max-width: 90px; max-height: 90px;
-            filter: drop-shadow(0 0 8px rgba(0,0,0,0.5));
-            z-index: 10;
-        }
+        .tshirt-visual { width: 350px; transition: 0.5s; fill: #ffffff; stroke: rgba(255,255,255,0.1); stroke-width: 0.5px; }
+        #custom-image-preview { position: absolute; top: 42%; left: 50%; transform: translate(-50%, -50%); max-width: 90px; z-index: 10; }
 
         .form-group { margin-bottom: 20px; }
         label { font-size: 11px; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 8px; }
-        
-        input, select {
-            width: 100%; padding: 12px; background: rgba(0,0,0,0.4);
-            border: 1px solid #333; border-radius: 5px; color: white;
-            font-family: 'Rajdhani'; font-size: 15px; box-sizing: border-box;
-        }
+        input, select { width: 100%; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid #333; border-radius: 5px; color: white; font-family: 'Rajdhani'; }
 
         .color-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
-        .color-opt { 
-            height: 35px; border-radius: 4px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1);
-            transition: 0.3s;
-        }
+        .color-opt { height: 35px; border-radius: 4px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
         .color-opt.active { border: 2px solid var(--primary); transform: scale(1.1); box-shadow: 0 0 15px var(--primary); }
 
-        .price-display {
-            background: rgba(30, 112, 160, 0.1); border: 1px dashed var(--primary);
-            padding: 20px; border-radius: 10px; text-align: center; margin-top: 20px;
-        }
-        .total-amount { font-family: 'Orbitron'; font-size: 28px; color: var(--primary); margin: 5px 0; }
-        .discount-badge { font-size: 12px; color: #2ecc71; display: none; }
+        .price-display { background: rgba(30, 112, 160, 0.1); border: 1px dashed var(--primary); padding: 20px; border-radius: 10px; text-align: center; margin-top: 20px; }
+        .total-amount { font-family: 'Orbitron'; font-size: 28px; color: var(--primary); }
 
         button {
             width: 100%; padding: 18px; background: linear-gradient(45deg, var(--secondary), var(--primary));
             border: none; border-radius: 5px; color: white; font-family: 'Orbitron';
-            font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px;
-            text-transform: uppercase;
+            font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase;
         }
         button:hover { box-shadow: 0 0 25px var(--primary); transform: translateY(-2px); }
-        
-        #stripe-section { margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
-        /* Style pour le logo Artist Mind en haut à gauche */
-.corner-logo {
-    position: absolute;
-    top: 25px; /* Aligné avec le padding du container */
-    left: 25px;
-    width: 60px; /* Petit et discret */
-    height: auto;
-    border-radius: 8px; /* Bords légèrement arrondis pour le style */
-    
-    /* Petite lueur bleue pour le faire ressortir subtilement */
-    box-shadow: 0 0 15px rgba(163, 216, 244, 0.3);
-    
-    /* Transition douce au survol */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    z-index: 100; /* Assure qu'il reste au-dessus */
-}
 
-.corner-logo:hover {
-    transform: scale(1.05); /* Petit effet de zoom au survol */
-    box-shadow: 0 0 20px rgba(163, 216, 244, 0.5);
-}
-
-/* Ajustement pour le titre mobile pour ne pas qu'il chevauche */
-@media (max-width: 900px) {
-    .corner-logo {
-        position: relative; /* Repasse en flux normal sur mobile */
-        top: 0; left: 0;
-        margin-bottom: 15px;
-        display: inline-block;
-    }
-}
+        /* SIDE CART */
+        .side-cart {
+            position: fixed; top: 0; right: -400px; width: 350px; height: 100%;
+            background: var(--card); backdrop-filter: blur(20px); z-index: 1000;
+            transition: 0.4s; padding: 30px; display: flex; flex-direction: column;
+            border-left: 1px solid rgba(255,255,255,0.1); box-sizing: border-box;
+        }
+        .side-cart.open { right: 0; }
+        .cart-header { font-family: 'Orbitron'; border-bottom: 1px solid var(--primary); padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; }
+        .cart-items { flex: 1; overflow-y: auto; }
+        .cart-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
     </style>
 </head>
 <body>
 
-<div class="container" style="position: relative;"> <img src="logo.jpg" alt="Artist Mind Logo" class="corner-logo" onclick="resetStudio()" style="cursor: pointer;" title="Réinitialiser le Studio">
+<div class="container">
+    <img src="logo.jpg" alt="Artist Mind" class="corner-logo" onclick="resetStudio()" title="Réinitialiser">
+    <div class="cart-trigger" onclick="toggleCart()">
+        PANIER <span id="cartCount" class="cart-count">0</span>
+    </div>
 
     <div class="header-logo">
         <h2 class="header-subtitle">INTELLIGENCE CRÉATIVE</h2>
@@ -167,9 +136,9 @@
             </div>
             
             <div class="price-display">
-                <label>PRIX TOTAL ESTIMÉ</label>
+                <label>PRIX ESTIMÉ (UNITÉ)</label>
                 <div class="total-amount"><span id="totalPrice">25.00</span> $</div>
-                <div id="discount" class="discount-badge">RABAIS DE GROUPE APPLIQUÉ (-10%)</div>
+                <div id="discount" class="discount-badge" style="color:#2ecc71; font-size:12px; display:none;">RABAIS DE GROUPE (-10%)</div>
             </div>
         </div>
 
@@ -177,8 +146,7 @@
             <div class="form-group">
                 <label>LOGOTYPE (IMAGE PNG/JPG)</label>
                 <input type="file" id="imageInput" accept="image/*" onchange="previewImage(event)" style="display: none;">
-                <button type="button" onclick="document.getElementById('imageInput').click()" 
-                        style="background: rgba(30, 112, 160, 0.2); border: 1px solid var(--primary); font-family: 'Rajdhani'; font-size: 14px;">
+                <button type="button" onclick="document.getElementById('imageInput').click()" style="background: rgba(30, 112, 160, 0.2); border: 1px solid var(--primary); font-family: 'Rajdhani'; font-size: 14px;">
                     SÉLECTIONNER UN FICHIER
                 </button>
                 <p id="file-name-display" style="font-size: 10px; margin-top: 5px; opacity: 0.6; text-align: center;"></p>
@@ -194,9 +162,6 @@
                     <div class="color-opt" style="background: #d4b895;" onclick="setColor('#d4b895', this)"></div>
                     <div class="color-opt" style="background: #e74c3c;" onclick="setColor('#e74c3c', this)"></div>
                     <div class="color-opt" style="background: #3498db;" onclick="setColor('#3498db', this)"></div>
-                    <div class="color-opt" style="background: #6c5ce7;" onclick="setColor('#6c5ce7', this)"></div>
-                    <div class="color-opt" style="background: #2ecc71;" onclick="setColor('#2ecc71', this)"></div>
-                    <div class="color-opt" style="background: #006266;" onclick="setColor('#006266', this)"></div>
                 </div>
             </div>
 
@@ -224,9 +189,15 @@
                 <input type="email" id="email" placeholder="Email de contact">
             </div>
 
-            <button onclick="startCheckout()" id="prepareBtn">PRÉPARER MA COMMANDE</button>
+            <button onclick="addToCart()" id="addBtn">AJOUTER AU PANIER</button>
 
-            <div id="stripe-section" style="display: none;">
+            <div style="margin-top: 20px; padding: 15px; border: 1px dashed rgba(163, 216, 244, 0.3); border-radius: 10px; font-size: 13px; text-align: center; color: rgba(255,255,255,0.7);">
+                <strong>✨ DEMANDES SPÉCIALES ?</strong><br>
+                Emplacements multiples, sans logo ou sur-mesure ?<br>
+                Contactez-moi sur <strong>WhatsApp : 581-525-5377</strong>.
+            </div>
+
+            <div id="stripe-section" style="display: none; margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
                 <label>PAIEMENT SÉCURISÉ</label>
                 <div id="payment-element" style="margin: 15px 0;"></div>
                 <button id="submit-payment" onclick="confirmPayment()">CONFIRMER LE PAIEMENT</button>
@@ -243,23 +214,34 @@
     </div>
 </div>
 
+<div id="sideCart" class="side-cart">
+    <div class="cart-header">
+        VOTRE PANIER <span onclick="toggleCart()" style="cursor:pointer;">✕</span>
+    </div>
+    <div id="cartItems" class="cart-items">
+        <p style="opacity:0.5; text-align:center; margin-top:20px;">Votre panier est vide.</p>
+    </div>
+    <div style="border-top: 1px solid var(--primary); padding-top: 20px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:15px; font-family:'Orbitron';">
+            <span>TOTAL:</span>
+            <span id="cartTotalValue">0.00 $</span>
+        </div>
+        <button onclick="startCheckout()">PASSER À LA CAISSE</button>
+    </div>
+</div>
+
 <script>
     const stripe = Stripe('pk_live_51SgTOyL5BdTtXwXw1hz0G5sJ1b3UGWVrQevIDeXgoCn2unDGpohb6OZ3k8ZMiTXuYEP1rODt1U8zoMxEwLkkqswp006yafLwDQ');
-    let elements;
+    let cart = [];
     let selectedColor = '#ffffff';
     let base64Image = "";
+    let elements;
+
+    function toggleCart() { document.getElementById('sideCart').classList.toggle('open'); }
 
     function setColor(color, el) {
         selectedColor = color;
-        const svg = document.getElementById('tshirt-svg');
-        svg.style.fill = color;
-        
-        if (color === '#111111' || color === '#1e2a44') {
-            svg.style.stroke = "rgba(163, 216, 244, 0.4)";
-        } else {
-            svg.style.stroke = "rgba(0, 0, 0, 0.1)";
-        }
-        
+        document.getElementById('tshirt-svg').style.fill = color;
         document.querySelectorAll('.color-opt').forEach(opt => opt.classList.remove('active'));
         el.classList.add('active');
     }
@@ -271,147 +253,94 @@
         const customImage = document.getElementById('custom-image-preview');
         
         if (type === 'hoodie') {
-            tshirtSvg.innerHTML = `
-                <path d="M28,15 c0,0,10-3,22-3 s22,3,22,3 l16,14 l-6,14 l-10-5 v45 c0,0-1,8-10,8 h-24 c0,0-9,0-10-8 v-45 l-10,5 l-6-14 z" />
-                <path d="M38,12 c0,0,2-8,12-8 s12,8,12,8" fill="rgba(0,0,0,0.15)"/>
-                <path d="M38,55 h24 c0,0,6,1,6,6 v12 c0,0,0,6-6,6 h-24 c0,0-6,0-6-6 v-12 c0,0,0-6,6-6 z" fill="rgba(0,0,0,0.1)" />
-            `;
+            tshirtSvg.innerHTML = '<path d="M28,15 c0,0,10-3,22-3 s22,3,22,3 l16,14 l-6,14 l-10-5 v45 c0,0-1,8-10,8 h-24 c0,0-9,0-10-8 v-45 l-10,5 l-6-14 z" /><path d="M38,12 c0,0,2-8,12-8 s12,8,12,8" fill="rgba(0,0,0,0.15)"/><path d="M38,55 h24 c0,0,6,1,6,6 v12 c0,0,0,6-6,6 h-24 c0,0-6,0-6-6 v-12 c0,0,0-6,6-6 z" fill="rgba(0,0,0,0.1)" />';
             customImage.style.top = "40%";
         } else {
-            tshirtSvg.innerHTML = `
-                <path d="M26,16 c0,0,8-2,24-2 s24,2,24,2 l14,12 l-6,14 l-8-4 v48 h-48 v-48 l-8,4 l-6-14 z" />
-                <path d="M40,14 c0,0,4,6,10,6 s10-6,10-6 c0,0-4,3-10,3 s-10-3-10-3 z" fill="rgba(0,0,0,0.15)" />
-            `;
+            tshirtSvg.innerHTML = '<path d="M26,16 c0,0,8-2,24-2 s24,2,24,2 l14,12 l-6,14 l-8-4 v48 h-48 v-48 l-8,4 l-6-14 z" /><path d="M40,14 c0,0,4,6,10,6 s10-6,10-6 c0,0-4,3-10,3 s-10-3-10-3 z" fill="rgba(0,0,0,0.15)" />';
             customImage.style.top = "42%";
         }
 
-        const unitPrice = (type === 'hoodie') ? 45 : 25;
-        let total = qty * unitPrice;
-        if (qty >= 5) {
-            total *= 0.9;
-            document.getElementById('discount').style.display = 'block';
-        } else {
-            document.getElementById('discount').style.display = 'none';
-        }
+        let total = qty * (type === 'hoodie' ? 45 : 25);
+        if (qty >= 5) { total *= 0.9; document.getElementById('discount').style.display='block'; } 
+        else { document.getElementById('discount').style.display='none'; }
         document.getElementById('totalPrice').innerText = total.toFixed(2);
     }
 
     function previewImage(event) {
         const file = event.target.files[0];
         if (file) {
-            document.getElementById('file-name-display').innerText = "Fichier : " + file.name;
+            document.getElementById('file-name-display').innerText = file.name;
             const reader = new FileReader();
-            reader.onload = function() {
-                const img = document.getElementById('custom-image-preview');
-                img.src = reader.result;
-                img.style.display = 'block';
+            reader.onload = () => { 
+                document.getElementById('custom-image-preview').src = reader.result;
+                document.getElementById('custom-image-preview').style.display = 'block';
                 base64Image = reader.result;
-            }
+            };
             reader.readAsDataURL(file);
         }
+    }
+
+    function addToCart() {
+        const item = {
+            id: Date.now(),
+            type: document.getElementById('productType').value,
+            size: document.getElementById('size').value,
+            color: selectedColor,
+            qty: parseInt(document.getElementById('qty').value),
+            price: parseFloat(document.getElementById('totalPrice').innerText)
+        };
+        cart.push(item);
+        updateCartUI();
+        toggleCart();
+    }
+
+    function updateCartUI() {
+        const list = document.getElementById('cartItems');
+        list.innerHTML = '';
+        let total = 0;
+        cart.forEach((item, index) => {
+            total += item.price;
+            list.innerHTML += `<div class="cart-item"><div><strong>${item.type.toUpperCase()}</strong><br><small>${item.size} | Qty: ${item.qty}</small></div><div>${item.price.toFixed(2)}$ <span onclick="removeItem(${index})" style="color:red; cursor:pointer; margin-left:10px;">✕</span></div></div>`;
+        });
+        document.getElementById('cartCount').innerText = cart.length;
+        document.getElementById('cartTotalValue').innerText = total.toFixed(2) + " $";
+    }
+
+    function removeItem(i) { cart.splice(i, 1); updateCartUI(); }
+
+    function resetStudio() {
+        document.getElementById('name').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('custom-image-preview').style.display = 'none';
+        alert("Studio réinitialisé !");
     }
 
     async function startCheckout() {
         const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
-        if(!name || !email) return alert("Veuillez remplir vos coordonnées !");
-
-        const prepareBtn = document.getElementById('prepareBtn');
-        prepareBtn.innerText = "INITIALISATION...";
-        prepareBtn.disabled = true;
-
-        try {
-            const response = await fetch('/api/create-payment-intent', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    amount: parseFloat(document.getElementById('totalPrice').innerText),
-                    email: email,
-                    name: name,
-                    metadata: {
-                        product: document.getElementById('productType').value,
-                        size: document.getElementById('size').value,
-                        color: selectedColor
-                    }
-                })
-            });
-            const data = await response.json();
-            elements = stripe.elements({ clientSecret: data.clientSecret, appearance: { theme: 'night' } });
-            const paymentElement = elements.create('payment');
-            paymentElement.mount('#payment-element');
-            document.getElementById('stripe-section').style.display = 'block';
-            prepareBtn.style.display = 'none';
-        } catch(e) {
-            alert("Erreur : " + e.message);
-            prepareBtn.disabled = false;
-        }
+        if(!name || !email || cart.length === 0) return alert("Complétez vos infos et le panier !");
+        
+        toggleCart();
+        const total = cart.reduce((sum, item) => sum + item.price, 0);
+        
+        const res = await fetch('/api/create-payment-intent', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ amount: total, email, name })
+        });
+        const data = await res.json();
+        elements = stripe.elements({ clientSecret: data.clientSecret, appearance: { theme: 'night' } });
+        elements.create('payment').mount('#payment-element');
+        document.getElementById('stripe-section').style.display = 'block';
     }
 
     async function confirmPayment() {
-        const submitBtn = document.getElementById('submit-payment');
-        submitBtn.disabled = true;
-        submitBtn.innerText = "TRAITEMENT...";
-
         const result = await stripe.confirmPayment({ elements, redirect: 'if_required' });
-
-        if (result.error) {
-            document.getElementById('error-message').innerText = result.error.message;
-            submitBtn.disabled = false;
-        } else {
-            await fetch('/api/checkout', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    name: document.getElementById('name').value,
-                    email: document.getElementById('email').value,
-                    product: document.getElementById('productType').value,
-                    size: document.getElementById('size').value,
-                    qty: document.getElementById('qty').value,
-                    color: selectedColor,
-                    total: document.getElementById('totalPrice').innerText + " $",
-                    image: base64Image 
-                })
-            });
-            alert("PAIEMENT RÉUSSI !");
-            window.location.reload();
-        }
+        if (result.error) alert(result.error.message);
+        else { alert("MERCI !"); window.location.reload(); }
     }
 
     calculatePrice();
-    function resetStudio() {
-    // 1. Animation de sortie (facultatif mais pro)
-    const container = document.querySelector('.container');
-    container.style.opacity = "0.5";
-    container.style.transition = "0.3s";
-
-    // 2. Remise à zéro des valeurs
-    setTimeout(() => {
-        // Reset couleur et modèle
-        setColor('#ffffff', document.querySelector('.color-opt')); 
-        document.getElementById('productType').value = 'tshirt';
-        document.getElementById('qty').value = 1;
-        document.getElementById('size').value = 'S';
-        
-        // Reset image et texte
-        document.getElementById('custom-image-preview').style.display = 'none';
-        document.getElementById('custom-image-preview').src = '';
-        document.getElementById('file-name-display').innerText = '';
-        document.getElementById('name').value = '';
-        document.getElementById('email').value = '';
-        
-        // Reset Stripe et Prix
-        document.getElementById('stripe-section').style.display = 'none';
-        document.getElementById('prepareBtn').style.display = 'block';
-        document.getElementById('prepareBtn').disabled = false;
-        document.getElementById('prepareBtn').innerText = "PRÉPARER MA COMMANDE";
-        
-        calculatePrice();
-        
-        // 3. Retour à la normale
-        container.style.opacity = "1";
-        alert("Studio Artist Mind réinitialisé !");
-    }, 300);
-}
 </script>
 </body>
 </html>
