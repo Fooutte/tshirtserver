@@ -3,73 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARTIST MIND LIMITED | STUDIO</title>
+    <title>ARTIST MIND LIMITED</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <script src="https://js.stripe.com/v3/"></script>
     <style>
-        :root { --primary: #a3d8f4; --secondary: #1e70a0; --bg: #000; --card: rgba(15, 25, 35, 0.95); }
+        :root {
+            --primary: #a3d8f4; 
+            --secondary: #1e70a0; 
+            --bg: #000000; 
+            --card: rgba(15, 25, 35, 0.95); 
+        }
+
         body {
-            font-family: 'Rajdhani', sans-serif; background: var(--bg); color: #fff;
-            margin: 0; padding: 10px; min-height: 100vh;
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg);
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(30, 112, 160, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(163, 216, 244, 0.1) 0%, transparent 50%);
+            color: #fff;
             display: flex; justify-content: center; align-items: center;
-            background-image: radial-gradient(circle at 20% 30%, rgba(30, 112, 160, 0.2) 0%, transparent 50%);
+            min-height: 100vh; margin: 0; padding: 20px;
         }
+
         .container {
-            background: var(--card); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 25px; border-radius: 20px; width: 100%; max-width: 1100px; position: relative; box-sizing: border-box;
+            background: var(--card);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px; border-radius: 20px;
+            width: 100%; max-width: 1100px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+            position: relative;
         }
 
-        /* NAVIGATION & LOGO */
-        .nav-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .corner-logo { width: 50px; height: auto; cursor: pointer; transition: 0.3s; filter: drop-shadow(0 0 5px var(--primary)); }
-        .cart-trigger { 
-            background: rgba(163, 216, 244, 0.1); border: 1px solid var(--primary); 
-            padding: 8px 15px; border-radius: 5px; cursor: pointer; font-family: 'Orbitron'; font-size: 12px;
+        .header-logo { text-align: center; margin-bottom: 30px; }
+        .header-subtitle {
+            font-family: 'Orbitron'; font-size: 1.2rem;
+            letter-spacing: 6px; color: var(--primary);
+            text-shadow: 0 0 15px var(--secondary);
+            margin: 0;
         }
 
-        .header-subtitle { font-family: 'Orbitron'; font-size: clamp(1rem, 4vw, 1.2rem); text-align: center; color: var(--primary); letter-spacing: 4px; margin: 10px 0 30px 0; }
+        /* LOGO COIN GAUCHE */
+        .corner-logo {
+            position: absolute; top: 25px; left: 25px;
+            width: 60px; height: auto; border-radius: 8px;
+            box-shadow: 0 0 15px rgba(163, 216, 244, 0.3);
+            transition: 0.3s; z-index: 100; cursor: pointer;
+        }
+        .corner-logo:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--primary); }
 
-        /* LAYOUT */
-        .main-layout { display: grid; grid-template-columns: 1fr; gap: 30px; }
-        @media (min-width: 900px) { .main-layout { grid-template-columns: 1.2fr 1fr; } }
+        /* PANIER HAUT DROITE */
+        .cart-trigger {
+            position: absolute; top: 25px; right: 25px;
+            background: rgba(30, 112, 160, 0.2);
+            border: 1px solid var(--primary);
+            padding: 10px 20px; border-radius: 8px;
+            cursor: pointer; font-family: 'Orbitron';
+            color: var(--primary); transition: 0.3s; z-index: 100;
+        }
+        .cart-trigger:hover { background: var(--primary); color: #000; box-shadow: 0 0 15px var(--primary); }
+        .cart-count { background: #e74c3c; color: white; padding: 2px 6px; border-radius: 50%; font-size: 10px; margin-left: 8px; }
+
+        /* LAYOUT COLONNES */
+        .main-layout { display: flex; flex-direction: column; gap: 40px; }
+        @media (min-width: 900px) {
+            .main-layout { flex-direction: row; align-items: flex-start; }
+            .preview-column { flex: 1.2; position: sticky; top: 20px; }
+            .options-column { flex: 1; }
+        }
 
         .preview-box {
-            height: 400px; background: #050505; border-radius: 15px; border: 1px solid rgba(30, 112, 160, 0.3);
-            position: relative; display: flex; justify-content: center; align-items: center; overflow: hidden;
+            height: 500px; background: #050505; border-radius: 15px;
+            display: flex; justify-content: center; align-items: center;
+            position: relative; overflow: hidden; border: 1px solid rgba(30, 112, 160, 0.3);
+            background-image: radial-gradient(circle at center, rgba(163, 216, 244, 0.12) 0%, transparent 70%);
         }
-        .tshirt-visual { width: 280px; fill: #fff; transition: 0.5s; }
-        #custom-image-preview { position: absolute; top: 42%; left: 50%; transform: translate(-50%, -50%); max-width: 70px; display: none; }
 
-        /* FORMULAIRE */
-        .color-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-top: 10px; }
-        .color-opt { height: 30px; border-radius: 4px; cursor: pointer; border: 1px solid #333; }
-        .color-opt.active { border: 2px solid var(--primary); box-shadow: 0 0 10px var(--primary); }
+        .tshirt-visual { width: 350px; transition: 0.5s; fill: #ffffff; stroke: rgba(255,255,255,0.1); stroke-width: 0.5px; }
+        #custom-image-preview { position: absolute; top: 42%; left: 50%; transform: translate(-50%, -50%); max-width: 90px; z-index: 10; }
 
-        input, select, button { width: 100%; padding: 12px; border-radius: 5px; font-family: 'Rajdhani'; margin-bottom: 10px; box-sizing: border-box; }
-        input, select { background: rgba(0,0,0,0.5); border: 1px solid #444; color: #fff; }
-        .btn-main { background: linear-gradient(45deg, var(--secondary), var(--primary)); border: none; color: #fff; font-family: 'Orbitron'; font-weight: bold; cursor: pointer; }
+        .form-group { margin-bottom: 20px; }
+        label { font-size: 11px; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 8px; }
+        input, select { width: 100%; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid #333; border-radius: 5px; color: white; font-family: 'Rajdhani'; }
 
-        /* PANIER LATÉRAL RESPONSIVE */
+        .color-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+        .color-opt { height: 35px; border-radius: 4px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
+        .color-opt.active { border: 2px solid var(--primary); transform: scale(1.1); box-shadow: 0 0 15px var(--primary); }
+
+        .price-display { background: rgba(30, 112, 160, 0.1); border: 1px dashed var(--primary); padding: 20px; border-radius: 10px; text-align: center; margin-top: 20px; }
+        .total-amount { font-family: 'Orbitron'; font-size: 28px; color: var(--primary); }
+
+        button {
+            width: 100%; padding: 18px; background: linear-gradient(45deg, var(--secondary), var(--primary));
+            border: none; border-radius: 5px; color: white; font-family: 'Orbitron';
+            font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase;
+        }
+        button:hover { box-shadow: 0 0 25px var(--primary); transform: translateY(-2px); }
+
+        /* SIDE CART */
         .side-cart {
-            position: fixed; top: 0; right: -100%; width: 100%; max-width: 350px; height: 100%;
-            background: #0a0f14; z-index: 2000; transition: 0.4s; padding: 25px; box-sizing: border-box;
-            border-left: 1px solid var(--primary); display: flex; flex-direction: column;
+            position: fixed; top: 0; right: -400px; width: 350px; height: 100%;
+            background: var(--card); backdrop-filter: blur(20px); z-index: 1000;
+            transition: 0.4s; padding: 30px; display: flex; flex-direction: column;
+            border-left: 1px solid rgba(255,255,255,0.1); box-sizing: border-box;
         }
         .side-cart.open { right: 0; }
-
-        /* FOOTER */
-        .footer { text-align: center; margin-top: 30px; border-top: 1px solid #222; padding-top: 20px; font-size: 12px; opacity: 0.7; }
+        .cart-header { font-family: 'Orbitron'; border-bottom: 1px solid var(--primary); padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; }
+        .cart-items { flex: 1; overflow-y: auto; }
+        .cart-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="nav-header">
-        <img src="logo.jpg" alt="Logo" class="corner-logo" onclick="resetStudio()" title="Réinitialiser le Studio">
-        <div class="cart-trigger" onclick="toggleCart()">PANIER (<span id="cartCount">0</span>)</div>
+    <img src="logo.jpg" alt="Artist Mind" class="corner-logo" onclick="resetStudio()" title="Réinitialiser">
+    <div class="cart-trigger" onclick="toggleCart()">
+        PANIER <span id="cartCount" class="cart-count">0</span>
     </div>
 
-    <h2 class="header-subtitle">INTELLIGENCE CRÉATIVE</h2>
+    <div class="header-logo">
+        <h2 class="header-subtitle">INTELLIGENCE CRÉATIVE</h2>
+    </div>
 
     <div class="main-layout">
         <div class="preview-column">
@@ -78,144 +132,215 @@
                     <path d="M26,16 c0,0,8-2,24-2 s24,2,24,2 l14,12 l-6,14 l-8-4 v48 h-48 v-48 l-8,4 l-6-14 z" />
                     <path d="M40,14 c0,0,4,6,10,6 s10-6,10-6 c0,0-4,3-10,3 s-10-3-10-3 z" fill="rgba(0,0,0,0.15)" />
                 </svg>
-                <img id="custom-image-preview" src="">
+                <img id="custom-image-preview" src="" style="display:none;">
             </div>
-            <div style="text-align: center; margin-top: 15px; font-family: 'Orbitron'; color: var(--primary);">
-                TOTAL: <span id="totalPrice">25.00</span>$
+            
+            <div class="price-display">
+                <label>PRIX ESTIMÉ (UNITÉ)</label>
+                <div class="total-amount"><span id="totalPrice">25.00</span> $</div>
+                <div id="discount" class="discount-badge" style="color:#2ecc71; font-size:12px; display:none;">RABAIS DE GROUPE (-10%)</div>
             </div>
         </div>
 
         <div class="options-column">
-            <label>1. VOTRE LOGO</label>
-            <input type="file" id="imageInput" accept="image/*" onchange="previewImage(event)">
-
-            <label>2. COULEUR</label>
-            <div class="color-grid" id="colorGrid">
-                </div>
-
-            <label style="margin-top:15px; display:block;">3. MODÈLE & TAILLE</label>
-            <div style="display:flex; gap:10px;">
-                <select id="productType" onchange="calculatePrice()">
-                    <option value="tshirt">T-Shirt Artist (25$)</option>
-                    <option value="hoodie">Hoodie Mind (45$)</option>
-                </select>
-                <select id="size"><option>S</option><option>M</option><option>L</option><option>XL</option><option>2XL</option></select>
+            <div class="form-group">
+                <label>LOGOTYPE (IMAGE PNG/JPG)</label>
+                <input type="file" id="imageInput" accept="image/*" onchange="previewImage(event)" style="display: none;">
+                <button type="button" onclick="document.getElementById('imageInput').click()" style="background: rgba(30, 112, 160, 0.2); border: 1px solid var(--primary); font-family: 'Rajdhani'; font-size: 14px;">
+                    SÉLECTIONNER UN FICHIER
+                </button>
+                <p id="file-name-display" style="font-size: 10px; margin-top: 5px; opacity: 0.6; text-align: center;"></p>
             </div>
 
-            <label>4. QUANTITÉ</label>
-            <input type="number" id="qty" value="1" min="1" oninput="calculatePrice()">
+            <div class="form-group">
+                <label>COULEUR DU VÊTEMENT</label>
+                <div class="color-grid">
+                    <div class="color-opt active" style="background: #ffffff;" onclick="setColor('#ffffff', this)"></div>
+                    <div class="color-opt" style="background: #111111;" onclick="setColor('#111111', this)"></div>
+                    <div class="color-opt" style="background: #1e2a44;" onclick="setColor('#1e2a44', this)"></div>
+                    <div class="color-opt" style="background: #4a4a4a;" onclick="setColor('#4a4a4a', this)"></div>
+                    <div class="color-opt" style="background: #d4b895;" onclick="setColor('#d4b895', this)"></div>
+                    <div class="color-opt" style="background: #e74c3c;" onclick="setColor('#e74c3c', this)"></div>
+                    <div class="color-opt" style="background: #3498db;" onclick="setColor('#3498db', this)"></div>
+                </div>
+            </div>
 
-            <input type="text" id="userName" placeholder="Votre nom">
-            <input type="email" id="userEmail" placeholder="Votre email">
+            <div class="form-group">
+                <label>MODÈLE ET TAILLE</label>
+                <div style="display: flex; gap: 10px;">
+                    <select id="productType" onchange="calculatePrice()" style="flex: 2;">
+                        <option value="tshirt">T-Shirt Artist (25.00$)</option>
+                        <option value="hoodie">Hoodie Mind (45.00$)</option>
+                    </select>
+                    <select id="size" style="flex: 1;">
+                        <option>S</option><option>M</option><option>L</option><option>XL</option>
+                    </select>
+                </div>
+            </div>
 
-            <button class="btn-main" onclick="addToCart()">AJOUTER AU PANIER</button>
-            <p style="font-size:11px; text-align:center; opacity:0.6;">Demandes spéciales? WhatsApp: 581-525-5377</p>
+            <div class="form-group">
+                <label>QUANTITÉ</label>
+                <input type="number" id="qty" value="1" min="1" oninput="calculatePrice()">
+            </div>
+
+            <div class="form-group">
+                <label>COORDONNÉES</label>
+                <input type="text" id="name" placeholder="Nom complet" style="margin-bottom: 10px;">
+                <input type="email" id="email" placeholder="Email de contact">
+            </div>
+
+            <button onclick="addToCart()" id="addBtn">AJOUTER AU PANIER</button>
+
+            <div style="margin-top: 20px; padding: 15px; border: 1px dashed rgba(163, 216, 244, 0.3); border-radius: 10px; font-size: 13px; text-align: center; color: rgba(255,255,255,0.7);">
+                <strong>✨ DEMANDES SPÉCIALES ?</strong><br>
+                Emplacements multiples, sans logo ou sur-mesure ?<br>
+                Contactez-moi sur <strong>WhatsApp : 581-525-5377</strong>.
+            </div>
+
+            <div id="stripe-section" style="display: none; margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                <label>PAIEMENT SÉCURISÉ</label>
+                <div id="payment-element" style="margin: 15px 0;"></div>
+                <button id="submit-payment" onclick="confirmPayment()">CONFIRMER LE PAIEMENT</button>
+                <div id="error-message" style="color: #ff4d4d; margin-top: 10px; font-size: 14px;"></div>
+            </div>
         </div>
     </div>
 
-    <div class="footer">
-        © 2026 ARTIST MIND LIMITED | INFO@ARTISTMIND.CA
+    <div style="text-align:center; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
+        <p style="font-size:11px; color: var(--primary); letter-spacing: 3px; text-transform: uppercase;">Support & Contact</p>
+        <a href="mailto:info@artistmind.ca" style="color: #fff; text-decoration: none; font-size: 14px; opacity: 0.8; display: block; margin: 5px 0;">INFO@ARTISTMIND.CA</a>
+        <a href="tel:+15815255377" style="color: #fff; text-decoration: none; font-size: 14px; opacity: 0.8; display: block;">+1 (581) 525-5377</a>
+        <p style="font-size:10px; opacity:0.3; margin-top: 20px;">© 2026 ARTIST MIND LIMITED. TOUS DROITS RÉSERVÉS.</p>
     </div>
 </div>
 
 <div id="sideCart" class="side-cart">
-    <div style="display:flex; justify-content:space-between; font-family:'Orbitron'; border-bottom:1px solid #333; padding-bottom:10px;">
+    <div class="cart-header">
         VOTRE PANIER <span onclick="toggleCart()" style="cursor:pointer;">✕</span>
     </div>
-    <div id="cartItems" style="flex:1; overflow-y:auto; padding:15px 0;"></div>
-    <div style="border-top:1px solid #333; padding-top:15px;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:15px;">TOTAL: <span id="cartTotal">0.00$</span></div>
-        <button class="btn-main" onclick="alert('Lien Stripe à venir!')">PASSER À LA CAISSE</button>
+    <div id="cartItems" class="cart-items">
+        <p style="opacity:0.5; text-align:center; margin-top:20px;">Votre panier est vide.</p>
+    </div>
+    <div style="border-top: 1px solid var(--primary); padding-top: 20px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:15px; font-family:'Orbitron';">
+            <span>TOTAL:</span>
+            <span id="cartTotalValue">0.00 $</span>
+        </div>
+        <button onclick="startCheckout()">PASSER À LA CAISSE</button>
     </div>
 </div>
 
 <script>
+    const stripe = Stripe('pk_live_51SgTOyL5BdTtXwXw1hz0G5sJ1b3UGWVrQevIDeXgoCn2unDGpohb6OZ3k8ZMiTXuYEP1rODt1U8zoMxEwLkkqswp006yafLwDQ');
     let cart = [];
     let selectedColor = '#ffffff';
-    const colors = ['#ffffff', '#111111', '#1e2a44', '#4a4a4a', '#d4b895', '#e74c3c', '#3498db', '#2ecc71', '#f1c40f', '#8e44ad', '#27ae60', '#2c3e50'];
-
-    // Générer la grille de couleurs
-    const grid = document.getElementById('colorGrid');
-    colors.forEach(c => {
-        const div = document.createElement('div');
-        div.className = 'color-opt';
-        div.style.backgroundColor = c;
-        if(c === '#ffffff') div.classList.add('active');
-        div.onclick = function() {
-            selectedColor = c;
-            document.getElementById('tshirt-svg').style.fill = c;
-            document.querySelectorAll('.color-opt').forEach(o => o.classList.remove('active'));
-            div.classList.add('active');
-        };
-        grid.appendChild(div);
-    });
-
-    function previewImage(e) {
-        const reader = new FileReader();
-        reader.onload = () => {
-            const img = document.getElementById('custom-image-preview');
-            img.src = reader.result; img.style.display = 'block';
-        };
-        reader.readAsDataURL(e.target.files[0]);
-    }
-
-    function calculatePrice() {
-        const type = document.getElementById('productType').value;
-        const qty = document.getElementById('qty').value;
-        const svg = document.getElementById('tshirt-svg');
-        const img = document.getElementById('custom-image-preview');
-        
-        if(type === 'hoodie') {
-            svg.innerHTML = '<path d="M28,15 c0,0,10-3,22-3 s22,3,22,3 l16,14 l-6,14 l-10-5 v45 c0,0-1,8-10,8 h-24 c0,0-9,0-10-8 v-45 l-10,5 l-6-14 z" /><path d="M38,12 c0,0,2-8,12-8 s12,8,12,8" fill="rgba(0,0,0,0.15)"/>';
-            img.style.top = "40%";
-        } else {
-            svg.innerHTML = '<path d="M26,16 c0,0,8-2,24-2 s24,2,24,2 l14,12 l-6,14 l-8-4 v48 h-48 v-48 l-8,4 l-6-14 z" /><path d="M40,14 c0,0,4,6,10,6 s10-6,10-6 c0,0-4,3-10,3 s-10-3-10-3 z" fill="rgba(0,0,0,0.15)" />';
-            img.style.top = "42%";
-        }
-        document.getElementById('totalPrice').innerText = (qty * (type === 'hoodie' ? 45 : 25)).toFixed(2);
-    }
+    let base64Image = "";
+    let elements;
 
     function toggleCart() { document.getElementById('sideCart').classList.toggle('open'); }
 
+    function setColor(color, el) {
+        selectedColor = color;
+        document.getElementById('tshirt-svg').style.fill = color;
+        document.querySelectorAll('.color-opt').forEach(opt => opt.classList.remove('active'));
+        el.classList.add('active');
+    }
+
+    function calculatePrice() {
+        const qty = document.getElementById('qty').value;
+        const type = document.getElementById('productType').value;
+        const tshirtSvg = document.getElementById('tshirt-svg');
+        const customImage = document.getElementById('custom-image-preview');
+        
+        if (type === 'hoodie') {
+            tshirtSvg.innerHTML = '<path d="M28,15 c0,0,10-3,22-3 s22,3,22,3 l16,14 l-6,14 l-10-5 v45 c0,0-1,8-10,8 h-24 c0,0-9,0-10-8 v-45 l-10,5 l-6-14 z" /><path d="M38,12 c0,0,2-8,12-8 s12,8,12,8" fill="rgba(0,0,0,0.15)"/><path d="M38,55 h24 c0,0,6,1,6,6 v12 c0,0,0,6-6,6 h-24 c0,0-6,0-6-6 v-12 c0,0,0-6,6-6 z" fill="rgba(0,0,0,0.1)" />';
+            customImage.style.top = "40%";
+        } else {
+            tshirtSvg.innerHTML = '<path d="M26,16 c0,0,8-2,24-2 s24,2,24,2 l14,12 l-6,14 l-8-4 v48 h-48 v-48 l-8,4 l-6-14 z" /><path d="M40,14 c0,0,4,6,10,6 s10-6,10-6 c0,0-4,3-10,3 s-10-3-10-3 z" fill="rgba(0,0,0,0.15)" />';
+            customImage.style.top = "42%";
+        }
+
+        let total = qty * (type === 'hoodie' ? 45 : 25);
+        if (qty >= 5) { total *= 0.9; document.getElementById('discount').style.display='block'; } 
+        else { document.getElementById('discount').style.display='none'; }
+        document.getElementById('totalPrice').innerText = total.toFixed(2);
+    }
+
+    function previewImage(event) {
+        const file = event.target.files[0];
+        if (file) {
+            document.getElementById('file-name-display').innerText = file.name;
+            const reader = new FileReader();
+            reader.onload = () => { 
+                document.getElementById('custom-image-preview').src = reader.result;
+                document.getElementById('custom-image-preview').style.display = 'block';
+                base64Image = reader.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
     function addToCart() {
         const item = {
-            name: document.getElementById('productType').value.toUpperCase(),
-            price: parseFloat(document.getElementById('totalPrice').innerText),
-            qty: document.getElementById('qty').value
+            id: Date.now(),
+            type: document.getElementById('productType').value,
+            size: document.getElementById('size').value,
+            color: selectedColor,
+            qty: parseInt(document.getElementById('qty').value),
+            price: parseFloat(document.getElementById('totalPrice').innerText)
         };
         cart.push(item);
-        updateUI();
+        updateCartUI();
         toggleCart();
     }
 
-    function updateUI() {
+    function updateCartUI() {
         const list = document.getElementById('cartItems');
         list.innerHTML = '';
         let total = 0;
-        cart.forEach((item, i) => {
+        cart.forEach((item, index) => {
             total += item.price;
-            list.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:14px;">
-                <span>${item.qty}x ${item.name}</span>
-                <span>${item.price.toFixed(2)}$ <button onclick="cart.splice(${i},1);updateUI()" style="width:auto; padding:2px 5px; margin:0; background:none; color:red; border:none; cursor:pointer;">✕</button></span>
-            </div>`;
+            list.innerHTML += `<div class="cart-item"><div><strong>${item.type.toUpperCase()}</strong><br><small>${item.size} | Qty: ${item.qty}</small></div><div>${item.price.toFixed(2)}$ <span onclick="removeItem(${index})" style="color:red; cursor:pointer; margin-left:10px;">✕</span></div></div>`;
         });
         document.getElementById('cartCount').innerText = cart.length;
-        document.getElementById('cartTotal').innerText = total.toFixed(2) + "$";
+        document.getElementById('cartTotalValue').innerText = total.toFixed(2) + " $";
     }
 
+    function removeItem(i) { cart.splice(i, 1); updateCartUI(); }
+
     function resetStudio() {
-        if(confirm("Réinitialiser tout le studio ?")) {
-            cart = [];
-            updateUI();
-            document.getElementById('imageInput').value = '';
-            document.getElementById('custom-image-preview').style.display = 'none';
-            document.getElementById('userName').value = '';
-            document.getElementById('userEmail').value = '';
-            document.getElementById('qty').value = 1;
-            calculatePrice();
-            alert("Studio Artist Mind remis à neuf !");
-        }
+        document.getElementById('name').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('custom-image-preview').style.display = 'none';
+        alert("Studio réinitialisé !");
     }
+
+    async function startCheckout() {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        if(!name || !email || cart.length === 0) return alert("Complétez vos infos et le panier !");
+        
+        toggleCart();
+        const total = cart.reduce((sum, item) => sum + item.price, 0);
+        
+        const res = await fetch('/api/create-payment-intent', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ amount: total, email, name })
+        });
+        const data = await res.json();
+        elements = stripe.elements({ clientSecret: data.clientSecret, appearance: { theme: 'night' } });
+        elements.create('payment').mount('#payment-element');
+        document.getElementById('stripe-section').style.display = 'block';
+    }
+
+    async function confirmPayment() {
+        const result = await stripe.confirmPayment({ elements, redirect: 'if_required' });
+        if (result.error) alert(result.error.message);
+        else { alert("MERCI !"); window.location.reload(); }
+    }
+
+    calculatePrice();
 </script>
 </body>
 </html>
