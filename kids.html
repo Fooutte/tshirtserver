@@ -246,6 +246,35 @@
                 return;
             }
             alert("Connexion en cours avec ton endpoint Stripe (artistmind.ca)... Envoi des métadonnées de livraison.");
+            function checkoutStripe() {
+    if (cart.length === 0) {
+        alert("Ton panier est vide, champion !");
+        return;
+    }
+
+    // Appel à ton script PHP fraîchement créé
+    fetch('/checkout-kids.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ items: cart })
+    })
+    .then(response => response.json())
+    .then(session => {
+        if (session.url) {
+            // Redirection immédiate vers Stripe
+            window.location.href = session.url; 
+        } else {
+            alert("Erreur de session: " + session.error);
+        }
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+        alert("Impossible de joindre la passerelle de paiement.");
+    });
+}
+
             // Ici, tu feras ton appel fetch() vers ton fichier backend de paiement en lui envoyant l'objet `cart`
         }
     </script>
