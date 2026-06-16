@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artist Mind | Streetwear & Custom</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        /* Touche Cyberpunk personnalisée */
+        .neon-border-rose { border-color: #ff007f; box-shadow: 0 0 10px rgba(255, 0, 127, 0.2); }
+        .neon-text-blue { color: #00f0ff; text-shadow: 0 0 5px rgba(0, 240, 255, 0.5); }
+        .neon-bg-pink { background-color: #ff007f; box-shadow: 0 0 15px rgba(255, 0, 127, 0.6); }
+    </style>
+</head>
+<body class="bg-[#0a0a0c] text-gray-100 font-sans min-h-screen selection:bg-pink-500 selection:text-white">
+
+    <!-- NAVIGATION BAR -->
+    <header class="border-b border-gray-800 bg-[#0f0f13] sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <span class="text-2xl font-black tracking-wider uppercase text-white">Artist<span class="text-[#ff007f]">Mind</span></span>
+            <span class="text-xs bg-cyan-500/10 text-cyan-400 px-2 py-0.5 rounded border border-cyan-500/20 font-mono">v2.0</span>
+        </div>
+        <nav class="flex gap-6 font-medium text-sm">
+            <a href="#kids" class="text-[#00f0ff] hover:text-white transition">KIDS COLLECTION</a>
+            <a href="#custom" class="text-gray-400 hover:text-white transition">CUSTOM & ENTREPRENEURS</a>
+        </nav>
+        <div class="text-gray-400 hover:text-[#ff007f] cursor-pointer flex items-center gap-2 relative">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <span class="bg-[#ff007f] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center absolute -top-2 -right-3 font-bold">0</span>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-7xl mx-auto px-6 py-12">
+
+        <!-- SECTION ARTIST MIND KIDS -->
+        <section id="kids" class="mb-20">
+            <div class="mb-10">
+                <h2 class="text-3xl font-extrabold tracking-tight neon-text-blue uppercase">Artist Mind Kids</h2>
+                <p class="text-gray-400 text-sm mt-1">L'art brut de nos enfants propulsé sur du streetwear haut de gamme.</p>
+            </div>
+
+            <!-- PRODUCT GRID -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- CARD 1: LE PETIT BARBEAU -->
+                <div class="bg-[#121216] border border-gray-800 rounded-xl overflow-hidden hover:border-[#ff007f] transition duration-300 flex flex-col group">
+                    <div class="bg-[#18181c] p-8 flex items-center justify-center relative min-h-[300px]">
+                        <span class="absolute top-3 left-3 bg-gray-900/80 text-[10px] uppercase font-mono tracking-widest px-2 py-1 rounded text-gray-400">Oeuvre No. 2</span>
+                        <!-- Remplacer src par ton image finale du t-shirt ou du design -->
+                        <img src="https://via.placeholder.com/250x250/1e1e24/fff?text=Le+Petit+Barbeau" alt="Le Petit Barbeau" class="object-contain max-h-[240px] group-hover:scale-105 transition duration-300">
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-1">
+                                <h3 class="text-xl font-bold text-white tracking-wide">Le Petit Barbeau</h3>
+                                <span class="text-lg font-mono font-bold text-[#00f0ff]">34.99 $</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mb-4">Artiste : <span class="text-pink-400 font-medium">Bonnie</span></p>
+                        </div>
+                        <button onclick="openProductModal('Le Petit Barbeau', 'Bonnie', 34.99)" class="w-full bg-gray-800 hover:bg-[#ff007f] text-white text-sm font-bold py-3 px-4 rounded-lg transition duration-200 uppercase tracking-wider cursor-pointer">
+                            Configurer & Acheter
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CARD 2: AVION DE SAGE BOYS -->
+                <div class="bg-[#121216] border border-gray-800 rounded-xl overflow-hidden hover:border-[#ff007f] transition duration-300 flex flex-col group">
+                    <div class="bg-[#18181c] p-8 flex items-center justify-center relative min-h-[300px]">
+                        <span class="absolute top-3 left-3 bg-gray-900/80 text-[10px] uppercase font-mono tracking-widest px-2 py-1 rounded text-gray-400">Collection K-Pop</span>
+                        <img src="https://via.placeholder.com/250x250/1e1e24/fff?text=Avion+Sage+Boys" alt="Avion Sage Boys" class="object-contain max-h-[240px] group-hover:scale-105 transition duration-300">
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-1">
+                                <h3 class="text-xl font-bold text-white tracking-wide">Avion de Sage Boys</h3>
+                                <span class="text-lg font-mono font-bold text-[#00f0ff]">34.99 $</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mb-4">Artiste : <span class="text-pink-400 font-medium">Jaco</span></p>
+                        </div>
+                        <button onclick="openProductModal('Avion de Sage Boys', 'Jaco', 34.99)" class="w-full bg-gray-800 hover:bg-[#ff007f] text-white text-sm font-bold py-3 px-4 rounded-lg transition duration-200 uppercase tracking-wider cursor-pointer">
+                            Configurer & Acheter
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CARD 3: LE GRAND WAON -->
+                <div class="bg-[#121216] border border-gray-800 rounded-xl overflow-hidden hover:border-[#ff007f] transition duration-300 flex flex-col group">
+                    <div class="bg-[#18181c] p-8 flex items-center justify-center relative min-h-[300px]">
+                        <span class="absolute top-3 left-3 bg-gray-900/80 text-[10px] uppercase font-mono tracking-widest px-2 py-1 rounded text-gray-400">Concept Trophée</span>
+                        <img src="https://via.placeholder.com/250x250/1e1e24/fff?text=Le+Grand+Waon" alt="Le Grand Waon" class="object-contain max-h-[240px] group-hover:scale-105 transition duration-300">
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-1">
+                                <h3 class="text-xl font-bold text-white tracking-wide">Le Grand Waon</h3>
+                                <span class="text-lg font-mono font-bold text-[#00f0ff]">39.99 $</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mb-4">Artiste : <span class="text-pink-400 font-medium">Béali</span></p>
+                        </div>
+                        <button onclick="openProductModal('Le Grand Waon', 'Béali', 39.99)" class="w-full bg-gray-800 hover:bg-[#ff007f] text-white text-sm font-bold py-3 px-4 rounded-lg transition duration-200 uppercase tracking-wider cursor-pointer">
+                            Configurer & Acheter
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- PREVIEW DU CONFIGURATEUR MODAL (PRODUIT UNIQUE SIMPLE) -->
+        <div id="productModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div class="bg-[#0f0f13] border border-gray-800 max-w-lg w-full rounded-xl overflow-hidden p-6 relative">
+                <button onclick="closeProductModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl cursor-pointer">&times;</button>
+                
+                <h3 id="modalTitle" class="text-2xl font-black text-white uppercase tracking-wide mb-1">Nom du produit</h3>
+                <p id="modalArtist" class="text-xs text-gray-400 mb-6">Artiste : <span class="text-[#ff007f]">Nom</span></p>
+                
+                <!-- COULEURS (Neutres pour mettre l'emphase sur l'art) -->
+                <div class="mb-6">
+                    <label class="block text-xs font-mono uppercase tracking-widest text-gray-400 mb-2">1. Couleur du T-Shirt</label>
+                    <div class="flex gap-3">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="color" value="blanc" class="sr-only peer" checked>
+                            <span class="px-4 py-2 rounded border border-gray-800 bg-white text-black text-xs font-bold block peer-checked:border-[#ff007f] peer-checked:ring-1 peer-checked:ring-[#ff007f]">Blanc</span>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="color" value="gris" class="sr-only peer">
+                            <span class="px-4 py-2 rounded border border-gray-800 bg-gray-600 text-white text-xs font-bold block peer-checked:border-[#ff007f] peer-checked:ring-1 peer-checked:ring-[#ff007f]">Gris</span>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="color" value="noir" class="sr-only peer">
+                            <span class="px-4 py-2 rounded border border-gray-700 bg-black text-white text-xs font-bold block peer-checked:border-[#ff007f] peer-checked:ring-1 peer-checked:ring-[#ff007f]">Noir</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- TAILLES -->
+                <div class="mb-6">
+                    <label class="block text-xs font-mono uppercase tracking-widest text-gray-400 mb-2">2. Taille</label>
+                    <div class="flex gap-2 flex-wrap">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="size" value="S" class="sr-only peer" checked>
+                            <span class="w-10 h-10 rounded border border-gray-800 flex items-center justify-center font-mono text-sm peer-checked:bg-cyan-500/10 peer-checked:border-[#00f0ff] peer-checked:text-[#00f0ff]">S</span>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="size" value="M" class="sr-only peer">
+                            <span class="w-10 h-10 rounded border border-gray-800 flex items-center justify-center font-mono text-sm peer-checked:bg-cyan-500/10 peer-checked:border-[#00f0ff] peer-checked:text-[#00f0ff]">M</span>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="size" value="L" class="sr-only peer">
+                            <span class="w-10 h-10 rounded border border-gray-800 flex items-center justify-center font-mono text-sm peer-checked:bg-cyan-500/10 peer-checked:border-[#00f0ff] peer-checked:text-[#00f0ff]">L</span>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="size" value="XL" class="sr-only peer">
+                            <span class="w-10 h-10 rounded border border-gray-800 flex items-center justify-center font-mono text-sm peer-checked:bg-cyan-500/10 peer-checked:border-[#00f0ff] peer-checked:text-[#00f0ff]">XL</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- QUANTITÉ -->
+                <div class="mb-8">
+                    <label class="block text-xs font-mono uppercase tracking-widest text-gray-400 mb-2">3. Quantité</label>
+                    <input type="number" min="1" value="1" class="bg-[#16161a] border border-gray-800 rounded px-3 py-2 text-white font-mono w-20 text-center focus:outline-none focus:border-[#ff007f]">
+                </div>
+
+                <!-- LIVRAISON NOTE -->
+                <div class="bg-gray-900/50 rounded-lg p-3 border border-gray-800 text-xs text-gray-400 mb-6 flex justify-between">
+                    <span>Frais de livraison fixes (Canada) :</span>
+                    <span class="font-mono text-white font-bold">7.50 $</span>
+                </div>
+
+                <!-- CHECKOUT BUTTON -->
+                <button class="w-full neon-bg-pink text-white font-bold py-4 rounded-lg tracking-widest uppercase text-sm hover:opacity-90 transition cursor-pointer">
+                    Passer à la caisse via Stripe
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function openProductModal(title, artist, price) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalArtist').innerHTML = `Artiste : <span class="text-[#ff007f] font-bold">${artist}</span>`;
+            document.getElementById('productModal').classList.remove('hidden');
+        }
+        function closeProductModal() {
+            document.getElementById('productModal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
