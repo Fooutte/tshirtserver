@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Artist Mind | Cyber Panel Admin</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-[#060608] text-gray-100 font-sans min-h-screen flex items-center justify-center p-6">
+
+    <div class="max-w-md w-full bg-[#0c0c10] border border-gray-900 rounded-xl p-8 shadow-2xl">
+        <h2 class="text-2xl font-black uppercase tracking-wider mb-2 text-white">Console <span class="text-[#ff007f]">Admin</span></h2>
+        <p class="text-xs text-gray-500 mb-6 font-mono">AJOUTER UNE ŒUVRE - ARTIST MIND KIDS</p>
+
+        <form id="adminForm" class="space-y-5">
+            <!-- Nom du produit -->
+            <div>
+                <label class="block text-xs font-mono uppercase tracking-widest text-gray-400 mb-2">Nom de l'œuvre</label>
+                <input type="text" name="name" required class="w-full bg-[#111116] border border-gray-800 rounded-lg p-3 text-white focus:outline-none focus:border-[#ff007f]">
+            </div>
+
+            <!-- Choix de l'artiste -->
+            <div>
+                <label class="block text-xs font-mono uppercase tracking-widest text-gray-400 mb-2">Artiste (Enfant ou Adulte)</label>
+                <select name="artist" class="w-full bg-[#111116] border border-gray-800 rounded-lg p-3 text-white focus:outline-none focus:border-[#ff007f]">
+                    <option value="Béali">Béali</option>
+                    <option value="Bonnie">Bonnie</option>
+                    <option value="Jaco">Jaco</option>
+                    <option value="Jérôme">Jérôme (Adulte Invité)</option>
+                </select>
+            </div>
+
+            <!-- Prix fixe -->
+            <div>
+                <label class="block text-xs font-mono uppercase tracking-widest text-gray-400 mb-2">Prix (Taxes inc.)</label>
+                <input type="number" step="0.01" name="price" value="29.99" class="w-full bg-[#111116] border border-gray-800 rounded-lg p-3 text-white font-mono focus:outline-none focus:border-[#ff007f]">
+            </div>
+
+            <!-- Upload du Fichier -->
+            <div>
+                <label class="block text-xs font-mono uppercase tracking-widest text-gray-400 mb-2">Design détouré (PNG/WebP)</label>
+                <input type="file" name="image" accept="image/*" required class="w-full text-xs text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-gray-800 file:text-white hover:file:bg-[#ff007f] cursor-pointer">
+            </div>
+
+            <!-- Bouton d'envoi -->
+            <button type="submit" class="w-full bg-[#ff007f] text-white font-black py-4 rounded-lg tracking-widest uppercase text-sm hover:opacity-90 transition mt-4 cursor-pointer">
+                Injecter le produit
+            </button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('adminForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            fetch('upload-kids.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                if(data.status === 'success') this.reset();
+            })
+            .catch(err => console.error(err));
+        });
+    </script>
+</body>
+</html>
