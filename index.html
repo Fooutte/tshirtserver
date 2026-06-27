@@ -1,346 +1,799 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARTIST MIND LIMITED</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>ArtistMind - Premium T-Shirt Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://js.stripe.com/v3/"></script>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
-            --primary: #a3d8f4; 
-            --secondary: #1e70a0; 
-            --bg: #000000; 
-            --card: rgba(15, 25, 35, 0.95); 
+            --primary: #00d4ff;
+            --secondary: #0066cc;
+            --accent: #ff006e;
+            --dark: #0a0e27;
+            --darker: #050810;
+            --card-bg: rgba(15, 25, 50, 0.8);
+            --text: #ffffff;
+            --text-muted: #b0b8cc;
+            --success: #00ff88;
+            --warning: #ffa500;
         }
 
         body {
-            font-family: 'Rajdhani', sans-serif;
-            background: var(--bg);
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(30, 112, 160, 0.2) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(163, 216, 244, 0.1) 0%, transparent 50%);
-            color: #fff;
-            display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; margin: 0; padding: 20px;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        .container {
-            background: var(--card);
+        header {
+            background: rgba(10, 14, 39, 0.95);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 40px; border-radius: 20px;
-            width: 100%; max-width: 1100px;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+        }
+
+        nav ul {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
             position: relative;
         }
 
-        .header-logo { text-align: center; margin-bottom: 30px; }
-        .header-subtitle {
-            font-family: 'Orbitron'; font-size: 1.2rem;
-            letter-spacing: 6px; color: var(--primary);
-            text-shadow: 0 0 15px var(--secondary);
-            margin: 0;
+        nav a:hover, nav a.active {
+            color: var(--primary);
         }
 
-        /* LOGO COIN GAUCHE */
-        .corner-logo {
-            position: absolute; top: 25px; left: 25px;
-            width: 60px; height: auto; border-radius: 8px;
-            box-shadow: 0 0 15px rgba(163, 216, 244, 0.3);
-            transition: 0.3s; z-index: 100; cursor: pointer;
+        .header-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
         }
-        .corner-logo:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--primary); }
 
-        /* PANIER HAUT DROITE */
-        .cart-trigger {
-            position: absolute; top: 25px; right: 25px;
-            background: rgba(30, 112, 160, 0.2);
+        .btn-icon {
+            background: rgba(0, 212, 255, 0.1);
             border: 1px solid var(--primary);
-            padding: 10px 20px; border-radius: 8px;
-            cursor: pointer; font-family: 'Orbitron';
-            color: var(--primary); transition: 0.3s; z-index: 100;
-        }
-        .cart-trigger:hover { background: var(--primary); color: #000; box-shadow: 0 0 15px var(--primary); }
-        .cart-count { background: #e74c3c; color: white; padding: 2px 6px; border-radius: 50%; font-size: 10px; margin-left: 8px; }
-
-        /* LAYOUT COLONNES */
-        .main-layout { display: flex; flex-direction: column; gap: 40px; }
-        @media (min-width: 900px) {
-            .main-layout { flex-direction: row; align-items: flex-start; }
-            .preview-column { flex: 1.2; position: sticky; top: 20px; }
-            .options-column { flex: 1; }
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 18px;
+            position: relative;
         }
 
-        .preview-box {
-            height: 500px; background: #050505; border-radius: 15px;
-            display: flex; justify-content: center; align-items: center;
-            position: relative; overflow: hidden; border: 1px solid rgba(30, 112, 160, 0.3);
-            background-image: radial-gradient(circle at center, rgba(163, 216, 244, 0.12) 0%, transparent 70%);
+        .btn-icon:hover {
+            background: var(--primary);
+            color: var(--dark);
+            box-shadow: 0 0 15px var(--primary);
         }
 
-        .tshirt-visual { width: 350px; transition: 0.5s; fill: #ffffff; stroke: rgba(255,255,255,0.1); stroke-width: 0.5px; }
-        #custom-image-preview { position: absolute; top: 42%; left: 50%; transform: translate(-50%, -50%); max-width: 90px; z-index: 10; }
-
-        .form-group { margin-bottom: 20px; }
-        label { font-size: 11px; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 8px; }
-        input, select { width: 100%; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid #333; border-radius: 5px; color: white; font-family: 'Rajdhani'; }
-
-        .color-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
-        .color-opt { height: 35px; border-radius: 4px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
-        .color-opt.active { border: 2px solid var(--primary); transform: scale(1.1); box-shadow: 0 0 15px var(--primary); }
-
-        .price-display { background: rgba(30, 112, 160, 0.1); border: 1px dashed var(--primary); padding: 20px; border-radius: 10px; text-align: center; margin-top: 20px; }
-        .total-amount { font-family: 'Orbitron'; font-size: 28px; color: var(--primary); }
-
-        button {
-            width: 100%; padding: 18px; background: linear-gradient(45deg, var(--secondary), var(--primary));
-            border: none; border-radius: 5px; color: white; font-family: 'Orbitron';
-            font-weight: bold; cursor: pointer; transition: 0.3s; text-transform: uppercase;
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
         }
-        button:hover { box-shadow: 0 0 25px var(--primary); transform: translateY(-2px); }
 
-        /* SIDE CART */
+        .hero {
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.1) 0%, rgba(255, 0, 110, 0.1) 100%);
+            padding: 100px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(30px); }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.5);
+            transform: translateY(-3px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        .discount-banner {
+            background: linear-gradient(135deg, var(--accent), #ff1493);
+            padding: 20px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .shop-section {
+            max-width: 1400px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 50px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .product-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+            transform: translateY(-10px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.1), rgba(255, 0, 110, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            z-index: 10;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: var(--primary);
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
         .side-cart {
-            position: fixed; top: 0; right: -400px; width: 350px; height: 100%;
-            background: var(--card); backdrop-filter: blur(20px); z-index: 1000;
-            transition: 0.4s; padding: 30px; display: flex; flex-direction: column;
-            border-left: 1px solid rgba(255,255,255,0.1); box-sizing: border-box;
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100%;
+            background: rgba(10, 14, 39, 0.95);
+            z-index: 950;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            transition: right 0.4s;
+            border-left: 1px solid rgba(0, 212, 255, 0.2);
         }
-        .side-cart.open { right: 0; }
-        .cart-header { font-family: 'Orbitron'; border-bottom: 1px solid var(--primary); padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; }
-        .cart-items { flex: 1; overflow-y: auto; }
-        .cart-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+
+        .side-cart.open {
+            right: 0;
+        }
+
+        .cart-header {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 30px;
+        }
+
+        .cart-item {
+            background: rgba(0, 212, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        footer {
+            background: rgba(10, 14, 39, 0.95);
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+            padding: 60px 20px;
+            margin-top: 100px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--success);
+            color: var(--dark);
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            z-index: 2000;
+        }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <img src="logo.jpg" alt="Artist Mind" class="corner-logo" onclick="resetStudio()" title="Réinitialiser">
-    <div class="cart-trigger" onclick="toggleCart()">
-        PANIER <span id="cartCount" class="cart-count">0</span>
-    </div>
-
-    <div class="header-logo">
-        <h2 class="header-subtitle">INTELLIGENCE CRÉATIVE</h2>
-    </div>
-
-    <div class="main-layout">
-        <div class="preview-column">
-            <div class="preview-box">
-                <svg id="tshirt-svg" class="tshirt-visual" viewBox="0 0 100 100">
-                    <path d="M26,16 c0,0,8-2,24-2 s24,2,24,2 l14,12 l-6,14 l-8-4 v48 h-48 v-48 l-8,4 l-6-14 z" />
-                    <path d="M40,14 c0,0,4,6,10,6 s10-6,10-6 c0,0-4,3-10,3 s-10-3-10-3 z" fill="rgba(0,0,0,0.15)" />
-                </svg>
-                <img id="custom-image-preview" src="" style="display:none;">
+    <header>
+        <div class="header-container">
+            <div class="logo" onclick="navigate('shop')">
+                <img src="logo.jpg" alt="ArtistMind">
+                <span>ArtistMind</span>
             </div>
-            
-            <div class="price-display">
-                <label>PRIX ESTIMÉ (UNITÉ)</label>
-                <div class="total-amount"><span id="totalPrice">25.00</span> $</div>
-                <div id="discount" class="discount-badge" style="color:#2ecc71; font-size:12px; display:none;">RABAIS DE GROUPE (-10%)</div>
+            <nav>
+                <ul>
+                    <li><a href="#" onclick="navigate('shop'); return false;" class="nav-link active">Shop</a></li>
+                    <li><a href="#" onclick="navigate('custom'); return false;" class="nav-link">Custom</a></li>
+                    <li><a href="#" onclick="navigate('about'); return false;" class="nav-link">About</a></li>
+                    <li><a href="#" onclick="navigate('contact'); return false;" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-controls">
+                <button class="btn-icon" onclick="toggleLanguage()" title="🌐">🌐</button>
+                <button class="btn-icon" onclick="toggleDarkMode()" title="🌙">🌙</button>
+                <button class="btn-icon" onclick="toggleCart()">🛒<span class="cart-badge" id="cartBadge">0</span></button>
             </div>
         </div>
+    </header>
 
-        <div class="options-column">
-            <div class="form-group">
-                <label>LOGOTYPE (IMAGE PNG/JPG)</label>
-                <input type="file" id="imageInput" accept="image/*" onchange="previewImage(event)" style="display: none;">
-                <button type="button" onclick="document.getElementById('imageInput').click()" style="background: rgba(30, 112, 160, 0.2); border: 1px solid var(--primary); font-family: 'Rajdhani'; font-size: 14px;">
-                    SÉLECTIONNER UN FICHIER
-                </button>
-                <p id="file-name-display" style="font-size: 10px; margin-top: 5px; opacity: 0.6; text-align: center;"></p>
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Premium T-Shirts Redefined</h1>
+            <p>Discover unique designs for every style. Limited editions, unlimited creativity.</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary" onclick="navigate('shop')">Shop Now</button>
+                <button class="btn btn-secondary" onclick="navigate('custom')">Design Your Own</button>
             </div>
+        </div>
+    </div>
 
-            <div class="form-group">
-                <label>COULEUR DU VÊTEMENT</label>
-                <div class="color-grid">
-                    <div class="color-opt active" style="background: #ffffff;" onclick="setColor('#ffffff', this)"></div>
-                    <div class="color-opt" style="background: #111111;" onclick="setColor('#111111', this)"></div>
-                    <div class="color-opt" style="background: #1e2a44;" onclick="setColor('#1e2a44', this)"></div>
-                    <div class="color-opt" style="background: #4a4a4a;" onclick="setColor('#4a4a4a', this)"></div>
-                    <div class="color-opt" style="background: #d4b895;" onclick="setColor('#d4b895', this)"></div>
-                    <div class="color-opt" style="background: #e74c3c;" onclick="setColor('#e74c3c', this)"></div>
-                    <div class="color-opt" style="background: #3498db;" onclick="setColor('#3498db', this)"></div>
+    <div class="discount-banner">
+        🎉 First visit? Get 10% OFF with code AM10
+    </div>
+
+    <div id="shopPage" class="page active">
+        <div class="shop-section">
+            <h2 class="section-title">Featured Collection</h2>
+            <div class="products-grid" id="productsGrid"></div>
+        </div>
+    </div>
+
+    <div id="customPage" class="page">
+        <div class="shop-section">
+            <h2 class="section-title">Design Your T-Shirt</h2>
+            <form style="background: var(--card-bg); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 15px; padding: 40px; max-width: 600px; margin: 0 auto;" onsubmit="submitCustom(event)">
+                <div class="form-group">
+                    <label>Upload Your Design</label>
+                    <input type="file" accept="image/*" required>
                 </div>
-            </div>
-
-            <div class="form-group">
-                <label>MODÈLE ET TAILLE</label>
-                <div style="display: flex; gap: 10px;">
-                    <select id="productType" onchange="calculatePrice()" style="flex: 2;">
-                        <option value="tshirt">T-Shirt Artist (25.00$)</option>
-                        <option value="hoodie">Hoodie Mind (45.00$)</option>
+                <div class="form-group">
+                    <label>Select Color</label>
+                    <select required>
+                        <option>White</option>
+                        <option>Black</option>
+                        <option>Blue</option>
                     </select>
-                    <select id="size" style="flex: 1;">
+                </div>
+                <div class="form-group">
+                    <label>Size</label>
+                    <select required>
                         <option>S</option><option>M</option><option>L</option><option>XL</option>
                     </select>
                 </div>
-            </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Add to Cart ($29.99)</button>
+            </form>
+        </div>
+    </div>
 
-            <div class="form-group">
-                <label>QUANTITÉ</label>
-                <input type="number" id="qty" value="1" min="1" oninput="calculatePrice()">
-            </div>
-
-            <div class="form-group">
-                <label>COORDONNÉES</label>
-                <input type="text" id="name" placeholder="Nom complet" style="margin-bottom: 10px;">
-                <input type="email" id="email" placeholder="Email de contact">
-            </div>
-
-            <button onclick="addToCart()" id="addBtn">AJOUTER AU PANIER</button>
-
-            <div style="margin-top: 20px; padding: 15px; border: 1px dashed rgba(163, 216, 244, 0.3); border-radius: 10px; font-size: 13px; text-align: center; color: rgba(255,255,255,0.7);">
-                <strong>✨ DEMANDES SPÉCIALES ?</strong><br>
-                Emplacements multiples, sans logo ou sur-mesure ?<br>
-                Contactez-moi sur <strong>WhatsApp : 581-525-5377</strong>.
-            </div>
-
-            <div id="stripe-section" style="display: none; margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
-                <label>PAIEMENT SÉCURISÉ</label>
-                <div id="payment-element" style="margin: 15px 0;"></div>
-                <button id="submit-payment" onclick="confirmPayment()">CONFIRMER LE PAIEMENT</button>
-                <div id="error-message" style="color: #ff4d4d; margin-top: 10px; font-size: 14px;"></div>
+    <div id="aboutPage" class="page">
+        <div class="shop-section">
+            <h2 class="section-title">About ArtistMind</h2>
+            <div style="background: var(--card-bg); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 15px; padding: 40px;">
+                <h3 style="color: var(--primary); margin-bottom: 20px;">Our Story</h3>
+                <p style="margin-bottom: 15px; color: var(--text-muted);">ArtistMind brings creative designs to life through premium quality apparel. Every t-shirt tells a story.</p>
+                <p style="margin-bottom: 15px; color: var(--text-muted);">We partner with talented designers worldwide to bring unique, limited-edition collections.</p>
+                <p style="color: var(--text-muted);">Committed to sustainability through eco-friendly materials and ethical manufacturing.</p>
             </div>
         </div>
     </div>
 
-    <div style="text-align:center; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;">
-        <p style="font-size:11px; color: var(--primary); letter-spacing: 3px; text-transform: uppercase;">Support & Contact</p>
-        <a href="mailto:info@artistmind.ca" style="color: #fff; text-decoration: none; font-size: 14px; opacity: 0.8; display: block; margin: 5px 0;">INFO@ARTISTMIND.CA</a>
-        <a href="tel:+15815255377" style="color: #fff; text-decoration: none; font-size: 14px; opacity: 0.8; display: block;">+1 (581) 525-5377</a>
-        <p style="font-size:10px; opacity:0.3; margin-top: 20px;">© 2026 ARTIST MIND LIMITED. TOUS DROITS RÉSERVÉS.</p>
-    </div>
-</div>
-
-<div id="sideCart" class="side-cart">
-    <div class="cart-header">
-        VOTRE PANIER <span onclick="toggleCart()" style="cursor:pointer;">✕</span>
-    </div>
-    <div id="cartItems" class="cart-items">
-        <p style="opacity:0.5; text-align:center; margin-top:20px;">Votre panier est vide.</p>
-    </div>
-    <div style="border-top: 1px solid var(--primary); padding-top: 20px;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:15px; font-family:'Orbitron';">
-            <span>TOTAL:</span>
-            <span id="cartTotalValue">0.00 $</span>
+    <div id="contactPage" class="page">
+        <div class="shop-section">
+            <h2 class="section-title">Contact Us</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                <form style="background: var(--card-bg); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 15px; padding: 40px;" onsubmit="submitContact(event)">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Send</button>
+                </form>
+                <div style="background: var(--card-bg); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 15px; padding: 40px;">
+                    <h3 style="color: var(--primary); margin-bottom: 30px;">Get In Touch</h3>
+                    <p style="margin-bottom: 20px;"><strong>📧 Email:</strong> <a href="mailto:info@artistmind.ca" style="color: var(--primary); text-decoration: none;">info@artistmind.ca</a></p>
+                    <p style="margin-bottom: 20px;"><strong>📱 Phone:</strong> +1 (581) 525-5377</p>
+                    <p style="margin-bottom: 20px;"><strong>💬 WhatsApp:</strong> <a href="https://wa.me/15815255377" style="color: var(--primary); text-decoration: none;" target="_blank">Chat with us</a></p>
+                </div>
+            </div>
         </div>
-        <button onclick="startCheckout()">PASSER À LA CAISSE</button>
     </div>
-</div>
 
-<script>
-    const stripe = Stripe('pk_live_51SgTOyL5BdTtXwXw1hz0G5sJ1b3UGWVrQevIDeXgoCn2unDGpohb6OZ3k8ZMiTXuYEP1rODt1U8zoMxEwLkkqswp006yafLwDQ');
-    let cart = [];
-    let selectedColor = '#ffffff';
-    let base64Image = "";
-    let elements;
+    <div class="side-cart" id="sideCart">
+        <div class="cart-header">
+            Your Cart
+            <button onclick="toggleCart()" style="background: none; border: none; color: var(--primary); font-size: 24px; cursor: pointer;">✕</button>
+        </div>
+        <div class="cart-items" id="cartItemsContainer">
+            <p style="text-align: center; color: var(--text-muted);">Your cart is empty</p>
+        </div>
+        <div style="border-top: 1px solid rgba(0, 212, 255, 0.1); padding-top: 20px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 18px; font-weight: 800;">
+                <span>Total:</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+            <button class="btn btn-primary" onclick="checkout()" style="width: 100%;">Checkout</button>
+        </div>
+    </div>
 
-    function toggleCart() { document.getElementById('sideCart').classList.toggle('open'); }
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <h2 id="modalName" style="color: var(--primary); margin-bottom: 20px;">Product</h2>
+            <p id="modalPrice" style="font-size: 24px; font-weight: 800; color: var(--primary); margin-bottom: 20px;">$29.99</p>
+            <form id="addToCartForm">
+                <div class="form-group">
+                    <label>Size</label>
+                    <select id="modalSize" required>
+                        <option>S</option><option selected>M</option><option>L</option><option>XL</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Color</label>
+                    <select id="modalColor" required>
+                        <option>White</option><option>Black</option><option>Blue</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input type="number" id="modalQty" value="1" min="1" required>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="addToCart()" style="width: 100%;">Add to Cart</button>
+            </form>
+        </div>
+    </div>
 
-    function setColor(color, el) {
-        selectedColor = color;
-        document.getElementById('tshirt-svg').style.fill = color;
-        document.querySelectorAll('.color-opt').forEach(opt => opt.classList.remove('active'));
-        el.classList.add('active');
-    }
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Shop</h4>
+                <ul>
+                    <li><a href="#">New Arrivals</a></li>
+                    <li><a href="#">Best Sellers</a></li>
+                    <li><a href="#">Sale</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+        </div>
+        <div style="text-align: center; border-top: 1px solid rgba(0, 212, 255, 0.1); padding-top: 30px; color: var(--text-muted);">
+            <p>&copy; 2026 ArtistMind. All Rights Reserved.</p>
+        </div>
+    </footer>
 
-    function calculatePrice() {
-        const qty = document.getElementById('qty').value;
-        const type = document.getElementById('productType').value;
-        const tshirtSvg = document.getElementById('tshirt-svg');
-        const customImage = document.getElementById('custom-image-preview');
-        
-        if (type === 'hoodie') {
-            tshirtSvg.innerHTML = '<path d="M28,15 c0,0,10-3,22-3 s22,3,22,3 l16,14 l-6,14 l-10-5 v45 c0,0-1,8-10,8 h-24 c0,0-9,0-10-8 v-45 l-10,5 l-6-14 z" /><path d="M38,12 c0,0,2-8,12-8 s12,8,12,8" fill="rgba(0,0,0,0.15)"/><path d="M38,55 h24 c0,0,6,1,6,6 v12 c0,0,0,6-6,6 h-24 c0,0-6,0-6-6 v-12 c0,0,0-6,6-6 z" fill="rgba(0,0,0,0.1)" />';
-            customImage.style.top = "40%";
-        } else {
-            tshirtSvg.innerHTML = '<path d="M26,16 c0,0,8-2,24-2 s24,2,24,2 l14,12 l-6,14 l-8-4 v48 h-48 v-48 l-8,4 l-6-14 z" /><path d="M40,14 c0,0,4,6,10,6 s10-6,10-6 c0,0-4,3-10,3 s-10-3-10-3 z" fill="rgba(0,0,0,0.15)" />';
-            customImage.style.top = "42%";
+    <script>
+        const products = [
+            { id: 1, name: 'Neon Dreams', price: 29.99, emoji: '🌈' },
+            { id: 2, name: 'Cyber Pulse', price: 19.99, emoji: '⚡' },
+            { id: 3, name: 'Ocean Wave', price: 29.99, emoji: '🌊' },
+            { id: 4, name: 'Mystery Box', price: 25.00, emoji: '🎁' },
+            { id: 5, name: 'Sunset Vibes', price: 29.99, emoji: '🌅' },
+            { id: 6, name: 'Space Explorer', price: 34.99, emoji: '🚀' }
+        ];
+
+        let cart = [];
+
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = products.map(p => `
+                <div class="product-card" onclick="openProduct(${p.id})">
+                    <div class="product-image" style="font-size: 100px;">${p.emoji}</div>
+                    <div class="product-info">
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-price">$${p.price}</div>
+                        <button type="button" class="btn btn-primary" style="width: 100%; padding: 10px;">View</button>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        let total = qty * (type === 'hoodie' ? 45 : 25);
-        if (qty >= 5) { total *= 0.9; document.getElementById('discount').style.display='block'; } 
-        else { document.getElementById('discount').style.display='none'; }
-        document.getElementById('totalPrice').innerText = total.toFixed(2);
-    }
-
-    function previewImage(event) {
-        const file = event.target.files[0];
-        if (file) {
-            document.getElementById('file-name-display').innerText = file.name;
-            const reader = new FileReader();
-            reader.onload = () => { 
-                document.getElementById('custom-image-preview').src = reader.result;
-                document.getElementById('custom-image-preview').style.display = 'block';
-                base64Image = reader.result;
-            };
-            reader.readAsDataURL(file);
+        function openProduct(id) {
+            const product = products.find(p => p.id === id);
+            document.getElementById('modalName').textContent = product.name;
+            document.getElementById('modalPrice').textContent = '$' + product.price;
+            document.getElementById('productModal').classList.add('show');
+            document.getElementById('productModal').dataset.productId = id;
         }
-    }
 
-    function addToCart() {
-        const item = {
-            id: Date.now(),
-            type: document.getElementById('productType').value,
-            size: document.getElementById('size').value,
-            color: selectedColor,
-            qty: parseInt(document.getElementById('qty').value),
-            price: parseFloat(document.getElementById('totalPrice').innerText)
-        };
-        cart.push(item);
-        updateCartUI();
-        toggleCart();
-    }
+        function closeModal() {
+            document.getElementById('productModal').classList.remove('show');
+        }
 
-    function updateCartUI() {
-        const list = document.getElementById('cartItems');
-        list.innerHTML = '';
-        let total = 0;
-        cart.forEach((item, index) => {
-            total += item.price;
-            list.innerHTML += `<div class="cart-item"><div><strong>${item.type.toUpperCase()}</strong><br><small>${item.size} | Qty: ${item.qty}</small></div><div>${item.price.toFixed(2)}$ <span onclick="removeItem(${index})" style="color:red; cursor:pointer; margin-left:10px;">✕</span></div></div>`;
+        function addToCart() {
+            const productId = parseInt(document.getElementById('productModal').dataset.productId);
+            const product = products.find(p => p.id === productId);
+            cart.push({
+                name: product.name,
+                size: document.getElementById('modalSize').value,
+                color: document.getElementById('modalColor').value,
+                qty: parseInt(document.getElementById('modalQty').value),
+                price: product.price
+            });
+            updateCart();
+            closeModal();
+        }
+
+        function updateCart() {
+            const container = document.getElementById('cartItemsContainer');
+            const badge = document.getElementById('cartBadge');
+            const total = document.getElementById('cartTotal');
+
+            badge.textContent = cart.length;
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--text-muted);">Your cart is empty</p>';
+                total.textContent = '$0.00';
+                return;
+            }
+
+            let cartTotal = 0;
+            container.innerHTML = cart.map((item, i) => {
+                cartTotal += item.price * item.qty;
+                return `
+                    <div class="cart-item">
+                        <div>
+                            <strong>${item.name}</strong><br>
+                            <small>${item.size} | ${item.color}</small>
+                        </div>
+                        <div>$${(item.price * item.qty).toFixed(2)}</div>
+                    </div>
+                `;
+            }).join('');
+
+            total.textContent = '$' + cartTotal.toFixed(2);
+        }
+
+        function toggleCart() {
+            document.getElementById('sideCart').classList.toggle('open');
+        }
+
+        function navigate(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(page + 'Page').classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function toggleLanguage() {
+            alert('Language toggle feature ready!');
+        }
+
+        function toggleDarkMode() {
+            document.documentElement.style.filter = document.documentElement.style.filter === 'invert(0.95)' ? 'none' : 'invert(0.95)';
+        }
+
+        function submitContact(e) {
+            e.preventDefault();
+            alert('Thank you! We\'ll be in touch soon.');
+            e.target.reset();
+        }
+
+        function submitCustom(e) {
+            e.preventDefault();
+            cart.push({ name: 'Custom Design', price: 29.99, qty: 1 });
+            updateCart();
+            alert('Added to cart!');
+            e.target.reset();
+        }
+
+        function checkout() {
+            if (cart.length === 0) return alert('Cart is empty');
+            alert('Proceeding to secure checkout...');
+        }
+
+        window.addEventListener('load', () => {
+            renderProducts();
         });
-        document.getElementById('cartCount').innerText = cart.length;
-        document.getElementById('cartTotalValue').innerText = total.toFixed(2) + " $";
-    }
-
-    function removeItem(i) { cart.splice(i, 1); updateCartUI(); }
-
-    function resetStudio() {
-        document.getElementById('name').value = '';
-        document.getElementById('email').value = '';
-        document.getElementById('custom-image-preview').style.display = 'none';
-        alert("Studio réinitialisé !");
-    }
-
-    async function startCheckout() {
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        if(!name || !email || cart.length === 0) return alert("Complétez vos infos et le panier !");
-        
-        toggleCart();
-        const total = cart.reduce((sum, item) => sum + item.price, 0);
-        
-        const res = await fetch('/api/create-payment-intent', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ amount: total, email, name })
-        });
-        const data = await res.json();
-        elements = stripe.elements({ clientSecret: data.clientSecret, appearance: { theme: 'night' } });
-        elements.create('payment').mount('#payment-element');
-        document.getElementById('stripe-section').style.display = 'block';
-    }
-
-    async function confirmPayment() {
-        const result = await stripe.confirmPayment({ elements, redirect: 'if_required' });
-        if (result.error) alert(result.error.message);
-        else { alert("MERCI !"); window.location.reload(); }
-    }
-
-    calculatePrice();
-</script>
+    </script>
 </body>
 </html>
