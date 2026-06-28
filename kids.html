@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artist Mind | Kids Art Streetwear</title>
+    <!-- Tailwind CSS v4 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        /* Effets de lueurs Cyberpunk Rose et Bleu K-pop */
+        .neon-border-pink { border-color: #ff007f; box-shadow: 0 0 15px rgba(255, 0, 127, 0.3); }
+        .neon-text-blue { color: #00f0ff; text-shadow: 0 0 8px rgba(0, 240, 255, 0.6); }
+        .neon-text-pink { color: #ff007f; text-shadow: 0 0 8px rgba(255, 0, 127, 0.6); }
+        .neon-bg-pink { background-color: #ff007f; box-shadow: 0 0 15px rgba(255, 0, 127, 0.5); }
+        .cyber-grid { background-image: linear-gradient(rgba(255, 0, 127, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 0, 127, 0.03) 1px, transparent 1px); background-size: 20px 20px; }
+    </style>
+</head>
+<body class="bg-[#060608] text-gray-100 font-sans min-h-screen cyber-grid flex flex-col justify-between selection:bg-pink-500 selection:text-white">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="border-b border-gray-900 bg-[#0b0b0f]/90 backdrop-blur-md sticky top-0 z-40 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <a href="/" class="text-2xl font-black tracking-wider uppercase text-white">Artist<span class="text-[#ff007f]">Mind</span></a>
+            <span class="text-[10px] bg-[#ff007f]/10 text-[#ff007f] px-2 py-0.5 rounded border border-[#ff007f]/20 font-mono font-bold tracking-widest">KIDS</span>
+        </div>
+        
+        <!-- Bouton Panier (Déclenche le menu latéral) -->
+        <button onclick="toggleCart(true)" class="relative text-gray-400 hover:text-[#00f0ff] transition cursor-pointer p-2 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <span id="cart-count" class="bg-[#00f0ff] text-black text-[11px] w-5 h-5 rounded-full flex items-center justify-center absolute -top-1 -right-1 font-black">0</span>
+        </button>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-7xl mx-auto px-6 py-12 flex-1 w-full">
+        
+        <!-- BANNIÈRE SÉQUENCE INTRO -->
+        <div class="mb-16 border-l-2 border-[#ff007f] pl-4">
+            <h1 class="text-4xl font-black uppercase tracking-tight sm:text-5xl">
+                Kids Art <span class="neon-text-blue">Streetwear</span>
+            </h1>
+            <p class="text-gray-400 text-sm mt-2 max-w-xl">
+                La collection officielle <span class="text-gray-200 font-bold">K-Pop Demon Hunter</span>. Des designs bruts crées par nos mini-artistes, propulsés sur des coupes premium. Taxes incluses.
+            </p>
+        </div>
+
+        <!-- GRILLE DE PRODUITS PROPRE ET ÉPURÉE -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- PRODUIT 1 : LE PETIT BARBEAU -->
+            <div class="bg-[#0c0c10] border border-gray-900 rounded-xl overflow-hidden hover:border-[#ff007f] transition duration-300 flex flex-col group">
+                <div class="bg-[#111116] p-8 flex items-center justify-center relative min-h-[320px] cursor-pointer" onclick="quickAdd('Le Petit Barbeau', 'Bonnie', 29.99, 'barbeau.png')">
+                    <span class="absolute top-3 left-3 bg-black/60 text-[9px] uppercase font-mono tracking-widest px-2 py-1 rounded text-gray-400 border border-gray-800">Oeuvre No. 2</span>
+                    <!-- Remplace le src par ton image de t-shirt finale -->
+                    <div class="w-52 h-52 bg-gray-800/20 rounded flex items-center justify-center text-gray-600 font-mono group-hover:scale-105 transition duration-300">[ Image : Le Petit Barbeau ]</div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="text-lg font-bold text-white tracking-wide group-hover:text-[#00f0ff] transition">Le Petit Barbeau</h3>
+                            <span class="text-lg font-mono font-bold text-[#ff007f]">29.99 $</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-6">Artiste : <span class="text-cyan-400 font-medium uppercase tracking-wider">Bonnie</span></p>
+                    </div>
+                    <button onclick="quickAdd('Le Petit Barbeau', 'Bonnie', 29.99, 'barbeau.png')" class="w-full bg-[#14141a] border border-gray-800 hover:border-[#ff007f] hover:text-white text-gray-300 text-xs font-bold py-3 px-4 rounded-lg transition duration-200 uppercase tracking-widest cursor-pointer">
+                        Ajouter au panier
+                    </button>
+                </div>
+            </div>
+
+            <!-- PRODUIT 2 : AVION SAGE BOYS -->
+            <div class="bg-[#0c0c10] border border-gray-900 rounded-xl overflow-hidden hover:border-[#ff007f] transition duration-300 flex flex-col group">
+                <div class="bg-[#111116] p-8 flex items-center justify-center relative min-h-[320px] cursor-pointer" onclick="quickAdd('Avion de Sage Boys', 'Jaco', 29.99, 'avion.png')">
+                    <span class="absolute top-3 left-3 bg-black/60 text-[9px] uppercase font-mono tracking-widest px-2 py-1 rounded text-gray-400 border border-gray-800">Demon Hunter</span>
+                    <div class="w-52 h-52 bg-gray-800/20 rounded flex items-center justify-center text-gray-600 font-mono group-hover:scale-105 transition duration-300">[ Image : Avion Sage Boys ]</div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="text-lg font-bold text-white tracking-wide group-hover:text-[#00f0ff] transition">Avion de Sage Boys</h3>
+                            <span class="text-lg font-mono font-bold text-[#ff007f]">29.99 $</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-6">Artiste : <span class="text-cyan-400 font-medium uppercase tracking-wider">Jaco</span></p>
+                    </div>
+                    <button onclick="quickAdd('Avion de Sage Boys', 'Jaco', 29.99, 'avion.png')" class="w-full bg-[#14141a] border border-gray-800 hover:border-[#ff007f] hover:text-white text-gray-300 text-xs font-bold py-3 px-4 rounded-lg transition duration-200 uppercase tracking-widest cursor-pointer">
+                        Ajouter au panier
+                    </button>
+                </div>
+            </div>
+
+            <!-- PRODUIT 3 : LE GRAND WAON -->
+            <div class="bg-[#0c0c10] border border-gray-900 rounded-xl overflow-hidden hover:border-[#ff007f] transition duration-300 flex flex-col group">
+                <div class="bg-[#111116] p-8 flex items-center justify-center relative min-h-[320px] cursor-pointer" onclick="quickAdd('Le Grand Waon', 'Bely', 29.99, 'waon.png')">
+                    <span class="absolute top-3 left-3 bg-black/60 text-[9px] uppercase font-mono tracking-widest px-2 py-1 rounded text-gray-400 border border-gray-800">Trophée Concept</span>
+                    <div class="w-52 h-52 bg-gray-800/20 rounded flex items-center justify-center text-gray-600 font-mono group-hover:scale-105 transition duration-300">[ Image : Le Grand Waon ]</div>
+                </div>
+                <div class="p-6 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="text-lg font-bold text-white tracking-wide group-hover:text-[#00f0ff] transition">Le Grand Waon</h3>
+                            <span class="text-lg font-mono font-bold text-[#ff007f]">29.99 $</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-6">Artiste : <span class="text-cyan-400 font-medium uppercase tracking-wider">Bely</span></p>
+                    </div>
+                    <button onclick="quickAdd('Le Grand Waon', 'Bely', 29.99, 'waon.png')" class="w-full bg-[#14141a] border border-gray-800 hover:border-[#ff007f] hover:text-white text-gray-300 text-xs font-bold py-3 px-4 rounded-lg transition duration-200 uppercase tracking-widest cursor-pointer">
+                        Ajouter au panier
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- PANIER LATÉRAL (SLIDE-OVER CART) -->
+    <div id="sidebar-cart" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <!-- Fond flou transparent -->
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-xs transition-opacity" onclick="toggleCart(false)"></div>
+        
+        <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-[#0a0a0d] border-l border-gray-900 flex flex-col justify-between shadow-2xl">
+                
+                <!-- Haut du Panier -->
+                <div class="p-6 border-b border-gray-900 flex justify-between items-center bg-[#0e0e12]">
+                    <h2 class="text-xl font-black uppercase tracking-wider">Ton <span class="text-[#ff007f]">Panier</span></h2>
+                    <button onclick="toggleCart(false)" class="text-gray-400 hover:text-white text-2xl p-2 cursor-pointer">&times;</button>
+                </div>
+
+                <!-- Liste des items (Dynamique en JS) -->
+                <div id="cart-items-container" class="flex-1 p-6 overflow-y-auto space-y-4">
+                    <!-- Les produits ajoutés s'afficheront ici -->
+                    <p id="empty-cart-msg" class="text-gray-500 text-sm text-center font-mono py-12">Le panier est vide.</p>
+                </div>
+
+                <!-- Bas du panier / Facturation -->
+                <div class="p-6 border-t border-gray-900 bg-[#0e0e12] space-y-4">
+                    <div class="space-y-1 text-sm font-mono text-gray-400">
+                        <div class="flex justify-between">
+                            <span>Sous-total (Taxes inc.) :</span>
+                            <span id="summary-subtotal" class="text-white font-bold">0.00 $</span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span>Livraison fixe :</span>
+                            <span id="summary-shipping" class="text-white">0.00 $</span>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-gray-800 pt-3 flex justify-between items-baseline">
+                        <span class="text-base font-bold uppercase">Total :</span>
+                        <span id="summary-total" class="text-2xl font-black text-[#00f0ff] font-mono">0.00 $</span>
+                    </div>
+
+                    <!-- BOUTON DE PAIEMENT STRIPE -->
+                    <button onclick="checkoutStripe()" class="w-full neon-bg-pink text-white font-black py-4 rounded-xl tracking-widest uppercase text-sm hover:opacity-90 transition cursor-pointer">
+                        Passer la commande via Stripe
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER BAS DE PAGE -->
+    <footer class="border-t border-gray-950 bg-[#040406] py-6 px-6 text-center text-xs text-gray-600 font-mono">
+        <p>&copy; 2026 Artist Mind Limited. Tous droits réservés.</p>
+    </footer>
+
+    <!-- LOGIQUE LOGICIELLE DU PANIER -->
+    <script>
+        let cart = [];
+        const shippingFee = 9.99;
+
+        function toggleCart(open) {
+            const cartEl = document.getElementById('sidebar-cart');
+            if (open) cartEl.classList.remove('hidden');
+            else cartEl.classList.add('hidden');
+        }
+
+        function quickAdd(name, artist, price, image) {
+            // Vérifier si l'item existe déjà
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name, artist, price, image, quantity: 1 });
+            }
+            updateCartUI();
+            toggleCart(true); // Ouvre le panier automatiquement pour le feedback visuel
+        }
+
+        function removeItem(name) {
+            cart = cart.filter(item => item.name !== name);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items-container');
+            const emptyMsg = document.getElementById('empty-cart-msg');
+            const countEl = document.getElementById('cart-count');
+            
+            // Calcul du nombre total d'items
+            const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+            countEl.innerText = totalItems;
+
+            if (cart.length === 0) {
+                container.innerHTML = '';
+                container.appendChild(emptyMsg);
+                document.getElementById('summary-subtotal').innerText = "0.00 $";
+                document.getElementById('summary-shipping').innerText = "0.00 $";
+                document.getElementById('summary-total').innerText = "0.00 $";
+                return;
+            }
+
+            if (emptyMsg) emptyMsg.remove();
+            container.innerHTML = '';
+
+            let subtotal = 0;
+
+            cart.forEach(item => {
+                subtotal += item.price * item.quantity;
+                const itemEl = document.createElement('div');
+                itemEl.className = "flex items-center justify-between bg-[#111116] p-3 rounded-lg border border-gray-900";
+                itemEl.innerHTML = `
+                    <div class="flex-1">
+                        <h4 class="text-sm font-bold text-white">${item.name}</h4>
+                        <p class="text-[11px] text-gray-500 font-mono">Artiste: ${item.artist} | Qté: ${item.quantity}</p>
+                        <span class="text-xs font-mono text-[#ff007f]">${(item.price * item.quantity).toFixed(2)} $</span>
+                    </div>
+                    <button onclick="removeItem('${item.name}')" class="text-gray-500 hover:text-red-500 text-sm font-bold p-2 cursor-pointer">&times;</button>
+                `;
+                container.appendChild(itemEl);
+            });
+
+            const currentShipping = cart.length > 0 ? shippingFee : 0;
+            const finalTotal = subtotal + currentShipping;
+
+            document.getElementById('summary-subtotal').innerText = `${subtotal.toFixed(2)} $`;
+            document.getElementById('summary-shipping').innerText = `${currentShipping.toFixed(2)} $`;
+            document.getElementById('summary-total').innerText = `${finalTotal.toFixed(2)} $`;
+        }
+
+        async function checkoutStripe() {
+            if (cart.length === 0) {
+                alert("Ton panier est vide, champion !");
+                return;
+            }
+            
+            const customerName = prompt("Ton nom complet :");
+            const customerEmail = prompt("Ton adresse courriel :");
+            
+            if (!customerName || !customerEmail) {
+                alert("Nom et email requis pour la commande");
+                return;
+            }
+
+            try {
+                for (const item of cart) {
+                    await fetch('/api/checkout', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            name: customerName,
+                            email: customerEmail,
+                            product: item.name,
+                            size: item.size,
+                            qty: item.qty,
+                            color: item.color,
+                            total: (item.price * item.qty).toFixed(2) + " $"
+                        })
+                    });
+                }
+                alert("Commande envoyée avec succès !");
+                cart = [];
+                updateCartUI();
+            } catch (error) {
+                console.error(error);
+                alert("Erreur lors de l'envoi de la commande");
+            }
+        }
+    </script>
+</body>
+</html>
