@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtistMind — Vêtements upcyclés & impression DTF | Bas-Saint-Laurent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #00d4ff;
+            --secondary: #0066cc;
+            --accent: #ff006e;
+            --dark: #0a0e27;
+            --darker: #050810;
+            --card-bg: rgba(15, 25, 50, 0.85);
+            --text: #ffffff;
+            --text-muted: #b0b8cc;
+            --success: #00ff88;
+            --warning: #ffa500;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ── HEADER ─────────────────────────────── */
+        header {
+            background: rgba(10, 14, 39, 0.97);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.15);
+            padding: 14px 0;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            box-shadow: 0 2px 25px rgba(0, 0, 0, 0.6);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            cursor: pointer;
+            transition: transform 0.3s;
+            flex-shrink: 0;
+            text-decoration: none;
+        }
+
+        .logo:hover { transform: scale(1.04); }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+            box-shadow: 0 0 18px rgba(0, 212, 255, 0.35);
+        }
+
+        nav { flex: 1; display: flex; justify-content: center; }
+
+        nav ul {
+            display: flex;
+            gap: 8px;
+            list-style: none;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            padding: 8px 14px;
+            border-radius: 8px;
+            transition: all 0.25s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary);
+            background: rgba(0, 212, 255, 0.08);
+        }
+
+        .header-controls { display: flex; gap: 10px; align-items: center; flex-shrink: 0; }
+
+        .btn-icon {
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s;
+            font-size: 17px;
+            position: relative;
+        }
+
+        .btn-icon:hover {
+            background: var(--primary);
+            color: var(--dark);
+            box-shadow: 0 0 18px rgba(0, 212, 255, 0.5);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -7px;
+            right: -7px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .cart-badge.visible { display: flex; }
+
+        /* ── HAMBURGER (mobile) ──────────────────── */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 6px;
+            background: none;
+            border: none;
+        }
+
+        .hamburger span {
+            width: 22px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
+            transition: all 0.3s;
+            display: block;
+        }
+
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        .mobile-menu {
+            display: none;
+            background: rgba(10, 14, 39, 0.98);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.15);
+            padding: 16px 24px;
+        }
+
+        .mobile-menu.open { display: block; }
+
+        .mobile-menu a {
+            display: block;
+            padding: 12px 0;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.07);
+            transition: color 0.2s;
+        }
+
+        .mobile-menu a:hover, .mobile-menu a.active { color: var(--primary); }
+
+        /* ── HERO ────────────────────────────────── */
+        .hero {
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.12) 0%, rgba(255, 0, 110, 0.1) 100%);
+            padding: 110px 24px 90px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -8%;
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.09) 0%, transparent 70%);
+            animation: float 7s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 0, 110, 0.07) 0%, transparent 70%);
+            animation: float 9s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(28px); }
+        }
+
+        .hero-content {
+            max-width: 780px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-eyebrow {
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 3px;
+            color: var(--primary);
+            text-transform: uppercase;
+            margin-bottom: 18px;
+            opacity: 0.8;
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 6vw, 68px);
+            font-weight: 800;
+            margin-bottom: 22px;
+            line-height: 1.1;
+            background: linear-gradient(135deg, var(--primary) 0%, #ffffff 50%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-muted);
+            margin-bottom: 36px;
+            max-width: 560px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ── BUTTONS ─────────────────────────────── */
+        .btn {
+            padding: 13px 36px;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 14px 35px rgba(0, 212, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--dark);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
+        }
+
+        /* ── BANNER ──────────────────────────────── */
+        .discount-banner {
+            background: linear-gradient(135deg, var(--accent), #cc005a);
+            padding: 14px 20px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .discount-banner kbd {
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-family: 'Space Mono', monospace;
+            font-size: 14px;
+        }
+
+        /* ── PAGES ───────────────────────────────── */
+        .page { display: none; }
+        .page.active { display: block; }
+
+        .shop-section {
+            max-width: 1400px;
+            margin: 70px auto;
+            padding: 0 24px;
+        }
+
+        .section-title {
+            font-size: clamp(28px, 4vw, 48px);
+            font-weight: 800;
+            margin-bottom: 48px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ── PRODUCTS ────────────────────────────── */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 28px;
+            margin-bottom: 60px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 18px 40px rgba(0, 212, 255, 0.18);
+            transform: translateY(-8px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 240px;
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.12), rgba(255, 0, 110, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 96px;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: var(--accent);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            z-index: 10;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .product-info {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-name {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .product-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            flex: 1;
+        }
+
+        .product-price {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 14px;
+            font-family: 'Space Mono', monospace;
+        }
+
+        /* ── PILLARS (About) ─────────────────────── */
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .pillar-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 16px;
+            padding: 32px 24px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .pillar-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 212, 255, 0.12);
+        }
+
+        .pillar-icon { font-size: 42px; margin-bottom: 16px; }
+        .pillar-name { font-size: 20px; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
+        .pillar-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+
+        /* ── MODAL ───────────────────────────────── */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.82);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.show { display: flex; }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 560px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            backdrop-filter: blur(20px);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            color: var(--primary);
+            font-size: 22px;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover { background: var(--accent); border-color: var(--accent); color: white; }
+
+        /* ── FORMS ───────────────────────────────── */
+        .form-group { margin-bottom: 20px; }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+        }
+
+        select option { background: #0a0e27; }
+
+        .input-error { border-color: var(--accent) !important; }
+        .field-error { font-size: 12px; color: var(--accent); margin-top: 4px; display: none; }
+        .field-error.show { display: block; }
+
+        /* ── CART ────────────────────────────────── */
+        .cart-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 940;
+            display: none;
+        }
+
+        .cart-overlay.open { display: block; }
+
+        .side-cart {
+            position: fixed;
+            top: 0;
+            right: -420px;
+            width: 400px;
+            max-width: 100vw;
+            height: 100%;
+            background: rgba(8, 12, 35, 0.98);
+            z-index: 950;
+            padding: 28px 24px;
+            display: flex;
+            flex-direction: column;
+            transition: right 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 1px solid rgba(0, 212, 255, 0.2);
+            backdrop-filter: blur(20px);
+        }
+
+        .side-cart.open { right: 0; }
+
+        .cart-header {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-items { flex: 1; overflow-y: auto; margin-bottom: 20px; }
+
+        .cart-item {
+            background: rgba(0, 212, 255, 0.04);
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .cart-item-info { flex: 1; }
+        .cart-item-name { font-weight: 600; font-size: 14px; margin-bottom: 3px; }
+        .cart-item-meta { font-size: 12px; color: var(--text-muted); }
+        .cart-item-price { font-weight: 700; color: var(--primary); font-family: 'Space Mono', monospace; white-space: nowrap; }
+
+        .cart-item-remove {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: color 0.2s;
+            line-height: 1;
+        }
+
+        .cart-item-remove:hover { color: var(--accent); }
+
+        .cart-footer { border-top: 1px solid rgba(0, 212, 255, 0.1); padding-top: 20px; }
+        .cart-total { display: flex; justify-content: space-between; margin-bottom: 18px; font-size: 17px; font-weight: 800; }
+        .cart-total-amount { color: var(--primary); font-family: 'Space Mono', monospace; }
+
+        .cart-empty { text-align: center; color: var(--text-muted); padding: 40px 20px; }
+        .cart-empty-icon { font-size: 48px; margin-bottom: 12px; }
+
+        /* ── CONTACT ─────────────────────────────── */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+
+        .contact-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 16px;
+            padding: 36px;
+        }
+
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+            font-size: 15px;
+        }
+
+        .contact-info-item a { color: var(--primary); text-decoration: none; }
+        .contact-info-item a:hover { text-decoration: underline; }
+
+        /* ── FOOTER ──────────────────────────────── */
+        footer {
+            background: rgba(5, 8, 16, 0.98);
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+            padding: 60px 24px 30px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto 40px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .footer-brand { max-width: 280px; }
+        .footer-logo {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+
+        .footer-tagline { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
+
+        .footer-socials { display: flex; gap: 10px; }
+        .footer-social {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .footer-social:hover { background: var(--primary); border-color: var(--primary); color: var(--dark); }
+
+        .footer-section h4 {
+            color: var(--primary);
+            margin-bottom: 16px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-section ul { list-style: none; }
+        .footer-section li { margin-bottom: 10px; }
+
+        .footer-section a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-section a:hover { color: var(--primary); }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 28px;
+            border-top: 1px solid rgba(0, 212, 255, 0.08);
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        /* ── TOAST ───────────────────────────────── */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--success);
+            color: var(--dark);
+            padding: 14px 22px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 14px;
+            z-index: 2000;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+        }
+
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast.error { background: var(--accent); box-shadow: 0 8px 25px rgba(255, 0, 110, 0.3); }
+
+        /* ── LANG TOGGLE ─────────────────────────── */
+        .lang-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* ── RESPONSIVE ──────────────────────────── */
+        @media (max-width: 900px) {
+            nav { display: none; }
+            .hamburger { display: flex; }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .contact-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .hero { padding: 70px 20px 60px; }
+            .footer-content { grid-template-columns: 1fr; }
+            .footer-brand { max-width: 100%; }
+            .side-cart { width: 100%; right: -100%; }
+            .side-cart.open { right: 0; }
+            .modal-content { padding: 28px 20px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-container">
+        <a class="logo" onclick="navigate('shop'); return false;" href="#">
+            <div class="logo-icon">🎨</div>
+            <span>ArtistMind</span>
+        </a>
+
+        <nav id="mainNav">
+            <ul>
+                <li><a href="#" onclick="navigate('shop'); return false;" class="nav-link active" data-page="shop" id="navLinkShop">Boutique</a></li>
+                <li><a href="#" onclick="navigate('custom'); return false;" class="nav-link" data-page="custom" id="navLinkCustom">Personnalisé</a></li>
+                <li><a href="#" onclick="navigate('about'); return false;" class="nav-link" data-page="about" id="navLinkAbout">À propos</a></li>
+                <li><a href="#" onclick="navigate('contact'); return false;" class="nav-link" data-page="contact" id="navLinkContact">Contact</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-controls">
+            <button class="btn-icon" onclick="toggleLanguage()" title="Changer de langue">
+                <span class="lang-label" id="langLabel">FR</span>
+            </button>
+            <button class="btn-icon" onclick="toggleCart()" title="Panier" aria-label="Ouvrir le panier">
+                🛒<span class="cart-badge" id="cartBadge">0</span>
+            </button>
+            <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileMenu()" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#" onclick="navigate('shop'); toggleMobileMenu(); return false;" class="mobile-nav-link active" data-page="shop">🛍 Boutique</a>
+    <a href="#" onclick="navigate('custom'); toggleMobileMenu(); return false;" class="mobile-nav-link" data-page="custom">✏️ Personnalisé</a>
+    <a href="#" onclick="navigate('about'); toggleMobileMenu(); return false;" class="mobile-nav-link" data-page="about">💡 À propos</a>
+    <a href="#" onclick="navigate('contact'); toggleMobileMenu(); return false;" class="mobile-nav-link" data-page="contact">📬 Contact</a>
+</div>
+
+<div class="hero">
+    <div class="hero-content">
+        <p class="hero-eyebrow">Saint-Modeste · Bas-Saint-Laurent</p>
+        <h1 id="heroTitle">Vêtements upcyclés.<br>Impression DTF. Créativité locale.</h1>
+        <p id="heroDesc">Trois piliers, une mission : Circle, Kids & Pro. ArtistMind donne une nouvelle vie aux vêtements et connecte les créateurs du Québec.</p>
+        <div class="cta-buttons">
+            <button class="btn btn-primary" onclick="navigate('shop')"><span id="heroCta1">Voir la boutique</span></button>
+            <button class="btn btn-secondary" onclick="navigate('custom')"><span id="heroCta2">Commander sur mesure</span></button>
+        </div>
+    </div>
+</div>
+
+<div class="discount-banner">
+    🎉 Première commande? 10% de réduction avec le code <kbd>AM10</kbd> à la caisse
+</div>
+
+<!-- ── SHOP PAGE ─────────────────────────────── -->
+<div id="shopPage" class="page active">
+    <div class="shop-section">
+        <h2 class="section-title">Collection vedette</h2>
+        <div class="products-grid" id="productsGrid"></div>
+    </div>
+</div>
+
+<!-- ── CUSTOM PAGE ─────────────────────────── -->
+<div id="customPage" class="page">
+    <div class="shop-section">
+        <h2 class="section-title">Design personnalisé</h2>
+        <div style="background: var(--card-bg); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 16px; padding: 40px; max-width: 600px; margin: 0 auto;">
+            <p style="color: var(--text-muted); margin-bottom: 28px; font-size: 15px;">Téléversez votre design et nous l'imprimons en DTF directement sur le vêtement de votre choix. Production locale à Saint-Modeste.</p>
+            <div class="form-group">
+                <label>Téléverser votre design</label>
+                <input type="file" accept="image/*" id="customFile">
+                <p class="field-error" id="customFileError">Veuillez sélectionner un fichier image.</p>
+            </div>
+            <div class="form-group">
+                <label>Couleur du vêtement</label>
+                <select id="customColor">
+                    <option value="Blanc">Blanc</option>
+                    <option value="Noir">Noir</option>
+                    <option value="Bleu marine">Bleu marine</option>
+                    <option value="Gris">Gris</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Taille</label>
+                <select id="customSize">
+                    <option>S</option><option selected>M</option><option>L</option><option>XL</option><option>XXL</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Quantité</label>
+                <input type="number" id="customQty" value="1" min="1" max="50">
+            </div>
+            <div class="form-group">
+                <label>Notes (optionnel)</label>
+                <textarea id="customNotes" rows="3" placeholder="Ex : centré sur la poitrine, couleurs vives..."></textarea>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="submitCustom()" style="width: 100%;">Ajouter au panier — 29,99 $</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── ABOUT PAGE ────────────────────────────── -->
+<div id="aboutPage" class="page">
+    <div class="shop-section">
+        <h2 class="section-title">À propos d'ArtistMind</h2>
+        <div style="background: var(--card-bg); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 16px; padding: 40px; max-width: 900px; margin: 0 auto 40px;">
+            <h3 style="color: var(--primary); margin-bottom: 16px; font-size: 20px;">Notre histoire</h3>
+            <p style="color: var(--text-muted); margin-bottom: 14px; font-size: 15px; line-height: 1.8;">ArtistMind est un écosystème entrepreneurial hybride né à Saint-Modeste, dans le Bas-Saint-Laurent. Fondé par Jérôme Vaillancourt — vétéran de la Marine canadienne et intégrateur IA — ArtistMind combine créativité artisanale, technologie d'impression DTF et solutions numériques pour les PME du Québec.</p>
+            <p style="color: var(--text-muted); font-size: 15px; line-height: 1.8;">Le chiffre 22 est au cœur de notre identité — un hommage au 22e Régiment, ancré dans notre ADN depuis le début.</p>
+        </div>
+
+        <div class="pillars-grid">
+            <div class="pillar-card">
+                <div class="pillar-icon">♻️</div>
+                <div class="pillar-name">Circle</div>
+                <div class="pillar-desc">Vêtements upcyclés imprimés en DTF. On donne une seconde vie aux pièces vintage avec des designs exclusifs.</div>
+            </div>
+            <div class="pillar-card">
+                <div class="pillar-icon">🧒</div>
+                <div class="pillar-name">Kids</div>
+                <div class="pillar-desc">Vêtements originaux pour enfants. Des créations colorées, durables et faites avec amour pour les petits Québécois.</div>
+            </div>
+            <div class="pillar-card">
+                <div class="pillar-icon">💼</div>
+                <div class="pillar-name">Pro</div>
+                <div class="pillar-desc">Services web, logos et impression pour les PME locales. On propulse votre marque avec des outils modernes alimentés par l'IA.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ── CONTACT PAGE ──────────────────────────── -->
+<div id="contactPage" class="page">
+    <div class="shop-section">
+        <h2 class="section-title">Nous contacter</h2>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <h3 style="color: var(--primary); margin-bottom: 24px; font-size: 18px;">Envoyer un message</h3>
+                <div class="form-group">
+                    <label>Nom</label>
+                    <input type="text" id="contactName" placeholder="Votre nom">
+                    <p class="field-error" id="contactNameError">Ce champ est requis.</p>
+                </div>
+                <div class="form-group">
+                    <label>Courriel</label>
+                    <input type="email" id="contactEmail" placeholder="vous@exemple.com">
+                    <p class="field-error" id="contactEmailError">Adresse courriel invalide.</p>
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea id="contactMessage" rows="5" placeholder="Parlez-nous de votre projet..."></textarea>
+                    <p class="field-error" id="contactMessageError">Ce champ est requis.</p>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="submitContact()" style="width: 100%;">Envoyer le message</button>
+            </div>
+            <div class="contact-card">
+                <h3 style="color: var(--primary); margin-bottom: 24px; font-size: 18px;">Coordonnées</h3>
+                <div class="contact-info-item">📧 <a href="mailto:info@artistmind.ca">info@artistmind.ca</a></div>
+                <div class="contact-info-item">📱 <span>+1 (581) 525-5377</span></div>
+                <div class="contact-info-item">💬 <a href="https://wa.me/15815255377" target="_blank" rel="noopener">WhatsApp — écrivez-nous</a></div>
+                <div class="contact-info-item">📍 <span>Saint-Modeste, Bas-Saint-Laurent, QC</span></div>
+                <div style="margin-top: 28px; padding: 20px; background: rgba(0, 212, 255, 0.05); border-radius: 12px; border: 1px solid rgba(0, 212, 255, 0.1);">
+                    <p style="font-size: 13px; color: var(--text-muted); line-height: 1.7;">⚡ Pour les commandes personnalisées, les services web ou les impressions pour votre entreprise — on répond sous 24h.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ── CART OVERLAY ──────────────────────────── -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+
+<!-- ── SIDE CART ─────────────────────────────── -->
+<div class="side-cart" id="sideCart">
+    <div class="cart-header">
+        <span>Votre panier</span>
+        <button onclick="toggleCart()" style="background: none; border: none; color: var(--primary); font-size: 22px; cursor: pointer; line-height: 1;">✕</button>
+    </div>
+    <div class="cart-items" id="cartItemsContainer">
+        <div class="cart-empty">
+            <div class="cart-empty-icon">🛒</div>
+            <p>Votre panier est vide</p>
+        </div>
+    </div>
+    <div class="cart-footer">
+        <div class="cart-total">
+            <span>Total</span>
+            <span class="cart-total-amount" id="cartTotal">0,00 $</span>
+        </div>
+        <button class="btn btn-primary" onclick="checkout()" style="width: 100%;">Passer à la caisse</button>
+    </div>
+</div>
+
+<!-- ── PRODUCT MODAL ─────────────────────────── -->
+<div class="modal" id="productModal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeModal()">✕</button>
+        <p style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;" id="modalCategory">Collection</p>
+        <h2 id="modalName" style="color: var(--primary); margin-bottom: 8px; font-size: 26px;"></h2>
+        <p id="modalDesc" style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px; line-height: 1.6;"></p>
+        <p id="modalPrice" style="font-size: 28px; font-weight: 800; color: var(--primary); margin-bottom: 24px; font-family: 'Space Mono', monospace;"></p>
+        <div class="form-group">
+            <label>Taille</label>
+            <select id="modalSize">
+                <option>S</option><option selected>M</option><option>L</option><option>XL</option><option>XXL</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Couleur</label>
+            <select id="modalColor">
+                <option>Blanc</option><option>Noir</option><option>Bleu marine</option><option>Gris</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Quantité</label>
+            <input type="number" id="modalQty" value="1" min="1" max="20">
+        </div>
+        <button type="button" class="btn btn-primary" onclick="addToCart()" style="width: 100%;">Ajouter au panier</button>
+    </div>
+</div>
+
+<!-- ── FOOTER ────────────────────────────────── -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-brand">
+            <div class="footer-logo">ArtistMind</div>
+            <p class="footer-tagline">Vêtements upcyclés · Impression DTF · Solutions numériques. Fièrement basé à Saint-Modeste, Bas-Saint-Laurent.</p>
+            <div class="footer-socials">
+                <a href="https://artistmind.ca" class="footer-social" target="_blank" title="Site web">🌐</a>
+                <a href="mailto:info@artistmind.ca" class="footer-social" title="Courriel">📧</a>
+                <a href="https://wa.me/15815255377" class="footer-social" target="_blank" title="WhatsApp">💬</a>
+            </div>
+        </div>
+        <div class="footer-section">
+            <h4>Boutique</h4>
+            <ul>
+                <li><a href="#" onclick="navigate('shop'); return false;">Nouveautés</a></li>
+                <li><a href="#" onclick="navigate('shop'); return false;">Meilleurs vendeurs</a></li>
+                <li><a href="#" onclick="navigate('custom'); return false;">Personnalisé</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Soutien</h4>
+            <ul>
+                <li><a href="#" onclick="navigate('contact'); return false;">Nous joindre</a></li>
+                <li><a href="mailto:info@artistmind.ca">Courriel direct</a></li>
+                <li><a href="https://wa.me/15815255377" target="_blank">WhatsApp</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>ArtistMind</h4>
+            <ul>
+                <li><a href="#" onclick="navigate('about'); return false;">Notre histoire</a></li>
+                <li><a href="https://artistmind.ca" target="_blank">artistmind.ca</a></li>
+                <li><a href="mailto:info@artistmind.ca">info@artistmind.ca</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 ArtistMind — Saint-Modeste, Québec. Tous droits réservés.</p>
+    </div>
+</footer>
+
+<!-- ── TOAST ─────────────────────────────────── -->
+<div class="toast" id="toast"></div>
+
+<script>
+    // ── DATA ──────────────────────────────────────
+    const i18n = {
+        fr: {
+            navShop: 'Boutique', navCustom: 'Personnalisé', navAbout: 'À propos', navContact: 'Contact',
+            heroTitle: 'Vêtements upcyclés.<br>Impression DTF. Créativité locale.',
+            heroDesc: 'Trois piliers, une mission : Circle, Kids & Pro. ArtistMind donne une nouvelle vie aux vêtements et connecte les créateurs du Québec.',
+            cta1: 'Voir la boutique', cta2: 'Commander sur mesure',
+            sectionTitle: 'Collection vedette',
+            cartEmpty: 'Votre panier est vide',
+            cartTitle: 'Votre panier',
+            checkoutBtn: 'Passer à la caisse',
+            addToCartBtn: 'Ajouter au panier',
+            toastAdded: '✓ Ajouté au panier!',
+            toastCheckout: '🚀 Redirection vers la caisse…',
+            toastCartEmpty: 'Votre panier est vide.',
+            toastContactSent: '✓ Message envoyé! On vous répond sous 24h.',
+            toastCustomAdded: '✓ Design personnalisé ajouté!',
+            viewBtn: 'Voir',
+        },
+        en: {
+            navShop: 'Shop', navCustom: 'Custom', navAbout: 'About', navContact: 'Contact',
+            heroTitle: 'Upcycled Clothing.<br>DTF Printing. Local Creativity.',
+            heroDesc: 'Three pillars, one mission: Circle, Kids & Pro. ArtistMind gives clothes a second life and connects Quebec creators.',
+            cta1: 'Shop Now', cta2: 'Design Your Own',
+            sectionTitle: 'Featured Collection',
+            cartEmpty: 'Your cart is empty',
+            cartTitle: 'Your Cart',
+            checkoutBtn: 'Checkout',
+            addToCartBtn: 'Add to Cart',
+            toastAdded: '✓ Added to cart!',
+            toastCheckout: '🚀 Redirecting to checkout…',
+            toastCartEmpty: 'Your cart is empty.',
+            toastContactSent: '✓ Message sent! We\'ll reply within 24h.',
+            toastCustomAdded: '✓ Custom design added!',
+            viewBtn: 'View',
+        }
+    };
+
+    let lang = 'fr';
+
+    const products = [
+        { id: 1, name: 'Neon Dreams', nameEn: 'Neon Dreams', price: 29.99, emoji: '🌈', badge: 'Nouveau', desc: 'Design lumineux imprimé DTF sur coton upcyclé. Édition limitée.', descEn: 'Luminous DTF print on upcycled cotton. Limited edition.' },
+        { id: 2, name: 'Cyber Pulse', nameEn: 'Cyber Pulse', price: 19.99, emoji: '⚡', badge: 'Solde', desc: 'Lignes géométriques cyberpunk. Noir intense, impression pleine surface.', descEn: 'Cyberpunk geometric lines. Deep black, full-surface DTF print.' },
+        { id: 3, name: 'Ocean Wave', nameEn: 'Ocean Wave', price: 29.99, emoji: '🌊', badge: null, desc: 'Bleu profond, vagues stylisées. Parfait pour l\'été bas-laurentien.', descEn: 'Deep blue, stylized waves. Perfect for a Bas-Laurent summer.' },
+        { id: 4, name: 'Boîte Mystère', nameEn: 'Mystery Box', price: 25.00, emoji: '🎁', badge: '🔥 Pop', desc: 'On choisit le design, vous choisissez la taille. Surprise garantie.', descEn: 'We pick the design, you pick the size. Surprise guaranteed.' },
+        { id: 5, name: 'Sunset Vibes', nameEn: 'Sunset Vibes', price: 29.99, emoji: '🌅', badge: null, desc: 'Dégradé coucher de soleil. Teintes chaudes, coupe unisexe.', descEn: 'Sunset gradient. Warm tones, unisex cut.' },
+        { id: 6, name: 'Space Explorer', nameEn: 'Space Explorer', price: 34.99, emoji: '🚀', badge: 'Exclusif', desc: 'Collection Pro — impression haute résolution sur hoodie upcyclé premium.', descEn: 'Pro collection — high-res print on premium upcycled hoodie.' }
+    ];
+
+    let cart = [];
+
+    // ── RENDER PRODUCTS ────────────────────────────
+    function renderProducts() {
+        const grid = document.getElementById('productsGrid');
+        const t = i18n[lang];
+        grid.innerHTML = products.map(p => {
+            const name = lang === 'fr' ? p.name : p.nameEn;
+            const desc = lang === 'fr' ? p.desc : p.descEn;
+            return `
+            <div class="product-card" onclick="openProduct(${p.id})">
+                ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
+                <div class="product-image">${p.emoji}</div>
+                <div class="product-info">
+                    <div class="product-name">${name}</div>
+                    <div class="product-desc">${desc}</div>
+                    <div class="product-price">${p.price.toFixed(2)} $</div>
+                    <button type="button" class="btn btn-primary" style="width: 100%; padding: 10px 16px;" onclick="event.stopPropagation(); openProduct(${p.id})">${t.viewBtn}</button>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    // ── PRODUCT MODAL ──────────────────────────────
+    function openProduct(id) {
+        const p = products.find(x => x.id === id);
+        const name = lang === 'fr' ? p.name : p.nameEn;
+        const desc = lang === 'fr' ? p.desc : p.descEn;
+        document.getElementById('modalName').textContent = name;
+        document.getElementById('modalDesc').textContent = desc;
+        document.getElementById('modalPrice').textContent = p.price.toFixed(2) + ' $';
+        document.getElementById('productModal').classList.add('show');
+        document.getElementById('productModal').dataset.productId = id;
+    }
+
+    function closeModal() {
+        document.getElementById('productModal').classList.remove('show');
+    }
+
+    // Close modal on backdrop click
+    document.getElementById('productModal').addEventListener('click', function(e) {
+        if (e.target === this) closeModal();
+    });
+
+    // ── ADD TO CART ────────────────────────────────
+    function addToCart() {
+        const id = parseInt(document.getElementById('productModal').dataset.productId);
+        const p = products.find(x => x.id === id);
+        const name = lang === 'fr' ? p.name : p.nameEn;
+        const qty = Math.max(1, parseInt(document.getElementById('modalQty').value) || 1);
+
+        cart.push({
+            id: Date.now(),
+            name,
+            size: document.getElementById('modalSize').value,
+            color: document.getElementById('modalColor').value,
+            qty,
+            price: p.price
+        });
+
+        updateCart();
+        closeModal();
+        showToast(i18n[lang].toastAdded);
+    }
+
+    // ── REMOVE FROM CART ───────────────────────────
+    function removeFromCart(itemId) {
+        cart = cart.filter(x => x.id !== itemId);
+        updateCart();
+    }
+
+    // ── UPDATE CART UI ─────────────────────────────
+    function updateCart() {
+        const container = document.getElementById('cartItemsContainer');
+        const badge = document.getElementById('cartBadge');
+        const total = document.getElementById('cartTotal');
+        const t = i18n[lang];
+
+        const totalCount = cart.reduce((sum, x) => sum + x.qty, 0);
+        badge.textContent = totalCount;
+        if (totalCount > 0) badge.classList.add('visible');
+        else badge.classList.remove('visible');
+
+        if (cart.length === 0) {
+            container.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>${t.cartEmpty}</p></div>`;
+            total.textContent = '0,00 $';
+            return;
+        }
+
+        let cartTotal = 0;
+        container.innerHTML = cart.map(item => {
+            const subtotal = item.price * item.qty;
+            cartTotal += subtotal;
+            return `
+            <div class="cart-item">
+                <div class="cart-item-info">
+                    <div class="cart-item-name">${item.name}</div>
+                    <div class="cart-item-meta">${item.size} · ${item.color} · Qté ${item.qty}</div>
+                </div>
+                <div class="cart-item-price">${subtotal.toFixed(2)} $</div>
+                <button class="cart-item-remove" onclick="removeFromCart(${item.id})" title="Retirer">✕</button>
+            </div>`;
+        }).join('');
+
+        total.textContent = cartTotal.toFixed(2) + ' $';
+    }
+
+    // ── CART TOGGLE ────────────────────────────────
+    function toggleCart() {
+        document.getElementById('sideCart').classList.toggle('open');
+        document.getElementById('cartOverlay').classList.toggle('open');
+    }
+
+    // ── NAVIGATION ─────────────────────────────────
+    function navigate(page) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(page + 'Page').classList.add('active');
+
+        document.querySelectorAll('.nav-link').forEach(a => {
+            a.classList.toggle('active', a.dataset.page === page);
+        });
+        document.querySelectorAll('.mobile-nav-link').forEach(a => {
+            a.classList.toggle('active', a.dataset.page === page);
+        });
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ── MOBILE MENU ────────────────────────────────
+    function toggleMobileMenu() {
+        document.getElementById('mobileMenu').classList.toggle('open');
+        document.getElementById('hamburgerBtn').classList.toggle('open');
+    }
+
+    // ── LANGUAGE ──────────────────────────────────
+    function toggleLanguage() {
+        lang = lang === 'fr' ? 'en' : 'fr';
+        document.getElementById('langLabel').textContent = lang.toUpperCase();
+        document.documentElement.lang = lang;
+        applyLanguage();
+        renderProducts();
+        updateCart();
+    }
+
+    function applyLanguage() {
+        const t = i18n[lang];
+        document.getElementById('heroTitle').innerHTML = t.heroTitle;
+        document.getElementById('heroDesc').textContent = t.heroDesc;
+        document.getElementById('heroCta1').textContent = t.cta1;
+        document.getElementById('heroCta2').textContent = t.cta2;
+        document.getElementById('navLinkShop').textContent = t.navShop;
+        document.getElementById('navLinkCustom').textContent = t.navCustom;
+        document.getElementById('navLinkAbout').textContent = t.navAbout;
+        document.getElementById('navLinkContact').textContent = t.navContact;
+    }
+
+    // ── CONTACT SUBMIT ─────────────────────────────
+    function submitContact() {
+        const name = document.getElementById('contactName');
+        const email = document.getElementById('contactEmail');
+        const message = document.getElementById('contactMessage');
+        let valid = true;
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        ['contactName', 'contactEmail', 'contactMessage'].forEach(id => {
+            document.getElementById(id).classList.remove('input-error');
+        });
+        ['contactNameError', 'contactEmailError', 'contactMessageError'].forEach(id => {
+            document.getElementById(id).classList.remove('show');
+        });
+
+        if (!name.value.trim()) {
+            name.classList.add('input-error');
+            document.getElementById('contactNameError').classList.add('show');
+            valid = false;
+        }
+        if (!emailRegex.test(email.value)) {
+            email.classList.add('input-error');
+            document.getElementById('contactEmailError').classList.add('show');
+            valid = false;
+        }
+        if (!message.value.trim()) {
+            message.classList.add('input-error');
+            document.getElementById('contactMessageError').classList.add('show');
+            valid = false;
+        }
+
+        if (!valid) return;
+
+        showToast(i18n[lang].toastContactSent);
+        name.value = ''; email.value = ''; message.value = '';
+    }
+
+    // ── CUSTOM SUBMIT ──────────────────────────────
+    function submitCustom() {
+        const file = document.getElementById('customFile');
+        if (!file.value) {
+            file.classList.add('input-error');
+            document.getElementById('customFileError').classList.add('show');
+            return;
+        }
+        file.classList.remove('input-error');
+        document.getElementById('customFileError').classList.remove('show');
+
+        const color = document.getElementById('customColor').value;
+        const size = document.getElementById('customSize').value;
+        const qty = Math.max(1, parseInt(document.getElementById('customQty').value) || 1);
+
+        cart.push({
+            id: Date.now(),
+            name: 'Design personnalisé',
+            size,
+            color,
+            qty,
+            price: 29.99
+        });
+
+        updateCart();
+        showToast(i18n[lang].toastCustomAdded);
+        file.value = '';
+        document.getElementById('customNotes').value = '';
+    }
+
+    // ── CHECKOUT ───────────────────────────────────
+    function checkout() {
+        if (cart.length === 0) {
+            showToast(i18n[lang].toastCartEmpty, true);
+            return;
+        }
+        showToast(i18n[lang].toastCheckout);
+        // TODO: integrate Stripe or redirect to checkout page
+    }
+
+    // ── DISCOUNT CODE (basic client-side) ──────────
+    const VALID_CODE = 'AM10';
+    let discountApplied = false;
+
+    // ── TOAST ──────────────────────────────────────
+    let toastTimer;
+    function showToast(msg, isError = false) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.className = 'toast show' + (isError ? ' error' : '');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    // ── INIT ───────────────────────────────────────
+    window.addEventListener('load', () => {
+        renderProducts();
+    });
+
+    // Close cart on Escape
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+            closeModal();
+            if (document.getElementById('sideCart').classList.contains('open')) toggleCart();
+        }
+    });
+</script>
+</body>
+</html>
